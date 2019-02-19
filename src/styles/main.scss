@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+@import 'variables';
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+::-moz-focus-inner {
+  border: 0;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  width: 100%;
+  min-width: 1200px;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  color: var(--gray);
+  -webkit-font-smoothing: antialiased;
+}
+
+input {
+  color: inherit;
+  border: none;
+  font-size: inherit;
+}
+
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+
+input:focus::placeholder {
+  opacity: 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
