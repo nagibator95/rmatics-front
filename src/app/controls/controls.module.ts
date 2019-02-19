@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 
+import { CheckboxComponent } from './checkbox/checkbox.component';
 import { InputComponent } from './input/input.component';
 
 @NgModule({
@@ -14,9 +15,11 @@ import { InputComponent } from './input/input.component';
   ],
   declarations: [
     InputComponent,
+    CheckboxComponent,
   ],
   exports: [
     InputComponent,
+    CheckboxComponent,
   ],
 })
 
