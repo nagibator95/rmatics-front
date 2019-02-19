@@ -1,0 +1,22 @@
+<div
+  class="body"
+  [class.thin]="thin"
+>
+  <label>
+    <input
+      #input
+      class="body__input"
+      type="search"
+      [disabled]="disabled"
+      [placeholder]="placeholder"
+      [ngModel]="value"
+      (ngModelChange)="valueChange.emit($event)"
+      (keyup.enter)="enterValue($event)"
+    />
+    <app-icon icon="eye"></app-icon>
+    <div class="body__password">
+
+
+    </div>
+  </label>
+</div>
