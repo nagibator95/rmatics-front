@@ -1,0 +1,15 @@
+<label class="label-wrapper">
+  <input
+    class="checkbox"
+    [class.checkbox--error]="hasError"
+    type="checkbox"
+    [checked]="checked"
+    [disabled]="disabled"
+    (change)="check($event)"
+  >
+  <label></label>
+  <span class="text" *ngIf="label">{{ label }}</span>
+  <ng-content></ng-content>
+</label>
+
+

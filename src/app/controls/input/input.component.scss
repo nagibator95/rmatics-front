@@ -38,13 +38,6 @@
   }
 }
 
-.input--error {
-  input {
-    background-color: rgba(255, 47, 0, 0.1);
-    border: none;
-  }
-}
-
 .input--password {
   input {
     padding-right: 50px;
@@ -74,3 +67,9 @@
   color: #ff2f00;
 }
 
+.input--error {
+  input {
+    background-color: rgba(255, 47, 0, 0.1);
+    border: none;
+  }
+}
