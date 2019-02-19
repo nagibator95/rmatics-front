@@ -1,0 +1,24 @@
+<div class="demo-item">
+  <label>Input with placeholder:</label>
+  <app-input placeholder="Введите ваш логин" [value]=""></app-input>
+</div>
+
+<div class="demo-item">
+  <label>Input without placeholder:</label>
+  <app-input [value]=""></app-input>
+</div>
+
+<div class="demo-item">
+  <label>Input with error:</label>
+  <app-input placeholder="Введите ваш логин" [hasError]="true" value="login123"></app-input>
+</div>
+
+<div class="demo-item">
+  <label>Password input:</label>
+  <app-input type="password" placeholder="Введите ваш пароль" [value]=""></app-input>
+</div>
+
+<div class="demo-item">
+  <label>Password input with error:</label>
+  <app-input type="password" [hasError]="true" placeholder="Введите ваш пароль" [value]="123456"></app-input>
+</div>
