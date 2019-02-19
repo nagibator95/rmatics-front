@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng lint && ng build --prod",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "icons": "gulp"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +20,10 @@
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
     "core-js": "^2.5.4",
+    "gulp": "^3.9.1",
+    "gulp-svg-sprite": "^1.4.0",
+    "gulp-svgmin": "^1.2.4",
+    "run-sequence": "^2.2.1",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "tslint-consistent-codestyle": "^1.15.0",
@@ -31,7 +36,7 @@
     "@angular/language-service": "~7.2.0",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "~8.9.4",
+    "@types/node": "^11.9.4",
     "codelyzer": "~4.5.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

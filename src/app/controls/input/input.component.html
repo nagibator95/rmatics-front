@@ -1,0 +1,29 @@
+<div
+  class="input"
+  [class.input--error]="hasError"
+  [class.input--password]="type === 'password'"
+>
+  <label>
+    <input
+      #input
+      [type]="type"
+      [placeholder]="placeholder"
+      [ngModel]="value"
+      (ngModelChange)="valueChange.emit($event)"
+      (keyup.enter)="enter.emit($event)"
+    />
+
+    <div
+      *ngIf="type === 'password'"
+      class="input__password-button"
+      (click)="showPassword()"
+    >
+      <app-icon icon="{{isShowPassword ? 'eye' : 'eye-off'}}"></app-icon>
+    </div>
+  </label>
+</div>
+
+<span class="input__error-message" *ngIf="type === 'password' && hasError">
+  Вы ввели неверный пароль
+</span>
+
