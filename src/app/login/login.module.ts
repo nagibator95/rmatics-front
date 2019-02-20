@@ -1,29 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
+import { ControlsModule } from '../controls/controls.module';
 import { SharedModule } from '../shared/shared.module';
 
-import { CheckboxComponent } from './checkbox/checkbox.component';
-import { InputComponent } from './input/input.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
-    SharedModule,
     ReactiveFormsModule,
+    SharedModule,
+    ControlsModule,
+    FormsModule,
   ],
   declarations: [
-    InputComponent,
-    CheckboxComponent,
+    LoginFormComponent,
   ],
   exports: [
-    InputComponent,
-    CheckboxComponent,
+    LoginFormComponent,
   ],
 })
 
-export class ControlsModule {
+export class LoginModule {
 }

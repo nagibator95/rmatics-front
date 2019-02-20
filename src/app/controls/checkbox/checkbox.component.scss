@@ -9,16 +9,22 @@
 
 .checkbox {
   position: absolute;
-  display: none;
+  opacity: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 15px;
+  width: 15px;
+  padding: 0;
+  border: 0;
+  left: 0;
 
-  & + label {
+  & + i {
     position: relative;
     cursor: pointer;
     padding: 0;
-    z-index: -1;
   }
 
-  & + label:before {
+  & + i:before {
     content: '';
     margin-right: 10px;
     display: inline-block;
@@ -30,35 +36,35 @@
     background: var(--secondary-color);
   }
 
-  &:focus + label:before {
+  &:focus + i:before {
     border: 2px solid var(--gray);
   }
 
-  &:hover + label:before {
+  &:hover + i:before {
     background: var(--secondary-color-hover);
   }
 
-  &:checked + label:before {
+  &:checked + i:before {
     background: var(--primary-color);
     border-width: 1px;
   }
 
-  &:checked:hover + label:before {
+  &:checked:hover + i:before {
     background: var(--primary-color-hover);
     border-width: 1px;
   }
 
-  &:disabled + label {
+  &:disabled + i {
     color: #b8b8b8;
     cursor: auto;
   }
 
-  &:disabled + label:before {
+  &:disabled + i:before {
     box-shadow: none;
     opacity: 0.56;
   }
 
-  &:checked + label:after {
+  &:checked + i:after {
     content: '';
     width: 10px;
     height: 6px;
@@ -76,23 +82,23 @@
 }
 
 .checkbox--error {
-  & + label:before {
+  & + i:before {
     background: var(--error-color-2);
   }
 
-  &:hover + label:before {
+  &:hover + i:before {
     background: var(--error-color-3);
   }
 
-  &:checked + label:before {
+  &:checked + i:before {
     background: var(--error-color-2);
   }
 
-  &:checked:hover + label:before {
+  &:checked:hover + i:before {
     background: var(--error-color-3);
   }
 
-  &:checked + label:after {
+  &:checked + i:after {
     border-color: #676b7a;
   }
 }

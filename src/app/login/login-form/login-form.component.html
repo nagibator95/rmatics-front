@@ -1,0 +1,32 @@
+<header class="header">
+  <span class="header__title">Информатикс</span>
+</header>
+
+<form
+  (ngSubmit)="onSubmit()"
+  [formGroup]="loginForm"
+  class="form"
+>
+  <span class="form__title">Вход</span>
+
+  <div class="form__fields">
+    <label class="form__field">Логин
+      <app-input [formControl]="login"></app-input>
+    </label>
+
+    <div class="form__field">
+      <label>Пароль</label>
+      <app-input [formControl]="password" type="password"></app-input>
+    </div>
+  </div>
+
+  <div class="form__controls">
+    <button type="submit" class="app-button_primary">Войти</button>
+    <app-checkbox>Запомнить меня</app-checkbox>
+  </div>
+
+  <div class="form__description">
+    По всем текущим вопросам, а также в случае, если
+    у вас что-то не работает, пишите форум или в группу <a>telegram<app-icon icon="telegram"></app-icon></a>
+  </div>
+</form>
