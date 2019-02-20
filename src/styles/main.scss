@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+@import 'variables';
+@import 'buttons';
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+::-moz-focus-inner {
+  border: 0;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  width: 100%;
+  min-width: 1200px;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  color: var(--gray);
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  line-height: 1.29;
+}
+
+input {
+  color: inherit;
+  border: none;
+  font-size: inherit;
+}
+
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+
+input:focus::placeholder {
+  opacity: 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: var(--gray);
+}
