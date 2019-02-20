@@ -1,22 +1,15 @@
 :host {
-  --default-color: rgba(64, 126, 255, 0.2);
-  --hover-color: rgba(64, 126, 255, 0.3);
-  --error-color: rgba(255, 47, 0, 0.2);
-  --error-hover-color: rgba(255, 47, 0, 0.3);
-  --active-color: #2b6cf4;
   display: block;
-  font-size: 13px;
-  line-height: 16px;
 }
 
 .label-wrapper {
-  display: flex;
+  display: inline-flex;
   align-items: center;
 }
 
 .checkbox {
   position: absolute;
-  opacity: 0;
+  display: none;
 
   & + label {
     position: relative;
@@ -34,19 +27,24 @@
     height: 20px;
     border-radius: 2px;
     border-width: 2px;
-    background: var(--default-color);
+    background: var(--secondary-color);
   }
 
   &:focus + label:before {
-    border: 2px solid #788195;
+    border: 2px solid var(--gray);
   }
 
   &:hover + label:before {
-    background: var(--hover-color);
+    background: var(--secondary-color-hover);
   }
 
   &:checked + label:before {
-    background: var(--active-color);
+    background: var(--primary-color);
+    border-width: 1px;
+  }
+
+  &:checked:hover + label:before {
+    background: var(--primary-color-hover);
     border-width: 1px;
   }
 
@@ -65,7 +63,7 @@
     width: 10px;
     height: 6px;
     position: absolute;
-    top: 6px;
+    top: 7px;
     left: 5px;
     border: 2px solid #ffffff;
     border-top: none;
@@ -79,15 +77,19 @@
 
 .checkbox--error {
   & + label:before {
-    background: var(--error-color);
+    background: var(--error-color-2);
   }
 
   &:hover + label:before {
-    background: var(--error-hover-color);
+    background: var(--error-color-3);
   }
 
   &:checked + label:before {
-    background: var(--error-color);
+    background: var(--error-color-2);
+  }
+
+  &:checked:hover + label:before {
+    background: var(--error-color-3);
   }
 
   &:checked + label:after {

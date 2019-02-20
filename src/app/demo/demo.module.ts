@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ControlsModule } from '../controls/controls.module';
 
+import { ButtonDemoComponent } from './button/button-demo.component';
 import { CheckboxDemoComponent } from './checkbox/checkbox-demo.component';
 import { DemoComponent } from './demo.component';
 import { InputDemoComponent } from './input/input-demo.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
     children: [
       { path: 'input', component: InputDemoComponent },
       { path: 'checkbox', component: CheckboxDemoComponent },
+      { path: 'button', component: ButtonDemoComponent },
     ],
   },
 ];
@@ -27,11 +29,13 @@ const routes: Routes = [
     DemoComponent,
     InputDemoComponent,
     CheckboxDemoComponent,
+    ButtonDemoComponent,
   ],
   exports: [
     DemoComponent,
     InputDemoComponent,
     CheckboxDemoComponent,
+    ButtonDemoComponent,
   ],
 })
 
