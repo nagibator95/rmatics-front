@@ -6,30 +6,130 @@ button {
   cursor: pointer;
   font-size: inherit;
   outline: none;
-
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-top: 11px;
-  padding-bottom: 11px;
+  padding: 0;
 }
 
-.app-button {
+.app-button_outline, .app-button_primary {
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   height: 40px;
   border-radius: 4px;
-  background-color: var(--primary-color);
+}
 
-  color: #ffffff;
+.app-button_outline:focus, .app-button_primary:focus {
+  border: 2px solid var(--gray);
+}
+
+.app-button_outline {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.app-button_outline:hover {
+  background: var(--outline-color-hover);
+}
+
+.app-button_outline:active {
+  background: var(--outline-color-active);
 }
 
 .app-button_primary {
-  color: var(--primary-color);
-  height: 40px;
-  border-radius: 4px;
-  border: 1px solid var(--primary-color);
-  padding-top: 10px;
-  padding-bottom: 10px;
+  background-color: var(--primary-color);
+  color: #ffffff;
 }
 
-.app-button_text {
+.app-button_primary:disabled {
+  opacity: 0.56;
+}
+
+.app-button_primary:disabled:hover {
+  background-color: var(--primary-color);
+}
+
+.app-button_primary:hover {
+  background: var(--primary-color-hover);
+}
+
+.app-button_primary:active {
+  background: var(--primary-color-active);
+}
+
+.app-button--loading {
+  @keyframes rotate-360 {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  font-size: 0;
+  padding: 0;
+
+  &::after {
+    content: '';
+    display: block;
+    animation: rotate-360 0.8s infinite linear;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid white;
+    border-right-color: var(--primary-color);
+  }
+}
+
+.app-button_outline.app-button--loading {
+  &::after {
+    border: 2px solid var(--primary-color);
+    border-right-color: white;
+  }
+}
+
+.app-link, .app-link_icon-up, .app-link_icon-down {
+  height: 18px;
   color: var(--primary-color);
+
+  &:after{
+    border-color: var(--primary-color);
+  }
+}
+
+.app-link:hover, .app-link_icon-up:hover, .app-link_icon-down:hover {
+  color: var(--primary-color-hover);
+
+  &:after{
+    border-color: var(--primary-color-hover);
+  }
+}
+
+.app-link:active, .app-link_icon-up:active, .app-link_icon-down:active {
+  color: var(--primary-color-active);
+
+  &:after{
+    border-color: var(--primary-color-active);
+  }
+}
+
+.app-link_icon-up:after, .app-link_icon-down:after {
+  content: '';
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  margin-left: 5px;
+}
+
+.app-link_icon-up:after {
+  margin-bottom: -2px;
+  transform: rotate(-135deg);
+}
+
+.app-link_icon-down:after {
+  margin-bottom: 2px;
+  transform: rotate(45deg);
 }
