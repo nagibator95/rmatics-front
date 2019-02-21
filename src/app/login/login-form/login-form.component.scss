@@ -26,6 +26,7 @@
 }
 
 .form {
+  position: relative;
   width: 456px;
   height: 478px;
   border-radius: 6px;
@@ -51,8 +52,8 @@
   display: block;
   margin-bottom: 16px;
 
-  &:last-child {
-    margin-bottom: 0;
+  &:last-of-type {
+    margin-bottom: 8px;
   }
 
   app-input{
@@ -60,7 +61,18 @@
   }
 }
 
+.form__error {
+  color: #ff2f00;
+}
+
 .form__controls {
+  display: flex;
+  align-items: center;
+
+  .app-button_primary{
+    width: 80px;
+  }
+
   app-checkbox {
     margin-left: 16px;
     display: inline-block;
@@ -68,9 +80,12 @@
 }
 
 .form__description {
-  margin-top: 86px;
+  position: absolute;
+  bottom: 24px;
+  width: 360px;
 
   a {
+    text-decoration: none;
     cursor: pointer;
     color: var(--primary-color)
   }

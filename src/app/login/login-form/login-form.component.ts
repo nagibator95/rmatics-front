@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { AuthService } from '../../api/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -11,8 +13,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginFormComponent implements OnInit {
   loginForm = new FormGroup({});
   isFormSubmitted = false;
+  telegramLink = 'https://t.me/joinchat/AAAAAECFqTNMd00Y93MX8Q';
+  error = this.auth.error;
+  isFetching = this.auth.isFetching;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private auth: AuthService) {
+  }
 
   ngOnInit() {
     this.loginForm = this.fb.group(
@@ -28,17 +34,21 @@ export class LoginFormComponent implements OnInit {
   }
 
   get login() {
-    return this.loginForm.get('login');
+    return this.loginForm.get('login') as AbstractControl;
   }
 
   get password() {
-    return this.loginForm.get('password');
+    return this.loginForm.get('password')  as AbstractControl;
+  }
+
+  handleInputChange() {
+    this.auth.clearError();
   }
 
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.loginForm.valid) {
-      console.log(true);
+      this.auth.login({ username: this.login.value, password: this.password.value });
     }
   }
 }
