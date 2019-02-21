@@ -27,6 +27,7 @@ export type InputType = 'password' | 'text' | 'number';
 })
 
 export class InputComponent implements ControlValueAccessor {
+  @Input() autocomplete = '';
   @Input() placeholder = '';
   @Input() type: InputType = 'text';
   @Input() value: string | number = '';

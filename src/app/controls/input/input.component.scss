@@ -21,7 +21,6 @@
     padding-bottom: 13px;
 
     width: 100%;
-    transition: border-color 0.1s linear;
 
     &:focus {
       outline: none;
@@ -58,5 +57,11 @@
   input {
     background-color: rgba(255, 47, 0, 0.1);
     border: none;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #FFEBE8 inset !important;
   }
 }

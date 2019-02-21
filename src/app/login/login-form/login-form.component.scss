@@ -26,9 +26,7 @@
 }
 
 .form {
-  position: relative;
   width: 456px;
-  height: 478px;
   border-radius: 6px;
   box-shadow: 0 0 24px 0 rgba(182, 189, 197, 0.42);
   background-color: #ffffff;
@@ -80,7 +78,7 @@
 }
 
 .form__description {
-  position: absolute;
+  margin-top: 86px;
   bottom: 24px;
   width: 360px;
 

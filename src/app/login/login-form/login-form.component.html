@@ -6,17 +6,27 @@
   (ngSubmit)="onSubmit()"
   [formGroup]="loginForm"
   class="form"
-  autocomplete="off"
 >
   <span class="form__title">Вход</span>
 
   <div class="form__fields">
     <label class="form__field">Логин
-      <app-input (valueChange)="handleInputChange()" [hasError]="!!(error | async)" [formControl]="login"></app-input>
+      <app-input
+        autocomplete="username"
+        (valueChange)="handleInputChange()"
+        [hasError]="!!(error | async)"
+        [formControl]="login">
+      </app-input>
     </label>
 
     <label class="form__field">Пароль
-      <app-input (valueChange)="handleInputChange()" [hasError]="!!(error | async)" [formControl]="password" type="password"></app-input>
+      <app-input
+        autocomplete="current-password"
+        (valueChange)="handleInputChange()"
+        [hasError]="!!(error | async)"
+        [formControl]="password"
+        type="password">
+      </app-input>
     </label>
 
     <span class="form__error">{{error | async}}</span>
@@ -26,6 +36,7 @@
     <button
       type="submit"
       class="app-button_primary"
+      [disabled]="!loginForm.valid"
       [class.app-button--loading]="isFetching | async"
     >
       Войти
