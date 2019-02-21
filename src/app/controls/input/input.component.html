@@ -6,10 +6,11 @@
   <label>
     <input
       #input
+      [autocomplete]="autocomplete"
       [type]="type"
       [placeholder]="placeholder"
       [ngModel]="value"
-      (ngModelChange)="valueChange.emit($event)"
+      (ngModelChange)="change($event)"
       (keyup.enter)="enter.emit($event)"
     />
 
@@ -22,8 +23,3 @@
     </div>
   </label>
 </div>
-
-<span class="input__error-message" *ngIf="type === 'password' && hasError">
-  Вы ввели неверный пароль
-</span>
-
