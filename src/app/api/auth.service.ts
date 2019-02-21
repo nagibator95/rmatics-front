@@ -10,9 +10,14 @@ import { fakeLogIn, fakeRefresh, formatData } from './auth.fetcher';
 
 const getDateNowInSeconds = () => Math.floor(Date.now() / 1000);
 
+const expiredAccessTokenTime = 20;
+const expiredRefreshTokenTime = 1440;
+
 const cookieNames = {
   accessToken: 'access_token',
   refreshToken: 'refresh_token',
+  accessTokenExpTime: 'expired',
+  refreshTokenExpTime: 'expired_refresh_token',
 };
 
 const setCookies = (item: Cookies) => {
@@ -43,8 +48,10 @@ const constructHeaders = ({ accessToken, refreshToken }: { accessToken?: string,
 };
 
 const setTokenResponseToCookies = (item?: AuthData) => setCookies({
-  accessToken: item ? item.token : undefined,
-  refreshToken: item ? item.refreshToken : undefined,
+  accessToken: item ? item.token : null,
+  refreshToken: item ? item.refreshToken : null,
+  accessTokenExpTime: getDateNowInSeconds() + expiredAccessTokenTime * 60,
+  refreshTokenExpTime: getDateNowInSeconds() + expiredRefreshTokenTime * 60,
 });
 
 interface AuthHeaders {
@@ -81,7 +88,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   state: undefined,
   statusCode: 200,
   status: 'success',
@@ -90,13 +97,17 @@ const initialState: AuthState = {
 };
 
 export interface Cookies {
-  accessToken?: string;
-  refreshToken?: string;
+  accessToken: string | null;
+  refreshToken: string | null;
+  accessTokenExpTime: number | null;
+  refreshTokenExpTime: number | null;
 }
 
 export const notAuthenticatedCookies: Cookies = {
-  accessToken: undefined,
-  refreshToken: undefined,
+  accessToken: null,
+  refreshToken: null,
+  accessTokenExpTime: null,
+  refreshTokenExpTime: null,
 };
 
 @Injectable({
@@ -135,8 +146,8 @@ export class AuthService {
 
   provideHeaders() {
     const dateNowInSeconds = getDateNowInSeconds();
-    const accessTokenExpTime = dateNowInSeconds + 10;
-    const refreshTokenExpTime = dateNowInSeconds + 10;
+    const accessTokenExpTime = +(getCookie(cookieNames.accessTokenExpTime) || 0);
+    const refreshTokenExpTime = +(getCookie(cookieNames.refreshTokenExpTime) || 0);
 
     if (accessTokenExpTime > dateNowInSeconds) {
       return of(<AuthHeaders>constructHeaders({
