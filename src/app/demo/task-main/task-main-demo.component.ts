@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-conditions-demo',
-  templateUrl: './conditions-demo.component.html',
-  styleUrls: ['./conditions-demo.component.scss'],
+  selector: 'app-task-main-demo',
+  templateUrl: './task-main-demo.component.html',
+  styleUrls: ['./task-main-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConditionsDemoComponent {
+export class TaskMainDemoComponent {
   restrictions = {
     time: '1 сек',
     realTime: '5 сек',
@@ -28,14 +28,14 @@ export class ConditionsDemoComponent {
     ],
     inputData: [
       `В первой строке входного файла содержатся два числа: N и M (1 M N 100 ). Во второй строке заданы M целых чисел ti (1 ti
-  100), каждое из которых задаёт время игры на i-м автомате (1 i M ). Числа в строке разделяются одиночными пробелами.`
+  100), каждое из которых задаёт время игры на i-м автомате (1 i M ). Числа в строке разделяются одиночными пробелами.`,
     ],
     outputData: [
       `В первой строке необходимо вывести одно число — минимально возможное время отправления автобуса из парка аттракционов.
   Далее необходимо вывести N расписаний игр
   на автоматах, по одному для каждого из участников. Каждое расписание описывается в (M + 1 ) строках, первая из которых —
   пустая, а далее следуют M строк, описывающих автоматы в порядке их посещения этим участником. Посещение автомата
-  описывается двумя целыми числами: номером автомата j (1 j M ) и временем начала игры участника на этом автомате.`
+  описывается двумя целыми числами: номером автомата j (1 j M ) и временем начала игры участника на этом автомате.`,
     ],
     testExamples: [
       {
@@ -74,7 +74,7 @@ export class ConditionsDemoComponent {
         '',
         '1 0',
         '',
-        '1 2'
+        '1 2',
       ],
     },
   };

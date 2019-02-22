@@ -4,19 +4,19 @@ import { RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
 
-import { ConditionsComponent } from './conditions/conditions.component';
+import { CodeBlockComponent } from './task-main/code-block/code-block.component';
+import { IconLabelComponent } from './task-main/icon-label/icon-label.component';
+import { TaskMainComponent } from './task-main/task-main.component';
 import { TaskItemComponent } from './task-menu/task-item/task-item.component';
 import { TaskMenuComponent } from './task-menu/task-menu.component';
-import { IconLabelComponent } from './conditions/icon-label/icon-label.component';
-import { CodeBlockComponent } from './conditions/code-block/code-block.component';
 
 @NgModule({
   declarations: [
     TaskMenuComponent,
     TaskItemComponent,
-    ConditionsComponent,
     IconLabelComponent,
     CodeBlockComponent,
+    TaskMainComponent,
   ],
   imports: [
     CommonModule,
@@ -25,7 +25,7 @@ import { CodeBlockComponent } from './conditions/code-block/code-block.component
   ],
   exports: [
     TaskMenuComponent,
-    ConditionsComponent,
+    TaskMainComponent,
   ],
 })
 export class SectionsModule { }

@@ -21,12 +21,12 @@ interface Conditions {
 }
 
 @Component({
-  selector: 'app-conditions',
-  templateUrl: './conditions.component.html',
-  styleUrls: ['./conditions.component.scss'],
+  selector: 'app-task-main',
+  templateUrl: './task-main.component.html',
+  styleUrls: ['./task-main.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConditionsComponent {
+export class TaskMainComponent {
   @Input() restrictions!: Restrictions;
   @Input() conditions!: Conditions;
 
