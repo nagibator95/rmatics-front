@@ -6,6 +6,7 @@ import { SectionsModule } from '../sections/sections.module';
 
 import { ButtonDemoComponent } from './button/button-demo.component';
 import { CheckboxDemoComponent } from './checkbox/checkbox-demo.component';
+import { ConditionsDemoComponent } from './conditions/conditions-demo.component';
 import { DemoComponent } from './demo.component';
 import { InputDemoComponent } from './input/input-demo.component';
 import { RadioDemoComponent } from './radio/radio-demo.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'button', component: ButtonDemoComponent },
       { path: 'radio', component: RadioDemoComponent },
       { path: 'task-menu', component: TaskMenuDemoComponent },
+      { path: 'conditions', component: ConditionsDemoComponent },
     ],
   },
 ];
@@ -38,6 +40,7 @@ const routes: Routes = [
     TaskMenuDemoComponent,
     ButtonDemoComponent,
     RadioDemoComponent,
+    ConditionsDemoComponent,
   ],
   exports: [
     DemoComponent,
