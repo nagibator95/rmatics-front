@@ -1,0 +1,12 @@
+<label class="radio-button" [class.radio-button--disabled]="disabled || hasError">
+  <input
+    type="radio"
+    [class.radio--error]="hasError"
+    [name]="name"
+    [checked]="checked"
+    [disabled]="disabled"
+  >
+  <i></i>
+  <span class="text" *ngIf="label">{{ label }}</span>
+  <ng-content></ng-content>
+</label>

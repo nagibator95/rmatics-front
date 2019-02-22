@@ -1,32 +1,29 @@
 :host {
-  --default-color: rgba(64, 126, 255, 0.2);
-  --hover-color: rgba(64, 126, 255, 0.3);
-  --error-color: rgba(255, 47, 0, 0.2);
-  --error-hover-color: rgba(255, 47, 0, 0.3);
-  --active-color: #2b6cf4;
   display: block;
-  font-size: 13px;
-  line-height: 16px;
 }
 
 .label-wrapper {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   color: var(--gray);
+  cursor: pointer;
+}
+
+.label-wrapper--disabled{
+  cursor: default;
 }
 
 .checkbox {
   position: absolute;
-  opacity: 0;
+  display: none;
 
-  & + label {
+  & + i {
     position: relative;
     cursor: pointer;
     padding: 0;
-    z-index: -1;
   }
 
-  & + label:before {
+  & + i:before {
     content: '';
     margin-right: 10px;
     display: inline-block;
@@ -35,38 +32,43 @@
     height: 20px;
     border-radius: 2px;
     border-width: 2px;
-    background: var(--default-color);
+    background: var(--secondary-color);
   }
 
-  &:focus + label:before {
-    border: 2px solid #788195;
+  &:focus + i:before {
+    border: 2px solid var(--gray);
   }
 
-  &:hover + label:before {
-    background: var(--hover-color);
+  &:hover + i:before {
+    background: var(--secondary-color-hover);
   }
 
-  &:checked + label:before {
-    background: var(--active-color);
+  &:checked + i:before {
+    background: var(--primary-color);
     border-width: 1px;
   }
 
-  &:disabled + label {
+  &:checked:hover + i:before {
+    background: var(--primary-color-hover);
+    border-width: 1px;
+  }
+
+  &:disabled + i {
     color: #b8b8b8;
     cursor: auto;
   }
 
-  &:disabled + label:before {
+  &:disabled + i:before {
     box-shadow: none;
     opacity: 0.56;
   }
 
-  &:checked + label:after {
+  &:checked + i:after {
     content: '';
     width: 10px;
     height: 6px;
     position: absolute;
-    top: 6px;
+    top: 7px;
     left: 5px;
     border: 2px solid #ffffff;
     border-top: none;
@@ -79,19 +81,23 @@
 }
 
 .checkbox--error {
-  & + label:before {
-    background: var(--error-color);
+  & + i:before {
+    background: var(--error-color-2);
   }
 
-  &:hover + label:before {
-    background: var(--error-hover-color);
+  &:hover + i:before {
+    background: var(--error-color-3);
   }
 
-  &:checked + label:before {
-    background: var(--error-color);
+  &:checked + i:before {
+    background: var(--error-color-2);
   }
 
-  &:checked + label:after {
+  &:checked:hover + i:before {
+    background: var(--error-color-3);
+  }
+
+  &:checked + i:after {
     border-color: #676b7a;
   }
 }
