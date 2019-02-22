@@ -5,6 +5,11 @@
 .label-wrapper {
   display: inline-flex;
   align-items: center;
+  cursor: pointer;
+}
+
+.label-wrapper--disabled{
+  cursor: default;
 }
 
 .checkbox {

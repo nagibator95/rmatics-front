@@ -1,0 +1,20 @@
+<div class="group">
+  <app-radio name="group1">green</app-radio>
+  <app-radio name="group1">red</app-radio>
+  <app-radio name="group1" [checked]="true">yellow</app-radio>
+</div>
+
+
+<div class="group">
+  <app-radio name="group2">car</app-radio>
+  <app-radio name="group2">bus</app-radio>
+  <app-radio name="group2" [checked]="true" [disabled]="true">plane (disabled)</app-radio>
+  <app-radio name="group2">train</app-radio>
+</div>
+
+<div class="group">
+  <app-radio name="group3" [checked]="true">Карточкин Константин, Иванов Федор, Петров Александр</app-radio>
+  <app-radio name="group3">Карточкин Константин, Лучкина Анастасия, Цветочкин Иван</app-radio>
+  <app-radio name="group3" [hasError]="true">Карточкин Константин, Стебель Ольга, Кустов Владимир (error)</app-radio>
+  <app-radio name="group3" [disabled]="true">Карточкин Константин, Иванов Федор, Стебель Ольга  (disabled)</app-radio>
+</div>
