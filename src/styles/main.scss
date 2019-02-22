@@ -25,7 +25,8 @@ body {
   min-width: 1200px;
   height: 100%;
   font-family: 'Roboto', sans-serif;
-  color: var(--gray);
+  color: var(--black);
+  background-color: var(--light-gray-2);
   -webkit-font-smoothing: antialiased;
   font-size: 14px;
   line-height: 1.29;
@@ -56,4 +57,21 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active  {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
   -webkit-text-fill-color: var(--gray);
+}
+
+button {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
 }

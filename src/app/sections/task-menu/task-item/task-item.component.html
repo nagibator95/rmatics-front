@@ -1,0 +1,19 @@
+<ng-container *ngIf="href; else disabled">
+  <a class="link" [routerLink]="href">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </a>
+</ng-container>
+
+<ng-template #disabled>
+  <span class="link link_disabled" #disabled>
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </span>
+</ng-template>
+
+<ng-template #content>
+  <span class="letter">{{letter}}</span>
+  
+  <span class="text" *ngIf="!collapsed">
+    <ng-content></ng-content>
+  </span>
+</ng-template>
