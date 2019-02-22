@@ -7,6 +7,7 @@ import { ButtonDemoComponent } from './button/button-demo.component';
 import { CheckboxDemoComponent } from './checkbox/checkbox-demo.component';
 import { DemoComponent } from './demo.component';
 import { InputDemoComponent } from './input/input-demo.component';
+import { RadioDemoComponent } from './radio/radio-demo.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: 'input', component: InputDemoComponent },
       { path: 'checkbox', component: CheckboxDemoComponent },
       { path: 'button', component: ButtonDemoComponent },
+      { path: 'radio', component: RadioDemoComponent },
     ],
   },
 ];
@@ -30,12 +32,14 @@ const routes: Routes = [
     InputDemoComponent,
     CheckboxDemoComponent,
     ButtonDemoComponent,
+    RadioDemoComponent,
   ],
   exports: [
     DemoComponent,
     InputDemoComponent,
     CheckboxDemoComponent,
     ButtonDemoComponent,
+    RadioDemoComponent,
   ],
 })
 

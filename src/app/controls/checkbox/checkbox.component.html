@@ -1,4 +1,4 @@
-<label class="label-wrapper">
+<label class="label-wrapper" [class.label-wrapper--disabled]="disabled">
   <input
     class="checkbox"
     [class.checkbox--error]="hasError"
@@ -7,7 +7,7 @@
     [disabled]="disabled"
     (change)="check($event)"
   >
-  <label></label>
+  <i></i>
   <span class="text" *ngIf="label">{{ label }}</span>
   <ng-content></ng-content>
 </label>
