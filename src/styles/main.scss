@@ -24,7 +24,8 @@ body {
   min-width: 1200px;
   height: 100%;
   font-family: 'Roboto', sans-serif;
-  color: var(--gray);
+  color: var(--black);
+  background-color: #f3f5f7;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -53,4 +54,34 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active  {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
   -webkit-text-fill-color: var(--gray);
+}
+
+button {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+a,
+.pseudo-link {
+  text-decoration: none;
+  color: var(--blue);
+  transition: color .2s ease-in-out;
+  will-change: color;
+
+  &:hover,
+  &:focus {
+    color: var(--blue-hover);
+  }
+
+  &:active {
+    color: var(--blue-active);
+  }
 }

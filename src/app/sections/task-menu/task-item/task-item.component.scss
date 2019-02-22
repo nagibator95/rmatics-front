@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  position: relative;
+  font-size: 14px;
+  line-height: 18px;
+
+  &._current::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    width: 4px;
+    right: 100%;
+    margin-right: 16px;
+    background-color: var(--blue);
+  }
+
+  &._collapsed::before {
+    margin-right: 14px;
+  }
+}
+
+.link {
+  display: flex;
+  align-items: flex-start;
+  color: var(--black);
+
+  &_disabled {
+    color: var(--gray);
+  }
+}
+
+.letter {
+  color: var(--gray);
+  text-transform: uppercase;
+}
+
+.text {
+  margin-left: 8px;
+}
