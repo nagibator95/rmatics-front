@@ -1,0 +1,47 @@
+<h1 class="title-1">Задача №3397. Парк аттракционов</h1>
+
+<section class="section section_restrictions">
+  <h2 class="title-2">Ограничения</h2>
+  
+  <div class="restrictions">
+    <app-icon-label icon="clock" caption="Время">{{restrictions.time}}</app-icon-label>
+    <app-icon-label icon="clock-add" caption="Реальное время">{{restrictions.realTime}}</app-icon-label>
+    <app-icon-label icon="memory" caption="Память">{{restrictions.memory}}</app-icon-label>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="title-2">Условия</h2>
+  
+  <p class="paragraph" *ngFor="let p of conditions.description">{{p}}</p>
+  
+  <div class="separator">Входные данные</div>
+
+  <p class="paragraph" *ngFor="let p of conditions.inputData">{{p}}</p>
+  
+  <div class="separator">Выходные данные</div>
+
+  <p class="paragraph" *ngFor="let p of conditions.outputData">{{p}}</p>
+  
+  <div class="separator">Примеры тестов</div>
+  
+  <p class="paragraph paragraph_examples" *ngFor="let p of conditions.testExamples">
+    <b class="small-title">{{p.title}}</b>
+    {{p.text}}
+  </p>
+  
+  <div class="separator">Примеры данных</div>
+
+  <div class="data-examples">
+    <app-code-block class="data-example-code" blockTitle="Входные данные" [code]="conditions.dataExamples.input" [minLines]="minDataLines"></app-code-block>
+    <app-code-block class="data-example-code" blockTitle="Выходные данные" [code]="conditions.dataExamples.output" [minLines]="minDataLines"></app-code-block>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="title-2">Решение</h2>
+</section>
+
+<section class="section">
+  <h2 class="title-2">Отправленные посылки</h2>
+</section>

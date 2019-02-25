@@ -4,6 +4,9 @@ import { RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
 
+import { CodeBlockComponent } from './task-main/code-block/code-block.component';
+import { IconLabelComponent } from './task-main/icon-label/icon-label.component';
+import { TaskMainComponent } from './task-main/task-main.component';
 import { TaskItemComponent } from './task-menu/task-item/task-item.component';
 import { TaskMenuComponent } from './task-menu/task-menu.component';
 
@@ -11,6 +14,9 @@ import { TaskMenuComponent } from './task-menu/task-menu.component';
   declarations: [
     TaskMenuComponent,
     TaskItemComponent,
+    IconLabelComponent,
+    CodeBlockComponent,
+    TaskMainComponent,
   ],
   imports: [
     CommonModule,
@@ -19,6 +25,7 @@ import { TaskMenuComponent } from './task-menu/task-menu.component';
   ],
   exports: [
     TaskMenuComponent,
+    TaskMainComponent,
   ],
 })
 export class SectionsModule { }
