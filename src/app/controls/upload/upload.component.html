@@ -1,0 +1,43 @@
+<div class="upload" (appFileDrop)="onSelectFiles($event)">
+  <span class="description">
+    <button
+      class="app-link"
+      (click)="fileInput.click()"
+    >
+      Выберите файл
+    </button>
+    или перетащите его сюда
+  </span>
+  <input
+    #fileInput
+    type="file"
+    (change)="onSelectFiles($event.target.files)"
+    style="display:none;"
+  />
+
+  <div class="file" *ngIf="file!== undefined">
+    <div class="left-part" [class.part--error]="error">
+      <app-icon
+        class="status-icon"
+        [width]="20"
+        [height]="20"
+        [icon]="error ? 'alert' : 'check'">
+      </app-icon>
+      <div class="text-block">
+        <span class="title">{{file.name}}</span>
+        <span class="error">{{error}}</span>
+      </div>
+    </div>
+
+    <div class="right-part" [class.part--error]="error">
+      <span class="size">{{file.size | fileSize:2}}</span>
+      <app-icon
+        icon="close"
+        [width]="10"
+        [height]="10"
+        class="remove"
+        (click)="remove()"
+      ></app-icon>
+    </div>
+  </div>
+</div>

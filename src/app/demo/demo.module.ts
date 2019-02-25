@@ -10,6 +10,7 @@ import { DemoComponent } from './demo.component';
 import { InputDemoComponent } from './input/input-demo.component';
 import { RadioDemoComponent } from './radio/radio-demo.component';
 import { TaskMenuDemoComponent } from './task-menu/task-menu-demo.component';
+import { UploadDemoComponent } from './upload/upload-demo.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'button', component: ButtonDemoComponent },
       { path: 'radio', component: RadioDemoComponent },
       { path: 'task-menu', component: TaskMenuDemoComponent },
+      { path: 'upload', component: UploadDemoComponent },
     ],
   },
 ];
@@ -38,6 +40,7 @@ const routes: Routes = [
     TaskMenuDemoComponent,
     ButtonDemoComponent,
     RadioDemoComponent,
+    UploadDemoComponent,
   ],
   exports: [
     DemoComponent,
@@ -46,6 +49,7 @@ const routes: Routes = [
     TaskMenuDemoComponent,
     ButtonDemoComponent,
     RadioDemoComponent,
+    UploadDemoComponent,
   ],
 })
 
