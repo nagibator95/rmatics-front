@@ -1,0 +1,10 @@
+<span class="title" *ngIf="blockTitle">{{blockTitle}}</span>
+
+<table class="table">
+  <ng-container *ngFor="let line of lines; let i=index">
+    <tr>
+      <th class="line-number">{{i + 1}}</th>
+      <td class="code">{{code[i]}}</td>
+    </tr>
+  </ng-container>
+</table>

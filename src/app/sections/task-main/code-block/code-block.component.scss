@@ -1,0 +1,46 @@
+:host {
+  padding: 12px 16px 16px;
+  display: block;
+  border-radius: 4px;
+  background-color: var(--light-gray-3);
+}
+
+.table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  tr {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  th, td {
+    display: flex;
+  }
+}
+
+.title {
+  margin-bottom: 4px;
+  display: block;
+  font-size: 14px;
+  line-height: 1.29;
+}
+
+.line-number {
+  padding-right: 16px;
+  font-size: 14px;
+  line-height: 1.79;
+  color: var(--gray);
+  vertical-align: top;
+}
+
+.code {
+  width: 100%;
+  font-family: var(--pt-mono);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.69;
+  color: var(--black-2);
+  white-space: pre;
+}
