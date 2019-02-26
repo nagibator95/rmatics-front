@@ -285,6 +285,14 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@ctrl/ngx-codemirror@^1.3.9":
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/@ctrl/ngx-codemirror/-/ngx-codemirror-1.3.9.tgz#6eab973d9353527b8c6b6253905b7074b9d6e619"
+  integrity sha512-n6i6/0klkWAZqzKnYsKuEdNduHotA+sq2RLZFdAkXM0TghzvvfL1lJLSo02/AQU4P0OeByQ1ms/Of3/ICt5tAg==
+  dependencies:
+    "@types/codemirror" "0.0.58"
+    tslib "^1.9.0"
+
 "@fimbul/bifrost@^0.17.0":
   version "0.17.0"
   resolved "https://registry.yarnpkg.com/@fimbul/bifrost/-/bifrost-0.17.0.tgz#f0383ba7e40992e3193dc87e2ddfde2ad62a9cf4"
@@ -337,6 +345,11 @@
     rxjs "6.3.3"
     semver "5.6.0"
     semver-intersect "1.4.0"
+
+"@types/codemirror@0.0.58":
+  version "0.0.58"
+  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-0.0.58.tgz#48b23cc6179f143dc3a4eb175f3c1f2c11808529"
+  integrity sha512-z74f1e0zqxJ8xrss10bsrjnoJZHE4zDkC8Q7ACw82gr6e4ILSUe0GNifNg1uIaSbR3UQf5sqHJO8vn9GQLFKbA==
 
 "@types/jasmine@*":
   version "3.3.9"
@@ -1716,6 +1729,11 @@ codelyzer@~4.5.0:
     semver-dsl "^1.0.1"
     source-map "^0.5.7"
     sprintf-js "^1.1.1"
+
+codemirror@^5.44.0:
+  version "5.44.0"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.44.0.tgz#80dc2a231eeb7aab25ec2405cdca37e693ccf9cc"
+  integrity sha512-3l42syTNakCdCQuYeZJXTyxina6Y9i4V0ighSJXNCQtRbaCN76smKKLu1ZHPHQon3rnzC7l4i/0r4gp809K1wg==
 
 collection-visit@^1.0.0:
   version "1.0.0"

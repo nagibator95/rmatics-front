@@ -8,6 +8,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 })
 
 export class RadioComponent {
+  @Input() reverse = false;
   @Input() name = '';
   @Input() hasError = false;
   @Input() label = '';

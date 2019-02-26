@@ -13,6 +13,14 @@
   pointer-events: none;
 }
 
+.radio-button--reverse {
+  height: 100%;
+  align-items: center;
+  flex-direction: row-reverse;
+  width: 100%;
+  justify-content: space-between;
+}
+
 [type="radio"]:checked,
 [type="radio"]:not(:checked) {
   position: absolute;
@@ -24,7 +32,7 @@
   position: relative;
   padding-left: 28px;
   cursor: pointer;
-  line-height: 20px;
+  height: 20px;
   display: inline-block;
   color: #666;
 }

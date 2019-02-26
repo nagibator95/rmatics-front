@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { InputComponent } from './input/input.component';
 import { RadioComponent } from './radio/radio.component';
+import { SelectComponent } from './select/select.component';
 import { UploadComponent } from './upload/upload.component';
 
 @NgModule({
@@ -20,12 +21,14 @@ import { UploadComponent } from './upload/upload.component';
     CheckboxComponent,
     RadioComponent,
     UploadComponent,
+    SelectComponent,
   ],
   exports: [
     InputComponent,
     CheckboxComponent,
     RadioComponent,
     UploadComponent,
+    SelectComponent,
   ],
 })
 

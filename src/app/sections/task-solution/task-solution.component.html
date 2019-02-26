@@ -1,0 +1,43 @@
+<h2 class="title">Решение</h2>
+
+<div class="radio-group">
+  <app-radio
+    class="radio"
+    name="solution-type"
+    [checked]="true"
+    [reverse]="true"
+    (change)="showFileLoader = true"
+  >
+    Загрузить файл
+  </app-radio>
+  <app-radio
+    class="radio"
+    name="solution-type"
+    [reverse]="true"
+    (change)="showFileLoader = false"
+  >
+    Написать код
+  </app-radio>
+</div>
+
+<app-upload *ngIf="showFileLoader" class="upload"></app-upload>
+
+<ngx-codemirror
+  *ngIf="!showFileLoader"
+  class="code"
+  [(ngModel)]="content"
+  [options]="{
+    lineNumbers: true,
+    mode: selectedLanguage.mode
+  }"
+></ngx-codemirror>
+
+<app-select
+  class="select"
+  [(item)]="selectedLanguage"
+  labelField="title"
+  valueField="id"
+  [items]="languages">
+</app-select>
+
+<span>{{mode}}</span>

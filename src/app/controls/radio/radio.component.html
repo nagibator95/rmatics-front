@@ -1,4 +1,7 @@
-<label class="radio-button" [class.radio-button--disabled]="disabled || hasError">
+<label class="radio-button"
+       [class.radio-button--disabled]="disabled || hasError"
+       [class.radio-button--reverse]="reverse"
+>
   <input
     type="radio"
     [class.radio--error]="hasError"
