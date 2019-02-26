@@ -98,7 +98,7 @@
   }
 
   &:checked + i:after {
-    border-color: #676b7a;
+    border-color: var(--dark-gray);
   }
 }
 
