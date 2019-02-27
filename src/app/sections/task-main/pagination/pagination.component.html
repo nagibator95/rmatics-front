@@ -1,0 +1,21 @@
+<a [routerLink]="previousLink" class="link link_prev" *ngIf="previous">
+  <div class="icon-round">
+    <app-icon icon="arrow-left" width="11px" height="20px"></app-icon>
+  </div>
+
+  <div class="text">
+    <span class="caption">Предыдущее задание</span>
+    <span class="name">{{previousName}}</span>
+  </div>
+</a>
+
+<a [routerLink]="nextLink" class="link link_next" *ngIf="next">
+  <div class="text">
+    <span class="caption">Следующее задание</span>
+    <span class="name">{{nextName}}</span>
+  </div>
+
+  <div class="icon-round">
+    <app-icon icon="arrow-right" width="11px" height="20px"></app-icon>
+  </div>
+</a>

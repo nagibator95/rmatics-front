@@ -22,6 +22,7 @@ import { PackageStatusComponent } from './sent-packages/package-status/package-s
 import { SentPackagesComponent } from './sent-packages/sent-packages.component';
 import { CodeBlockComponent } from './task-main/code-block/code-block.component';
 import { IconLabelComponent } from './task-main/icon-label/icon-label.component';
+import { PaginationComponent } from './task-main/pagination/pagination.component';
 import { TaskMainComponent } from './task-main/task-main.component';
 import { TaskItemComponent } from './task-menu/task-item/task-item.component';
 import { TaskMenuComponent } from './task-menu/task-menu.component';
@@ -34,6 +35,7 @@ import { TaskSolutionComponent } from './task-solution/task-solution.component';
     IconLabelComponent,
     CodeBlockComponent,
     TaskMainComponent,
+    PaginationComponent,
     TaskSolutionComponent,
     SentPackagesComponent,
     PackageStatusComponent,
