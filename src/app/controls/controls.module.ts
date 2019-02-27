@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -13,6 +14,7 @@ import { RadioComponent } from './radio/radio.component';
     CommonModule,
     FormsModule,
     SharedModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     InputComponent,

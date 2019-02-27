@@ -74,6 +74,7 @@
 
 [type="radio"]:checked:active + i:after {
   border-color: var(--primary-color-active);
+  border-width: 4px;
   width: 18px;
   height: 18px;
   top: 1px;
