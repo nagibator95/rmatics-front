@@ -1,24 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-interface Restrictions {
-  time: string;
-  realTime: string;
-  memory: string;
-}
-
-interface Conditions {
-  description: string[];
-  inputData: string[];
-  outputData: string[];
-  testExamples: {
-    title: string;
-    text: string;
-  }[];
-  dataExamples: {
-    input: string[];
-    output: string[];
-  };
-}
+import { Conditions, Restrictions, TaskMainService } from './task-main.service';
 
 @Component({
   selector: 'app-task-main',
@@ -27,8 +9,15 @@ interface Conditions {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskMainComponent {
-  @Input() restrictions!: Restrictions;
-  @Input() conditions!: Conditions;
+  restrictions!: Restrictions;
+  conditions!: Conditions;
+
+  constructor(data: TaskMainService) {
+    const { restrictions, conditions } = data.getData();
+
+    this.restrictions = restrictions;
+    this.conditions = conditions;
+  }
 
   get minDataLines() {
     return Math.max(this.conditions.dataExamples.input.length, this.conditions.dataExamples.output.length);
