@@ -4,8 +4,8 @@
   <h2 class="title-2">Ограничения</h2>
   
   <div class="restrictions">
-    <app-icon-label icon="clock" caption="Время">{{restrictions.time}}</app-icon-label>
-    <app-icon-label icon="memory" caption="Память">{{restrictions.memory}}</app-icon-label>
+    <app-icon-label class="restriction" icon="clock" caption="Время">{{restrictions.time}}</app-icon-label>
+    <app-icon-label class="restriction" icon="memory" caption="Память">{{restrictions.memory}}</app-icon-label>
   </div>
 </section>
 
@@ -14,22 +14,22 @@
   
   <p class="paragraph" *ngFor="let p of conditions.description">{{p}}</p>
   
-  <div class="separator">Входные данные</div>
+  <h3 class="separator">Входные данные</h3>
 
   <p class="paragraph" *ngFor="let p of conditions.inputData">{{p}}</p>
   
-  <div class="separator">Выходные данные</div>
+  <h3 class="separator">Выходные данные</h3>
 
   <p class="paragraph" *ngFor="let p of conditions.outputData">{{p}}</p>
   
-  <div class="separator">Примеры тестов</div>
+  <h3 class="separator">Примеры тестов</h3>
   
   <p class="paragraph paragraph_examples" *ngFor="let p of conditions.testExamples">
     <b class="small-title">{{p.title}}</b>
-    {{p.text}}
+    <span [innerHtml]="p.text"></span>
   </p>
   
-  <div class="separator">Примеры данных</div>
+  <h3 class="separator">Примеры данных</h3>
 
   <div class="data-examples">
     <app-code-block class="data-example-code" blockTitle="Входные данные" [code]="conditions.dataExamples.input" [minLines]="minDataLines"></app-code-block>
@@ -45,3 +45,9 @@
   <h2 class="title-2">Отправленные посылки</h2>
   <app-sent-packages></app-sent-packages>
 </section>
+
+<app-pagination
+  class="pagination"
+  [previous]="{href: '', name: 'Количество положительных элементов'}"
+  [next]="{href: '', name: 'Вывести четные элементы'}"
+></app-pagination>
