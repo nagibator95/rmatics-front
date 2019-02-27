@@ -6,9 +6,9 @@ import {
 import { languages } from '../../shared/constants';
 
 export interface Language {
-  id: number;
-  title: string;
-  mode: string;
+  id?: number;
+  title?: string;
+  mode?: string;
 }
 
 @Component({
@@ -22,11 +22,14 @@ export class TaskSolutionComponent {
   code = '';
   languages = languages;
   showFileLoader = true;
-  selectedLanguage: Language | {} = {};
+  selectedLanguage: Language = {};
 
   @Output() pass = new EventEmitter();
 
   passSolution() {
-    this.pass.emit(this.code);
+    this.pass.emit({
+      code: this.code,
+      languageId: this.selectedLanguage.id,
+    });
   }
 }
