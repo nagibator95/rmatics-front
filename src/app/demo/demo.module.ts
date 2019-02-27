@@ -9,6 +9,8 @@ import { CheckboxDemoComponent } from './checkbox/checkbox-demo.component';
 import { DemoComponent } from './demo.component';
 import { InputDemoComponent } from './input/input-demo.component';
 import { RadioDemoComponent } from './radio/radio-demo.component';
+import { SentPackagesDemoComponent } from './sent-packages/sent-packages-demo.component';
+import { TaskMainDemoComponent } from './task-main/task-main-demo.component';
 import { TaskMenuDemoComponent } from './task-menu/task-menu-demo.component';
 
 const routes: Routes = [
@@ -21,6 +23,8 @@ const routes: Routes = [
       { path: 'button', component: ButtonDemoComponent },
       { path: 'radio', component: RadioDemoComponent },
       { path: 'task-menu', component: TaskMenuDemoComponent },
+      { path: 'task-main', component: TaskMainDemoComponent },
+      { path: 'sent-packages', component: SentPackagesDemoComponent },
     ],
   },
 ];
@@ -38,6 +42,8 @@ const routes: Routes = [
     TaskMenuDemoComponent,
     ButtonDemoComponent,
     RadioDemoComponent,
+    TaskMainDemoComponent,
+    SentPackagesDemoComponent,
   ],
   exports: [
     DemoComponent,
@@ -46,6 +52,7 @@ const routes: Routes = [
     TaskMenuDemoComponent,
     ButtonDemoComponent,
     RadioDemoComponent,
+    TaskMainDemoComponent,
   ],
 })
 

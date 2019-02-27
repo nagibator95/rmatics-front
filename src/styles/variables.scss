@@ -1,5 +1,6 @@
 :root {
   --black: #2d3446;
+  --black-2: #393a39;
   --gray: #788195;
   --dark-gray: #676b7a;
   --light-gray-1: #e9e9e9;
@@ -19,4 +20,11 @@
   --error-color-1: rgba(255, 47, 0, 0.1);
   --error-color-2: rgba(255, 47, 0, 0.2);
   --error-color-3: rgba(255, 47, 0, 0.3);
+
+  --status-red: #ff6000;
+  --status-green: #7bd500;
+  --status-yellow: #f8e71c;
+
+  --roboto: 'Roboto', sans-serif;
+  --pt-mono: 'PT Mono', monospace;
 }

@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
+@import url('https://fonts.googleapis.com/css?family=PT+Mono');
 
 @import 'variables';
 @import 'buttons';
@@ -24,7 +25,7 @@ body {
   width: 100%;
   min-width: 1200px;
   height: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--roboto);
   color: var(--black);
   background-color: var(--light-gray-2);
   -webkit-font-smoothing: antialiased;

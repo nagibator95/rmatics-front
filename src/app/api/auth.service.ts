@@ -10,8 +10,8 @@ import { fakeLogIn, fakeRefresh, formatData } from './auth.fetcher';
 
 const getDateNowInSeconds = () => Math.floor(Date.now() / 1000);
 
-const expiredAccessTokenTime = 20;
-const expiredRefreshTokenTime = 1440;
+const expiredAccessTokenTime = 15;
+const expiredRefreshTokenTime = 43800;
 
 const cookieNames = {
   accessToken: 'access_token',
