@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'http://edu.dev2.k8s.tcsbank.ru/api/v1',
 };
 
 /*

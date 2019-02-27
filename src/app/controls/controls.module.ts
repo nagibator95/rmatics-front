@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -15,6 +16,7 @@ import { UploadComponent } from './upload/upload.component';
     CommonModule,
     FormsModule,
     SharedModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     InputComponent,

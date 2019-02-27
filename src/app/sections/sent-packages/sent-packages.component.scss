@@ -1,0 +1,86 @@
+:host {
+  display: block;
+}
+
+table, tbody {
+  display: flex;
+  flex-direction: column;
+}
+
+tr {
+  display: flex;
+  justify-content: stretch;
+}
+
+th, td {
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+}
+
+.table {
+  margin-bottom: 16px;
+}
+
+.head-row {
+  height: 40px;
+  font-size: 12px;
+  line-height: 1.33;
+  color: var(--gray);
+  background-color: var(--light-gray-2);
+  border-radius: 4px;
+}
+
+.body-row {
+  height: 48px;
+  font-size: 14px;
+  line-height: 1.29;
+  box-shadow: 0 1px 0 0 var(--light-gray-1);
+}
+
+.col {
+  padding-right: 12px;
+
+  &:first-child {
+    padding-left: 12px;
+    flex: 1 1 68px;
+  }
+
+  &:nth-child(2) {
+    flex: 1 1 108px;
+  }
+
+  &:nth-child(3) {
+    flex: 1 1 160px;
+  }
+
+  &:nth-child(4),
+  &:nth-child(5) {
+    flex: 1 1 80px;
+  }
+
+  &:last-child {
+    flex: 1 1 240px;
+    justify-content: flex-end;
+  }
+}
+
+.head-text {
+  opacity: .9;
+}
+
+.sync {
+  opacity: .6;
+}
+
+.body-secondary {
+  color: var(--dark-gray);
+}
+
+.score {
+  font-weight: 500;
+}
+
+.status {
+  margin-right: 34px;
+}
