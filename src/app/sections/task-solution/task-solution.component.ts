@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, EventEmitter, Output,
 } from '@angular/core';
 
 import { languages } from '../../shared/constants';
@@ -19,7 +19,14 @@ export interface Language {
 })
 
 export class TaskSolutionComponent {
+  code = '';
   languages = languages;
   showFileLoader = true;
   selectedLanguage: Language | {} = {};
+
+  @Output() pass = new EventEmitter();
+
+  passSolution() {
+    this.pass.emit(this.code);
+  }
 }

@@ -1,5 +1,3 @@
-<h2 class="title">Решение</h2>
-
 <div class="radio-group">
   <app-radio
     class="radio"
@@ -25,7 +23,7 @@
 <ngx-codemirror
   *ngIf="!showFileLoader"
   class="code"
-  [(ngModel)]="content"
+  [(ngModel)]="code"
   [options]="{
     lineNumbers: true,
     mode: selectedLanguage.mode
@@ -40,4 +38,4 @@
   [items]="languages">
 </app-select>
 
-<span>{{mode}}</span>
+<button class="app-button_primary solution-button" (click)="passSolution()">Сдать решение</button>
