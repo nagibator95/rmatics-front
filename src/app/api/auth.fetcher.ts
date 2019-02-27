@@ -35,7 +35,7 @@ const fakeAuthItems = [
 export const fakeRefresh = (refreshToken: string | undefined) => {
   const user = fakeAuthItems.find(item => item.refresh_token === refreshToken);
 
-  if (!user) {
+  if (user === undefined) {
     return {
       status_code: 403,
       status: 'error',
@@ -53,7 +53,7 @@ export const fakeRefresh = (refreshToken: string | undefined) => {
 export const fakeLogIn = (username: string, password: string) => {
   const user = fakeAuthItems.find(item => item.username === username);
 
-  if (!user) {
+  if (user === undefined) {
     return {
       status_code: 404,
       status: 'error',
