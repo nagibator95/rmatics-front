@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TokenInterceptor } from './api/token.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ContestModule } from './contest/contest.module';
 import { LoginModule } from './login/login.module';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { LoginModule } from './login/login.module';
     HttpClientModule,
     AppRoutingModule,
     LoginModule,
+    ContestModule,
   ],
   providers: [
     {

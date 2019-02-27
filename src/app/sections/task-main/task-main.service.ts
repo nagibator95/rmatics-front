@@ -25,7 +25,6 @@ export interface Conditions {
   providedIn: 'root',
 })
 export class TaskMainService {
-
   constructor() { }
 
   getData = (): { restrictions: Restrictions, conditions: Conditions } => MOCK;
