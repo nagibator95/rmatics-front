@@ -33,11 +33,11 @@ const setCookies = (item: Cookies) => {
 };
 
 const constructHeaders = ({ accessToken, refreshToken }: { accessToken?: string, refreshToken?: string }) => {
-  const accessTokenHeader = accessToken ? {
+  const accessTokenHeader = Boolean(accessToken) ? {
     'Access-Token': accessToken,
   } : {};
 
-  const refreshTokenHeader = refreshToken ? {
+  const refreshTokenHeader = Boolean(refreshToken) ? {
     'Refresh-Token': refreshToken,
   } : {};
 
@@ -48,8 +48,8 @@ const constructHeaders = ({ accessToken, refreshToken }: { accessToken?: string,
 };
 
 const setTokenResponseToCookies = (item?: AuthData) => setCookies({
-  accessToken: item ? item.token : null,
-  refreshToken: item ? item.refreshToken : null,
+  accessToken: item !== undefined ? item.token : null,
+  refreshToken: item !== undefined  ? item.refreshToken : null,
   accessTokenExpTime: getDateNowInSeconds() + expiredAccessTokenTime * 60,
   refreshTokenExpTime: getDateNowInSeconds() + expiredRefreshTokenTime * 60,
 });

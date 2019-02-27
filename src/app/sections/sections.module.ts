@@ -18,13 +18,13 @@ import 'codemirror/mode/ruby/ruby';
 import { ControlsModule } from '../controls/controls.module';
 import { SharedModule } from '../shared/shared.module';
 
+import { PackageStatusComponent } from './sent-packages/package-status/package-status.component';
 import { SentPackagesComponent } from './sent-packages/sent-packages.component';
 import { CodeBlockComponent } from './task-main/code-block/code-block.component';
 import { IconLabelComponent } from './task-main/icon-label/icon-label.component';
 import { TaskMainComponent } from './task-main/task-main.component';
 import { TaskItemComponent } from './task-menu/task-item/task-item.component';
 import { TaskMenuComponent } from './task-menu/task-menu.component';
-import { PackageStatusComponent } from './sent-packages/package-status/package-status.component';
 import { TaskSolutionComponent } from './task-solution/task-solution.component';
 
 @NgModule({
@@ -53,5 +53,6 @@ import { TaskSolutionComponent } from './task-solution/task-solution.component';
     TaskSolutionComponent,
   ],
 })
+
 export class SectionsModule {
 }
