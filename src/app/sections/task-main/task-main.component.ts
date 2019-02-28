@@ -25,6 +25,7 @@ export class TaskMainComponent {
   }
 
   addSolution(data: { code: string, languageId: number }) {
+
     this.taskMainService.addSubmission(this.problemId, data.code, data.languageId);
   }
 }

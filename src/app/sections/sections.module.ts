@@ -37,6 +37,7 @@ import { TaskSolutionComponent } from './task-solution/task-solution.component';
     TaskMainComponent,
     TaskSolutionComponent,
     PaginationComponent,
+    TaskSolutionComponent,
     SentPackagesComponent,
     PackageStatusComponent,
   ],
