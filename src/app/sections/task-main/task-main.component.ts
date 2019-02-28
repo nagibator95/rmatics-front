@@ -11,6 +11,7 @@ import { Conditions, Restrictions, TaskMainService } from './task-main.service';
 export class TaskMainComponent {
   restrictions!: Restrictions;
   conditions!: Conditions;
+  problemId = 1;
 
   constructor(private taskMainService: TaskMainService) {
     const { restrictions, conditions } = taskMainService.getData();
@@ -24,6 +25,6 @@ export class TaskMainComponent {
   }
 
   addSolution(data: { code: string, languageId: number }) {
-    this.taskMainService.addSubmission(1, data.code, data.languageId);
+    this.taskMainService.addSubmission(this.problemId, data.code, data.languageId);
   }
 }
