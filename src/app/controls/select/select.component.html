@@ -1,0 +1,28 @@
+<button
+  class="select"
+  type="button"
+  #button
+>
+  <span class="title">{{selectedItem[labelField]}}</span>
+  <app-icon
+    class="icon"
+    [class.icon--reverse]="active | async"
+    icon="arrow"
+  ></app-icon>
+</button>
+
+<menu
+  class="list"
+  [class.list--open]="active | async"
+  #menu
+>
+  <ul class="items">
+    <li
+      *ngFor="let item of items"
+      class="item"
+      (click)="select(item)"
+    >
+      {{item[labelField]}}
+    </li>
+  </ul>
+</menu>

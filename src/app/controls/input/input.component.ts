@@ -48,7 +48,7 @@ export class InputComponent implements ControlValueAccessor {
 
   showPassword() {
     this.isShowPassword = !this.isShowPassword;
-    if (this.elementRef) {
+    if (this.elementRef !== undefined) {
       this.elementRef.nativeElement.setAttribute('type', this.isShowPassword ? 'text' : 'password');
     }
   }
