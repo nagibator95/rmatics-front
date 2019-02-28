@@ -35,6 +35,7 @@ import { TaskSolutionComponent } from './task-solution/task-solution.component';
     IconLabelComponent,
     CodeBlockComponent,
     TaskMainComponent,
+    TaskSolutionComponent,
     PaginationComponent,
     TaskSolutionComponent,
     SentPackagesComponent,
