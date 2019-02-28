@@ -11,9 +11,10 @@ import { Conditions, Restrictions, TaskMainService } from './task-main.service';
 export class TaskMainComponent {
   restrictions!: Restrictions;
   conditions!: Conditions;
+  problemId = 1;
 
-  constructor(data: TaskMainService) {
-    const { restrictions, conditions } = data.getData();
+  constructor(private taskMainService: TaskMainService) {
+    const { restrictions, conditions } = taskMainService.getData();
 
     this.restrictions = restrictions;
     this.conditions = conditions;
@@ -21,5 +22,10 @@ export class TaskMainComponent {
 
   get minDataLines() {
     return Math.max(this.conditions.dataExamples.input.length, this.conditions.dataExamples.output.length);
+  }
+
+  addSolution(data: { code: string, languageId: number }) {
+
+    this.taskMainService.addSubmission(this.problemId, data.code, data.languageId);
   }
 }

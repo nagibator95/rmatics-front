@@ -4,7 +4,10 @@
       <span class="head-text">#</span>
     </th>
     <th class="col">
-      <button class="sort head-text">Дата ▾</button>
+      <button class="sort head-text" (click)="handleSort('date')">
+        Дата 
+        {{sortedDate ? '▴' : '▾'}}
+      </button>
     </th>
     <th class="col">
       <span class="head-text">Язык</span>
@@ -13,19 +16,22 @@
       <span class="head-text">Тесты</span>
     </th>
     <th class="col">
-      <button class="sort head-text">Баллы ▾</button>
+      <button class="sort head-text" (click)="handleSort('score')">
+        Баллы 
+        {{sortedScore ? '▴' : '▾'}}
+      </button>
     </th>
     <th class="col">
-      <button class="sync">
+      <button class="sync" (click)="handleUpdate()">
         <app-icon icon="sync" width="24px" height="24px"></app-icon>
       </button>
     </th>
   </tr>
 
-  <ng-container *ngFor="let package of packages">
+  <ng-container *ngFor="let package of submissions">
     <tr class="body-row">
       <td class="col"><span class="body-secondary">{{package.id}}</span></td>
-      <td class="col"><span class="body-secondary">{{package.date}}</span></td>
+      <td class="col"><span class="body-secondary">{{getDate(package.date)}}</span></td>
       <td class="col">{{package.lang}}</td>
       <td class="col">{{package.tests}}</td>
       <td class="col"><b class="score">{{package.score}}</b></td>
@@ -38,4 +44,4 @@
 
 </table>
 
-<button class="app-link_icon-down">Показать еще 5</button>
+<button class="app-link_icon-down" *ngIf="restSubmissions !== 0" (click)="handleUpdate(moreNumber)">Показать еще {{moreNumber}}</button>

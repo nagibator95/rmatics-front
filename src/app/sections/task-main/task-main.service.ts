@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { MOCK } from './mock-data';
+import { addSubmission, getSubmissions } from './task-main.fetcher';
 
 export interface Restrictions {
   time: string;
@@ -25,7 +26,11 @@ export interface Conditions {
   providedIn: 'root',
 })
 export class TaskMainService {
-  constructor() { }
+
+  constructor() {
+  }
+  addSubmission = addSubmission;
+  getSubmissions = getSubmissions;
 
   getData = (): { restrictions: Restrictions, conditions: Conditions } => MOCK;
 }

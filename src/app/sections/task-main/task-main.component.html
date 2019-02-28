@@ -39,12 +39,12 @@
 
 <section class="section">
   <h2 class="title-2">Решение</h2>
-  <app-task-solution></app-task-solution>
+  <app-task-solution (pass)="addSolution($event)"></app-task-solution>
 </section>
 
 <section class="section">
   <h2 class="title-2">Отправленные посылки</h2>
-  <app-sent-packages></app-sent-packages>
+  <app-sent-packages [problemId]="problemId"></app-sent-packages>
 </section>
 
 <app-pagination
