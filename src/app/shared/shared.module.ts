@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { FileDropDirective } from './file-drop.directive';
 import { FileSizePipe } from './file-size.pipe';
 import { IconComponent } from './icon/icon.component';
+import { SafeHtmlPipe } from './safe-html.pipe';
 
 @NgModule({
   imports: [
@@ -15,11 +16,13 @@ import { IconComponent } from './icon/icon.component';
     IconComponent,
     FileDropDirective,
     FileSizePipe,
+    SafeHtmlPipe,
   ],
   exports: [
     IconComponent,
     FileDropDirective,
     FileSizePipe,
+    SafeHtmlPipe,
   ],
 })
 

@@ -11,6 +11,7 @@ import { ContestMenuComponent } from './contest-menu/contest-menu.component';
 import { TaskItemComponent } from './contest-menu/task-item/task-item.component';
 import { ContestPaginationComponent } from './contest-pagination/contest-pagination.component';
 import { CodeBlockComponent } from './contest-task/code-block/code-block.component';
+import { ContentComponent } from './contest-task/content/content.component';
 import { ContestTaskComponent } from './contest-task/contest-task.component';
 import { IconLabelComponent } from './contest-task/icon-label/icon-label.component';
 import { ContestComponent } from './contest.component';
@@ -42,6 +43,7 @@ const routes: Routes = [
     IconLabelComponent,
     ContestPaginationComponent,
     PackageStatusComponent,
+    ContentComponent,
   ],
   imports: [
     CodemirrorModule,
@@ -54,10 +56,6 @@ const routes: Routes = [
   ],
   exports: [
     ContestComponent,
-    ContestTaskComponent,
-    ContestMenuComponent,
-    TaskSolutionComponent,
-    SentPackagesComponent,
   ],
 })
 
