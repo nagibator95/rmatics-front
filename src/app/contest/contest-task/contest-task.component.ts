@@ -10,6 +10,7 @@ import { Submission } from '../contest.types';
 })
 
 export class ContestTaskComponent {
+  @Input() name = '';
   @Input() timeLimit = 0;
   @Input() memoryLimit = 0;
   @Input() input: string[] = [];

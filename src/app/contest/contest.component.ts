@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 import { AuthService } from '../api/auth.service';
 
 import { ContestService } from './contest.service';
+import { ContestProblem } from './contest.types';
 
 const defaultContestId = 1;
-const defaultProblemId = 1;
 
 @Component({
   selector: 'app-contest',
@@ -19,10 +20,23 @@ export class ContestComponent implements OnInit, OnDestroy {
   problem = this.contestService.problem;
   contest = this.contestService.contest;
   submissions = this.contestService.submissions;
+  isFetching = this.contestService.isFetching;
+  paginationItems = this.contestService.contest
+    .pipe(map(contest => {
+      if (contest !== undefined) {
+        const currentIndex = contest.problems.findIndex((item: ContestProblem) => item.id === this.currentTaskId);
+        return [contest.problems[currentIndex - 1], contest.problems[currentIndex + 1]];
+      }
+
+      return [undefined, undefined];
+    }));
+
   currentTaskId = 1;
   routeChangeSubscription = this.route.url.subscribe(segments => {
     const taskNumber = Number(segments[segments.length - 1].path);
     if (!isNaN(taskNumber)) {
+      this.contestService.getProblem(taskNumber);
+      this.contestService.getSubmissions(taskNumber);
       this.contestService.getProblem(taskNumber);
       this.currentTaskId = taskNumber;
     }
@@ -49,7 +63,6 @@ export class ContestComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.contestService.getContest(defaultContestId);
-    this.contestService.getProblem(defaultProblemId);
   }
 
   ngOnDestroy() {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { getDate } from 'src/app/utils/getDate';
 
 import { Submission } from '../contest.types';
@@ -10,14 +10,15 @@ interface LastSorted {
   reverse: boolean;
 }
 
+const minPageSize = 5;
+
 @Component({
   selector: 'app-sent-packages',
   templateUrl: './sent-packages.component.html',
   styleUrls: ['./sent-packages.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SentPackagesComponent implements OnInit {
-  // private submissionsLength = 3;
+export class SentPackagesComponent {
   _submisions: Submission[] = [];
   get submissions(): Submission[]  {
     return this._submisions;
@@ -33,20 +34,9 @@ export class SentPackagesComponent implements OnInit {
 
   getDate = getDate;
   lastSorted: LastSorted = { field: 'date', reverse: false };
-  restSubmissions = 0;
+  pageSize = minPageSize;
 
   constructor() {}
-
-  ngOnInit() {
-    this.updateSubmissions.emit();
-  }
-
-  get moreNumber() {
-    if (this.restSubmissions > 5) {
-      return 5;
-    }
-    return this.restSubmissions;
-  }
 
   get sortedDate() {
     return this.lastSorted.field === 'date' && this.lastSorted.reverse;
@@ -67,7 +57,9 @@ export class SentPackagesComponent implements OnInit {
     return (reverse ? 1 : -1) * diff;
   }
 
-  handleUpdate = (_more?: number) => this.updateSubmissions.emit();
+  changePageSize() {
+    this.pageSize = this.pageSize + minPageSize;
+  }
 
   handleSort = (field: sortFields) => {
     const reverse = this.lastSorted.field === field ? !this.lastSorted.reverse : false;

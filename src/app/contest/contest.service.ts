@@ -34,23 +34,20 @@ const initialState: ContestState = {
 })
 export class ContestService {
   private store = new Store<ContestState>(initialState);
+  isFetching = this.store.state.pipe(map(state => state.isFetching));
   contest = this.store.state.pipe(map(state => state.contest));
   problem = this.store.state.pipe(map(state => state.problem));
   submissions = this.store.state.pipe(map(state => state.submissions));
 
-  constructor() {
-    this.store.state.subscribe(e => console.log(e));
-  }
+  constructor() {}
 
   addSubmission(problemId: number, solution: string, languageId: number) {
     addFakeSubmission(problemId, solution, languageId);
   }
 
   getSubmissions(problemId: number) {
-    const currentState = this.store.getState();
-
     const nextState = getFakeSubmissions(problemId).pipe(map(response => ({
-      ...currentState,
+      ...this.store.getState(),
       isFetching: false,
       statusCode: response.status_code,
       status: response.status,
@@ -74,16 +71,8 @@ export class ContestService {
   }
 
   getContest(contestId: number) {
-    const currentState = this.store.getState();
-
-    this.store.setState(of({
-      ...currentState,
-      isFetching: true,
-    }));
-
     const nextState = getFakeContest(contestId).pipe(map(response => ({
-      ...currentState,
-      isFetching: false,
+      ...this.store.getState(),
       statusCode: response.status_code,
       status: response.status,
       error: response.error,
@@ -94,12 +83,18 @@ export class ContestService {
   }
 
   getProblem(problemId: number) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      isFetching: true,
+    }));
+
     const nextState = getFakeProblem(problemId).pipe(map(response => ({
       ...this.store.getState(),
       statusCode: response.status_code,
       status: response.status,
       error: response.error,
       problem: response.data,
+      isFetching: false,
     })));
 
     this.store.setState(nextState);

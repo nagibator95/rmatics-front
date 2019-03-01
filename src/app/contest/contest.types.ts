@@ -50,7 +50,7 @@ export interface ContestProblemApi {
 
 export interface ContestProblem {
   letter: string;
-  text: string;
+  name: string;
   id: number;
   rank: number;
 }

@@ -14,7 +14,7 @@ const formatContest = (contest: ContestApi) => ({
   summary: contest.summary,
   problems: contest.problems.map(item => ({
     letter: 'abcdefghijklmnopqrstuvwxyz'[item.rank - 1],
-    text: item.name,
+    name: item.name,
     id: item.id,
     rank: item.rank,
     href: `/contest/task/${item.id}`,
@@ -71,7 +71,7 @@ export const getFakeContest = (contestId: number): Observable<ApiResponse<Contes
       error: 'The specified resource was not found',
     };
 
-  return fakeHTTPRequest(response);
+  return fakeHTTPRequest(response, 0);
 };
 
 export const addFakeSubmission = (problemId: number, _solution: string, languageId: number) => {

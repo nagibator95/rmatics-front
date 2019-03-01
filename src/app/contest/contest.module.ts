@@ -9,10 +9,10 @@ import { SharedModule } from '../shared/shared.module';
 
 import { ContestMenuComponent } from './contest-menu/contest-menu.component';
 import { TaskItemComponent } from './contest-menu/task-item/task-item.component';
+import { ContestPaginationComponent } from './contest-pagination/contest-pagination.component';
 import { CodeBlockComponent } from './contest-task/code-block/code-block.component';
 import { ContestTaskComponent } from './contest-task/contest-task.component';
 import { IconLabelComponent } from './contest-task/icon-label/icon-label.component';
-import { PaginationComponent } from './contest-task/pagination/pagination.component';
 import { ContestComponent } from './contest.component';
 import { PackageStatusComponent } from './sent-packages/package-status/package-status.component';
 import { SentPackagesComponent } from './sent-packages/sent-packages.component';
@@ -40,7 +40,7 @@ const routes: Routes = [
     TaskItemComponent,
     CodeBlockComponent,
     IconLabelComponent,
-    PaginationComponent,
+    ContestPaginationComponent,
     PackageStatusComponent,
   ],
   imports: [

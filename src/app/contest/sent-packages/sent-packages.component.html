@@ -22,13 +22,13 @@
       </button>
     </th>
     <th class="col">
-      <button class="sync" (click)="handleUpdate()">
+      <button class="sync" (click)="updateSubmissions.emit()">
         <app-icon icon="sync" width="24px" height="24px"></app-icon>
       </button>
     </th>
   </tr>
 
-  <ng-container *ngFor="let package of submissions">
+  <ng-container *ngFor="let package of submissions.slice(0, pageSize)">
     <tr class="body-row">
       <td class="col"><span class="body-secondary">{{package.id}}</span></td>
       <td class="col"><span class="body-secondary">{{getDate(package.date)}}</span></td>
@@ -44,4 +44,10 @@
 
 </table>
 
-<button class="app-link_icon-down" *ngIf="restSubmissions !== 0" (click)="handleUpdate(moreNumber)">Показать еще {{moreNumber}}</button>
+<button
+  class="app-link_icon-down"
+  *ngIf="pageSize < submissions.length"
+  (click)="changePageSize()"
+>
+  Показать еще {{submissions.length - pageSize}}
+</button>

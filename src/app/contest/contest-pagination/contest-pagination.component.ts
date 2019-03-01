@@ -6,12 +6,12 @@ interface Link {
 }
 
 @Component({
-  selector: 'app-pagination',
-  templateUrl: './pagination.component.html',
-  styleUrls: ['./pagination.component.scss'],
+  selector: 'app-contest-pagination',
+  templateUrl: './contest-pagination.component.html',
+  styleUrls: ['./contest-pagination.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaginationComponent {
+export class ContestPaginationComponent {
   @Input() next?: Link;
   @Input() previous?: Link;
 

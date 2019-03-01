@@ -1,9 +1,5 @@
 :host {
   display: block;
-  border: 1px solid var(--light-gray-1);
-  border-radius: 4px;
-  background-color: #ffffff;
-  padding: 28px 24px;
 }
 
 .section {
@@ -105,8 +101,4 @@
   margin-left: 8px;
   margin-right: 8px;
   margin-bottom: 16px;
-}
-
-.pagination {
-  margin-top: 72px;
 }
