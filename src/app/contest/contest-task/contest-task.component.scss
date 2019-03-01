@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.section {
+  margin-bottom: 48px;
+
+  &_restrictions {
+    margin-bottom: 28px;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.restrictions {
+  display: flex;
+}
+
+.restriction {
+  width: 33.3333%;
+}
+
+.title-1 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.29;
+}
+
+.title-2 {
+  margin-bottom: 16px;
+  font-size: 22px;
+  font-weight: normal;
+  line-height: 1.27;
+}
+
+.data-examples {
+  margin-left: -8px;
+  margin-right: -8px;
+  margin-bottom: -16px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.data-example-code {
+  flex: 1 1 calc(50% - 16px);
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 16px;
+}
