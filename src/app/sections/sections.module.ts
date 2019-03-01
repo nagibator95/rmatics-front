@@ -1,10 +1,3 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-
 import 'codemirror/mode/clike/clike';
 import 'codemirror/mode/haskell/haskell';
 import 'codemirror/mode/javascript/javascript';
@@ -14,6 +7,12 @@ import 'codemirror/mode/perl/perl';
 import 'codemirror/mode/php/php';
 import 'codemirror/mode/python/python';
 import 'codemirror/mode/ruby/ruby';
+
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { ControlsModule } from '../controls/controls.module';
 import { SharedModule } from '../shared/shared.module';

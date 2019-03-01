@@ -6,6 +6,7 @@ import { TokenInterceptor } from './api/token.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginModule } from './login/login.module';
+import { ModalModule } from './modal/modal.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { LoginModule } from './login/login.module';
     HttpClientModule,
     AppRoutingModule,
     LoginModule,
+    ModalModule,
   ],
   providers: [
     {
