@@ -1,6 +1,15 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import 'codemirror/mode/clike/clike';
+import 'codemirror/mode/haskell/haskell';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/markdown/markdown';
+import 'codemirror/mode/pascal/pascal';
+import 'codemirror/mode/perl/perl';
+import 'codemirror/mode/php/php';
+import 'codemirror/mode/python/python';
+import 'codemirror/mode/ruby/ruby';
 
 import { TokenInterceptor } from './api/token.interceptor';
 import { AppRoutingModule } from './app-routing.module';

@@ -4,21 +4,28 @@
 </header>
 
 <div class="wrapper">
-  <app-task-menu
+  <app-contest-menu
+    *ngIf="(contest | async) as contest"
     class="task-menu"
-    meetingText="Летняя школа по компьтерным наукам"
+    [meetingText]="contest.summary"
     meetingLink=""
     timer="3:59:59"
-    contest="День 1. Разгоночный контест на графы"
-    [tasks]="[
-    { letter: 'a', text: 'Парк аттракционов', href: '#', current: true },
-    { letter: 'b', text: 'Вывести четные элементы' },
-    { letter: 'c', text: 'Количество положительных элементов' },
-    { letter: 'd', text: 'Двойной переворот', href: '#' }
-  ]"
-  ></app-task-menu>
+    [contest]="contest.name"
+    [tasks]="contest.problems"
+    [currentTaskId]="currentTaskId"
+  ></app-contest-menu>
 
-  <app-task-main
+  <app-contest-task
+    *ngIf="(problem | async) as problem"
+    [memoryLimit]="problem.memoryLimit"
+    [timeLimit]="problem.timeLimit"
+    [content]="problem.content"
+    [correct]="problem.correct"
+    [input]="problem.input"
+    [submissions]="submissions | async"
+    (getSubmissions)="getSubmissions()"
+    (addSubmission)="addSubmission($event)"
     class="task-main">
-  </app-task-main>
+  </app-contest-task>
 </div>
+

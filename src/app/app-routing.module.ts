@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ContestComponent } from './contest/contest.component';
 import { LoginFormComponent } from './login/login-form/login-form.component';
 
 const routes: Routes = [
@@ -16,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'contest',
-    component: ContestComponent,
+    loadChildren: './contest/contest.module#ContestModule',
   },
 ];
 

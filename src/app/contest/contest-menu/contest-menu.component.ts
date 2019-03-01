@@ -9,22 +9,24 @@ interface Task {
   letter: string;
   text: string;
   href: string;
-  current?: boolean;
+  id: number;
+  rank?: number;
 }
 
 @Component({
-  selector: 'app-task-menu',
-  templateUrl: './task-menu.component.html',
-  styleUrls: ['./task-menu.component.scss'],
+  selector: 'app-contest-menu',
+  templateUrl: './contest-menu.component.html',
+  styleUrls: ['./contest-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskMenuComponent {
+export class ContestMenuComponent {
   @HostBinding('class._collapsed') @Input() collapsed = false;
   @Input() meetingText!: string;
   @Input() meetingLink!: string;
   @Input() contest!: string;
   @Input() timer!: string;
   @Input() tasks!: Task[];
+  @Input() currentTaskId = 1;
 
   toggleMenu = () => this.collapsed = !this.collapsed;
 

@@ -23,7 +23,14 @@
 
   <ul class="list">
     <li class="item" *ngFor="let task of tasks">
-      <app-task-item [letter]="task.letter" [current]="task.current" [href]="task.href" [collapsed]="collapsed">{{task.text}}</app-task-item>
+      <app-task-item
+        [letter]="task.letter"
+        [current]="task.id === currentTaskId"
+        [href]="task.href"
+        [collapsed]="collapsed"
+      >
+        {{task.text}}
+      </app-task-item>
     </li>
   </ul>
 </div>
