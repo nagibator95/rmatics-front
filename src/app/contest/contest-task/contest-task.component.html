@@ -1,0 +1,46 @@
+<h1 class="title-1">{{name}}</h1>
+
+<section class="section section_restrictions">
+  <h2 class="title-2">Ограничения</h2>
+  
+  <div class="restrictions">
+    <app-icon-label class="restriction" icon="clock" caption="Время">{{timeLimit}} сек</app-icon-label>
+    <app-icon-label class="restriction" icon="memory" caption="Память">{{memoryLimit}} МБ</app-icon-label>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="title-2">Условия</h2>
+
+  <app-content [content]="content"></app-content>
+  
+  <h3 class="separator">Примеры данных</h3>
+
+  <div class="data-examples">
+    <app-code-block
+      class="data-example-code"
+      blockTitle="Входные данные"
+      [code]="input"
+      [minLines]="minDataLines">
+    </app-code-block>
+    <app-code-block
+      class="data-example-code"
+      blockTitle="Выходные данные"
+      [code]="correct"
+      [minLines]="minDataLines">
+    </app-code-block>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="title-2">Решение</h2>
+  <app-task-solution (pass)="addSolution($event)"></app-task-solution>
+</section>
+
+<section class="section">
+  <h2 class="title-2">Отправленные посылки</h2>
+  <app-sent-packages
+    [submissions]="submissions"
+    (updateSubmissions)="getSubmissions.emit()"
+  ></app-sent-packages>
+</section>
