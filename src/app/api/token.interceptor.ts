@@ -12,6 +12,8 @@ import { environment } from '../../environments/environment';
 
 import { AuthService } from './auth.service';
 
+const authPaths = ['/auth/refresh/', '/auth/signin/'];
+
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(
@@ -19,7 +21,8 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return [environment.apiUrl].some(domain => request.url.includes(domain) && !request.url.includes('/auth/signin/'))
+    return [environment.apiUrl].some(domain =>
+      request.url.includes(domain) && authPaths.every(path => !request.url.includes(path)))
       ? this.authService.provideHeaders()
         .pipe(flatMap(headers => {
           request = request.clone({ setHeaders: headers });
