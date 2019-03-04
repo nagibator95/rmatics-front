@@ -1,0 +1,10 @@
+<header class="header">
+  <span class="title">Информатикс</span>
+  <button
+    *ngIf="isLoggedIn | async"
+    class="app-link"
+    (click)="logout()"
+  >
+    Выйти
+  </button>
+</header>
