@@ -67,6 +67,7 @@ export class ModalComponent implements OnInit {
   handleClose = ($event?: Event) => {
     if (!$event || $event.target === this.overlay.nativeElement) {
       this.open = false;
+      this.modalService.close();
     }
   }
 }

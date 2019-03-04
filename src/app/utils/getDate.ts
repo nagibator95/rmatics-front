@@ -5,7 +5,7 @@ import ru from 'dayjs/locale/ru';
 dayjs.locale(ru);
 
 export const getDate = (value: ConfigType, showHours: boolean): string => {
-  const diffDay = dayjs(value).diff(dayjs(), 'day');
+  const diffDay = dayjs().diff(dayjs(value), 'day');
   if (showHours && diffDay <= 1) {
     return `${diffDay === 1 ? 'Вчера' : 'Сегодня'} в ${dayjs(value).format('HH:mm')}`;
   } else if (dayjs(value).year() === dayjs().year()) {

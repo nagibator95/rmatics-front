@@ -1,0 +1,34 @@
+<table class="app-table">
+  <tr class="app-table__head-row">
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Тест</span>
+    </th>
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Статус</span>
+    </th>
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Балл</span>
+    </th>
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Время</span>
+    </th>
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Реальное время</span>
+    </th>
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Память</span>
+    </th>
+  </tr>
+
+  <ng-container *ngFor="let test of tests">
+    <tr class="app-table__body-row">
+      <td class="app-table__col col">{{test.id}}</td>
+      <td class="app-table__col col"><app-package-status [status]="test.status"></app-package-status></td>
+      <td class="app-table__col col">{{test.score | testsParam}}</td>
+      <td class="app-table__col col">{{test.time}}</td>
+      <td class="app-table__col col">{{test.realTime}}</td>
+      <td class="app-table__col col">{{test.memory}}</td>
+    </tr>
+  </ng-container>
+
+</table>

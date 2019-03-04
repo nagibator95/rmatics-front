@@ -7,6 +7,7 @@
 
 @import 'variables';
 @import 'buttons';
+@import 'table';
 
 *,
 *::after,
@@ -86,4 +87,8 @@ ol {
 
 a {
   text-decoration: none;
+}
+
+.app-no-scroll {
+  overflow-y: hidden;
 }

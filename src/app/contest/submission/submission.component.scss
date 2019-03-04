@@ -1,6 +1,6 @@
 :host {
   width: 100vw;
-  max-width: 880px;
+  max-width: 800px;
   display: block;
 }
 
@@ -9,9 +9,17 @@
 }
 
 .title {
+  margin: 0 0 8px;
   font-size: 28px;
   font-weight: 500;
   line-height: 1.29;
+}
+
+.title-small {
+  margin: 0 0 16px;
+  font-size: 22px;
+  font-weight: normal;
+  line-height: 1.27;
 }
 
 .status-box {
@@ -47,4 +55,54 @@
   max-width: 736px;
   font-size: 16px;
   line-height: 1.5;
+}
+
+.tabs {
+  margin-bottom: 20px;
+}
+
+.download {
+  display: flex;
+  align-items: center;
+}
+
+.download-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+.statistics {
+  margin-bottom: 24px;
+}
+
+.error-no-tests {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  line-height: 1.28;
+}
+
+.error-icon {
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
+}
+
+.compiler-title {
+  margin-bottom: 12px;
+  display: block;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--dark-gray);
+}
+
+.compiler-message {
+  padding: 20px;
+  font-size: 15px;
+  line-height: 1.73;
+  background-color: var(--light-gray-3);
+  white-space: pre-wrap;
+  border-radius: 4px;
 }

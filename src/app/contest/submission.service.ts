@@ -21,7 +21,7 @@ export class SubmissionService {
 
     this.modalService.open({
       component: SubmissionComponent,
-      data: { submission, isFetching: this.contestService.isFetching },
+      data: { submission, isFetching: this.contestService.isSubmissionsFetching },
     });
   }
 }

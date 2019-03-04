@@ -43,5 +43,6 @@
     [submissions]="submissions"
     (updateSubmissions)="getSubmissions.emit()"
     (openSubmission)="openSubmission.emit($event)"
+    [isFetching]="isSubmissionsFetching"
   ></app-sent-packages>
 </section>

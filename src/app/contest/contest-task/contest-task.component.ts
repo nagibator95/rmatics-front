@@ -17,6 +17,7 @@ export class ContestTaskComponent {
   @Input() correct: string[] = [];
   @Input() content = '';
   @Input() submissions: Submission[] = [];
+  @Input() isSubmissionsFetching = false;
 
   @Output() addSubmission = new EventEmitter();
   @Output() getSubmissions = new EventEmitter();

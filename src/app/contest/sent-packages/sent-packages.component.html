@@ -1,41 +1,41 @@
-<table class="table">
-  <tr class="head-row">
-    <th class="col">
-      <span class="head-text">#</span>
+<table class="table app-table">
+  <tr class="app-table__head-row">
+    <th class="app-table__col col">
+      <span class="app-table__head-text">#</span>
     </th>
-    <th class="col">
-      <button class="sort head-text" (click)="handleSort('date')">
+    <th class="app-table__col col">
+      <button class="sort app-table__head-text" (click)="handleSort('date')">
         Дата 
         {{sortedDate ? '▴' : '▾'}}
       </button>
     </th>
-    <th class="col">
-      <span class="head-text">Язык</span>
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Язык</span>
     </th>
-    <th class="col">
-      <span class="head-text">Тесты</span>
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Тесты</span>
     </th>
-    <th class="col">
-      <button class="sort head-text" (click)="handleSort('score')">
+    <th class="app-table__col col">
+      <button class="sort app-table__head-text" (click)="handleSort('score')">
         Баллы 
         {{sortedScore ? '▴' : '▾'}}
       </button>
     </th>
-    <th class="col">
-      <button class="sync" (click)="updateSubmissions.emit()">
+    <th class="app-table__col col">
+      <button class="sync" (click)="updateSubmissions.emit()" [disabled]="isFetching | async">
         <app-icon icon="sync" width="24px" height="24px"></app-icon>
       </button>
     </th>
   </tr>
 
   <ng-container *ngFor="let package of submissions.slice(0, pageSize)">
-    <tr class="body-row">
-      <td class="col"><span class="body-secondary">{{package.id}}</span></td>
-      <td class="col"><span class="body-secondary">{{getDate(package.date)}}</span></td>
-      <td class="col">{{package.lang}}</td>
-      <td class="col">{{package.tests}}</td>
-      <td class="col"><b class="score">{{package.score}}</b></td>
-      <td class="col">
+    <tr class="app-table__body-row">
+      <td class="app-table__col col"><span class="body-secondary">{{package.id}}</span></td>
+      <td class="app-table__col col"><span class="body-secondary">{{getDate(package.date)}}</span></td>
+      <td class="app-table__col col">{{package.lang}}</td>
+      <td class="app-table__col col">{{package.tests}}</td>
+      <td class="app-table__col col"><b class="score">{{package.score}}</b></td>
+      <td class="app-table__col col">
         <button class="app-link" (click)="openSubmission.emit(package.id)">Посылка</button>
         <app-package-status class="status" [status]="package.status"></app-package-status>
       </td>

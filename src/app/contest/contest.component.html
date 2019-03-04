@@ -22,7 +22,8 @@
       [submissions]="submissions | async"
       (getSubmissions)="getSubmissions()"
       (addSubmission)="addSubmission($event)"
-      (openSubmission)="openSubmission($event)">
+      (openSubmission)="openSubmission($event)"
+      [isSubmissionsFetching]="isSubmissionsFetching">
     </app-contest-task>
 
     <app-contest-pagination
@@ -37,4 +38,3 @@
     <app-loader class="loader"></app-loader>
   </ng-template>
 </div>
-

@@ -29,7 +29,7 @@ export class SentPackagesComponent {
   set submissions(value: Submission[] ) {
     this._submisions = value.sort(this.compare(this.lastSorted.field, this.lastSorted.reverse));
   }
-
+  @Input() isFetching = false;
   @Input() problemId!: number;
   @Output() updateSubmissions = new EventEmitter();
   @Output() openSubmission = new EventEmitter();

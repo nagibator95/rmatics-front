@@ -101,3 +101,19 @@ export interface Problem {
   correct: string[];
   outputOnly: boolean;
 }
+
+export interface Statistics {
+  param: string;
+  condition?: string;
+  value?: string;
+  test?: number;
+}
+
+export interface Test {
+  id: number;
+  status: PackageStatus;
+  score?: number;
+  time: number;
+  realTime: number;
+  memory: number;
+}

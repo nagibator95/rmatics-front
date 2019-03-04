@@ -23,6 +23,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   contest = this.contestService.contest;
   submissions = this.contestService.submissions;
   isFetching = this.contestService.isFetching;
+  isSubmissionsFetching = this.contestService.isSubmissionsFetching;
   paginationItems = this.contestService.contest
     .pipe(map(contest => {
       if (contest !== undefined) {
@@ -57,6 +58,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   openSubmission(id: number) {
+    this.contestService.getSubmissions(this.currentTaskId);
     this.submissionService.showSubmission(id);
   }
 

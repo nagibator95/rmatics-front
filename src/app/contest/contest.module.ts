@@ -8,17 +8,21 @@ import { ControlsModule } from '../controls/controls.module';
 import { SharedModule } from '../shared/shared.module';
 import { UiModule } from '../ui/ui.module';
 
+import { CodeBlockComponent } from './code-block/code-block.component';
 import { ContestMenuComponent } from './contest-menu/contest-menu.component';
 import { TaskItemComponent } from './contest-menu/task-item/task-item.component';
 import { ContestPaginationComponent } from './contest-pagination/contest-pagination.component';
-import { CodeBlockComponent } from './contest-task/code-block/code-block.component';
 import { ContentComponent } from './contest-task/content/content.component';
 import { ContestTaskComponent } from './contest-task/contest-task.component';
 import { IconLabelComponent } from './contest-task/icon-label/icon-label.component';
 import { ContestComponent } from './contest.component';
 import { PackageStatusComponent } from './package-status/package-status.component';
 import { SentPackagesComponent } from './sent-packages/sent-packages.component';
+import { StatisticsParamPipe } from './submission/statistics/statistics-param.pipe';
+import { StatisticsComponent } from './submission/statistics/statistics.component';
 import { SubmissionComponent } from './submission/submission.component';
+import { TestsParamPipe } from './submission/tests/tests-param.pipe';
+import { TestsComponent } from './submission/tests/tests.component';
 import { TaskSolutionComponent } from './task-solution/task-solution.component';
 
 const routes: Routes = [
@@ -47,6 +51,10 @@ const routes: Routes = [
     PackageStatusComponent,
     ContentComponent,
     SubmissionComponent,
+    StatisticsComponent,
+    TestsComponent,
+    StatisticsParamPipe,
+    TestsParamPipe,
   ],
   imports: [
     CodemirrorModule,

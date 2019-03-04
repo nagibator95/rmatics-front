@@ -22,6 +22,7 @@ interface ContestState {
   status: string;
   error?: string;
   isFetching: boolean;
+  isSubmissionsFetching: boolean;
 }
 
 const initialState: ContestState = {
@@ -32,6 +33,7 @@ const initialState: ContestState = {
   status: 'success',
   error: '',
   isFetching: false,
+  isSubmissionsFetching: false,
 };
 
 @Injectable({
@@ -40,6 +42,7 @@ const initialState: ContestState = {
 export class ContestService {
   private store = new Store<ContestState>(initialState);
   isFetching = this.store.state.pipe(map(state => state.isFetching));
+  isSubmissionsFetching = this.store.state.pipe(map(state => state.isSubmissionsFetching));
   contest = this.store.state.pipe(map(state => state.contest));
   problem = this.store.state.pipe(map(state => state.problem));
   submissions = this.store.state.pipe(map(state => state.submissions));
@@ -51,12 +54,18 @@ export class ContestService {
   }
 
   getSubmissions(problemId: number) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      isSubmissionsFetching: true,
+    }));
+
     const nextState = getFakeSubmissions(problemId).pipe(map(response => ({
       ...this.store.getState(),
       isFetching: false,
       statusCode: response.status_code,
       status: response.status,
       error: response.error,
+      isSubmissionsFetching: false,
       submissions: (response.data as SubmissionApi[]).map(item => {
         const lang = languages.find(language => language.id === item.ejudge_language_id);
 
