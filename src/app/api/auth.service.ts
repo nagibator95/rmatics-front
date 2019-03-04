@@ -1,23 +1,50 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of, EMPTY, Observable } from 'rxjs';
-import { finalize, map, mapTo, share, switchMap, tap } from 'rxjs/operators';
+import { catchError, finalize, map, mapTo, share, switchMap, tap } from 'rxjs/operators';
 
+import { environment } from '../../environments/environment';
 import { deleteCookie, getCookie, writeCookie } from '../utils/cookies';
-import { fakeHTTPRequest } from '../utils/fakeHTTPRequest';
+import { ApiResponse } from '../utils/types';
 import { Store } from '../utils/Store';
-
-import { fakeLogIn, fakeRefresh, formatData } from './auth.fetcher';
 
 const getDateNowInSeconds = () => Math.floor(Date.now() / 1000);
 
 const expiredAccessTokenTime = 15;
 const expiredRefreshTokenTime = 43800;
 
+const formatData = (response: ApiResponse<ApiAuth>) => {
+  const { data, error, status_code, status } = response;
+
+  const state = data !== undefined
+    ? {
+      login: data.username,
+      firstName: data.firstname,
+      lastName: data.lastname,
+      email: data.email,
+      token: data.token,
+      refreshToken: data.refresh_token,
+    }
+    : undefined;
+
+  return {
+    state,
+    statusCode: status_code,
+    status,
+    error,
+  };
+};
+
 const cookieNames = {
   accessToken: 'access_token',
   refreshToken: 'refresh_token',
   accessTokenExpTime: 'expired',
   refreshTokenExpTime: 'expired_refresh_token',
+  login: 'login',
+  firstName: 'first_name',
+  lastName: 'last_name',
+  email: 'email',
+  rememberMe: 'remember_me',
 };
 
 const setCookies = (item: Cookies) => {
@@ -34,7 +61,7 @@ const setCookies = (item: Cookies) => {
 
 const constructHeaders = ({ accessToken, refreshToken }: { accessToken?: string, refreshToken?: string }) => {
   const accessTokenHeader = Boolean(accessToken) ? {
-    'Access-Token': accessToken,
+    'Authorization': 'JVT ' + accessToken,
   } : {};
 
   const refreshTokenHeader = Boolean(refreshToken) ? {
@@ -47,12 +74,23 @@ const constructHeaders = ({ accessToken, refreshToken }: { accessToken?: string,
   };
 };
 
-const setTokenResponseToCookies = (item?: AuthData) => setCookies({
-  accessToken: item !== undefined ? item.token : null,
-  refreshToken: item !== undefined  ? item.refreshToken : null,
-  accessTokenExpTime: getDateNowInSeconds() + expiredAccessTokenTime * 60,
-  refreshTokenExpTime: getDateNowInSeconds() + expiredRefreshTokenTime * 60,
-});
+const setTokenResponseToCookies = (item?: AuthData, rememberMe?: boolean) => {
+  const rememberData = item !== undefined && rememberMe ? {
+    login: item.login,
+    firstName: item.firstName,
+    lastName: item.lastName,
+    email: item.email,
+  } : {};
+
+  setCookies({
+    accessToken: item !== undefined ? item.token : undefined,
+    refreshToken: item !== undefined ? item.refreshToken : undefined,
+    accessTokenExpTime: getDateNowInSeconds() + expiredAccessTokenTime * 60,
+    refreshTokenExpTime: getDateNowInSeconds() + expiredRefreshTokenTime * 60,
+    rememberMe: Boolean(rememberMe),
+    ...rememberData,
+  });
+};
 
 interface AuthHeaders {
   'Access-Token': string;
@@ -70,12 +108,12 @@ export interface ApiAuth {
 }
 
 export interface AuthData {
-  login: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  token: string;
-  refreshToken: string;
+  login?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  token?: string;
+  refreshToken?: string;
 }
 
 interface AuthState {
@@ -97,17 +135,27 @@ const initialState: AuthState = {
 };
 
 export interface Cookies {
-  accessToken: string | null;
-  refreshToken: string | null;
-  accessTokenExpTime: number | null;
-  refreshTokenExpTime: number | null;
+  accessToken?: string;
+  refreshToken?: string;
+  accessTokenExpTime?: number;
+  refreshTokenExpTime?: number;
+  login?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  rememberMe: boolean;
 }
 
 export const notAuthenticatedCookies: Cookies = {
-  accessToken: null,
-  refreshToken: null,
-  accessTokenExpTime: null,
-  refreshTokenExpTime: null,
+  accessToken: undefined,
+  refreshToken: undefined,
+  accessTokenExpTime: undefined,
+  refreshTokenExpTime: undefined,
+  login: undefined,
+  firstName: undefined,
+  lastName: undefined,
+  email: undefined,
+  rememberMe: false,
 };
 
 @Injectable({
@@ -121,25 +169,26 @@ export class AuthService {
   isFetching = this.store.state.pipe(map(state => state.isFetching));
   isLoggedIn = this.store.state.pipe(map(state => state.isLoggedIn));
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  login({ username, password }: { username: string, password: string }) {
-    const currentState = this.store.getState();
-
+  login(authData: { username: string, password: string }, rememberMe?: boolean) {
     this.store.setState(of({
       ...this.store.getState(),
       isFetching: true,
     }));
 
-    const nextState = fakeHTTPRequest(formatData(fakeLogIn(username, password))).pipe(
-      tap(response => setTokenResponseToCookies(response.state)),
-      map(response => ({
-        ...currentState,
-        ...response,
-        isFetching: false,
-        isLoggedIn: response.statusCode === 200,
-      })),
-    );
+    const nextState = this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/signin/', authData)
+      .pipe(
+        map(formatData),
+        catchError(response => of(formatData(response.error))),
+        map(state => ({
+          ...this.store.getState(),
+          ...state,
+          isFetching: false,
+          isLoggedIn: state.statusCode === 200,
+        })),
+        tap(response => setTokenResponseToCookies(response.state, rememberMe)),
+      );
 
     this.store.setState(nextState);
   }
@@ -175,20 +224,46 @@ export class AuthService {
     }));
   }
 
+  init() {
+    const rememberMe = getCookie(cookieNames.rememberMe);
+    const currentState = this.store.getState();
+
+    if (rememberMe === 'true') {
+      this.store.setState(of({
+        ...currentState,
+        state: {
+          token: getCookie(cookieNames.accessToken),
+          refreshToken: getCookie(cookieNames.refreshToken),
+          login: getCookie(cookieNames.login),
+          firstName: getCookie(cookieNames.firstName),
+          lastName: getCookie(cookieNames.lastName),
+          email: getCookie(cookieNames.email),
+        },
+        isLoggedIn: true,
+      }));
+    }
+  }
+
   refreshToken() {
     if (this.tokenRefreshingInProgress === null) {
-      this.tokenRefreshingInProgress = fakeHTTPRequest(formatData(fakeRefresh(getCookie(cookieNames.refreshToken)))).pipe(
-        tap(response => setTokenResponseToCookies(response.state)),
-        map(response => ({
-          ...this.store.getState(),
-          ...response,
-          isLoggedIn: response.statusCode === 200,
-        })),
-        finalize(() => {
-          this.tokenRefreshingInProgress = EMPTY;
-        }),
-        share(),
-      );
+      this.tokenRefreshingInProgress =
+        this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/refresh/',
+          { refresh_token: getCookie(cookieNames.refreshToken) })
+          .pipe(
+            map(formatData),
+            catchError(response => of(formatData(response.error))),
+            map(state => ({
+              ...this.store.getState(),
+              ...state,
+              isFetching: false,
+              isLoggedIn: state.statusCode === 200,
+            })),
+            tap(response => setTokenResponseToCookies(response.state)),
+            finalize(() => {
+              this.tokenRefreshingInProgress = EMPTY;
+            }),
+            share(),
+          );
     }
 
     return this.tokenRefreshingInProgress;
@@ -196,7 +271,7 @@ export class AuthService {
 
   logout() {
     const nextState = this.provideHeaders().pipe(
-      switchMap(_headers => fakeHTTPRequest(null)),
+      switchMap(_headers => this.http.post(environment.apiUrl + '/auth/signout/', {})),
       mapTo({
         ...this.store.getState(),
         isLoggedIn: false,
