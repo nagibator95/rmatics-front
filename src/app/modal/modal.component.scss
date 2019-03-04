@@ -5,7 +5,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -16,6 +16,8 @@
 .modal {
   margin-top: auto;
   margin-bottom: auto;
+  margin-left: calc(100vw - 100%);
+  margin-right: 0;
   position: relative;
   padding: 40px;
   box-shadow: 0 18px 30px 0 rgba(77, 77, 77, 0.52);
