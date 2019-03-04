@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { getDate } from 'src/app/utils/getDate';
+
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Submission } from '../contest.types';
 
@@ -31,6 +32,7 @@ export class SentPackagesComponent {
 
   @Input() problemId!: number;
   @Output() updateSubmissions = new EventEmitter();
+  @Output() openSubmission = new EventEmitter();
 
   getDate = getDate;
   lastSorted: LastSorted = { field: 'date', reverse: false };

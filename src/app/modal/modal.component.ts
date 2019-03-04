@@ -4,12 +4,13 @@ import {
   Component,
   ComponentFactoryResolver,
   ElementRef,
-  Input,
+  Injector,
   OnInit,
   ViewChild,
 } from '@angular/core';
 
 import { DynamicHostDirective } from './dynamic-host.directive';
+import { ModalData } from './modal-content';
 import { ModalService } from './modal.service';
 
 @Component({
@@ -19,7 +20,7 @@ import { ModalService } from './modal.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalComponent implements OnInit {
-  @Input() open = false;
+  private _open = false;
 
   @ViewChild(DynamicHostDirective) innerContent!: DynamicHostDirective;
   @ViewChild('overlay') overlay!: ElementRef;
@@ -31,18 +32,36 @@ export class ModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.modalService.subscribe(component => {
+    this.modalService.subscribe(value => {
+      if (!value) {
+        this.open = false;
+        return;
+      }
+      const { component, data = {} } = value;
+
       this.open = true;
-      this.changeDetectorRef.detectChanges();
 
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-
       const viewContainerRef = this.innerContent.viewContainerRef;
+      const injector = Injector.create({
+        providers: [{ provide: ModalData, useValue: data }],
+      });
+
       viewContainerRef.clear();
 
-      viewContainerRef.createComponent(componentFactory);
+      viewContainerRef.createComponent(componentFactory, undefined, injector);
+
       this.changeDetectorRef.detectChanges();
     });
+  }
+
+  set open(val: boolean) {
+    this._open = val;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  get open() {
+    return this._open;
   }
 
   handleClose = ($event?: Event) => {

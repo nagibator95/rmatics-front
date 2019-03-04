@@ -1,13 +1,18 @@
-import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { Injectable } from '@angular/core';
 
 import { languages } from '../shared/constants';
 import { Store } from '../utils/Store';
 
-import { addFakeSubmission, getFakeContest, getFakeProblem, getFakeSubmissions } from './contest.fetcher';
-import { Contest, Problem, Submission, SubmissionApi } from './contest.types';
-import { PackageStatus } from './sent-packages/package-status/package-status.component';
+import {
+  addFakeSubmission,
+  getFakeContest,
+  getFakeProblem,
+  getFakeSubmissions,
+} from './contest.fetcher';
+import { Contest, PackageStatus, Problem, Submission, SubmissionApi } from './contest.types';
 
 interface ContestState {
   contest?: Contest;

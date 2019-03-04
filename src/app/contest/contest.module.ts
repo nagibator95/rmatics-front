@@ -6,6 +6,7 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { ControlsModule } from '../controls/controls.module';
 import { SharedModule } from '../shared/shared.module';
+import { UiModule } from '../ui/ui.module';
 
 import { ContestMenuComponent } from './contest-menu/contest-menu.component';
 import { TaskItemComponent } from './contest-menu/task-item/task-item.component';
@@ -15,8 +16,9 @@ import { ContentComponent } from './contest-task/content/content.component';
 import { ContestTaskComponent } from './contest-task/contest-task.component';
 import { IconLabelComponent } from './contest-task/icon-label/icon-label.component';
 import { ContestComponent } from './contest.component';
-import { PackageStatusComponent } from './sent-packages/package-status/package-status.component';
+import { PackageStatusComponent } from './package-status/package-status.component';
 import { SentPackagesComponent } from './sent-packages/sent-packages.component';
+import { SubmissionComponent } from './submission/submission.component';
 import { TaskSolutionComponent } from './task-solution/task-solution.component';
 
 const routes: Routes = [
@@ -44,6 +46,7 @@ const routes: Routes = [
     ContestPaginationComponent,
     PackageStatusComponent,
     ContentComponent,
+    SubmissionComponent,
   ],
   imports: [
     CodemirrorModule,
@@ -53,9 +56,13 @@ const routes: Routes = [
     ControlsModule,
     SharedModule,
     RouterModule.forChild(routes),
+    UiModule,
   ],
   exports: [
     ContestComponent,
+  ],
+  entryComponents: [
+    SubmissionComponent,
   ],
 })
 

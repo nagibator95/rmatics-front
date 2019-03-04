@@ -1,25 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-export type PackageStatus =
-  'OK' |
-  'RJ' |
-  'AC' |
-  'SV' |
-  'IG' |
-  'CE' |
-  'DQ' |
-  'PT' |
-  'PD' |
-  'RT' |
-  'TL' |
-  'PE' |
-  'WA' |
-  'CF' |
-  'ML' |
-  'SE' |
-  'RU' |
-  'CG' |
-  'AW';
+import { PackageStatus } from '../contest.types';
 
 @Component({
   selector: 'app-package-status',
@@ -27,7 +8,9 @@ export type PackageStatus =
   styleUrls: ['./package-status.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class]': 'classColor',
+    '[class._green]': `classColor === '_green'`,
+    '[class._yellow]': `classColor === '_yellow'`,
+    '[class._red]': `classColor === '_red'`,
   },
 })
 export class PackageStatusComponent {

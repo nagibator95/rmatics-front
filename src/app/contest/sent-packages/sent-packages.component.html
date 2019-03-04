@@ -36,7 +36,7 @@
       <td class="col">{{package.tests}}</td>
       <td class="col"><b class="score">{{package.score}}</b></td>
       <td class="col">
-        <a [routerLink]="package.href" class="app-link"></a>
+        <button class="app-link" (click)="openSubmission.emit(package.id)">Посылка</button>
         <app-package-status class="status" [status]="package.status"></app-package-status>
       </td>
     </tr>

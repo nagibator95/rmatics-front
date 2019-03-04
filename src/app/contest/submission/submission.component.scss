@@ -1,0 +1,50 @@
+:host {
+  width: 100vw;
+  max-width: 880px;
+  display: block;
+}
+
+.loader {
+  margin: auto;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.29;
+}
+
+.status-box {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 1.38;
+  color: var(--black-2);
+}
+
+.status {
+  margin-left: 8px;
+}
+
+.name {
+  margin-bottom: 2px;
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.date {
+  font-size: 14px;
+  line-height: 1.29;
+  color: var(--gray);
+}
+
+.description {
+  margin-top: 8px;
+  margin-bottom: 16px;
+  max-width: 736px;
+  font-size: 16px;
+  line-height: 1.5;
+}

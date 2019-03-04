@@ -2,15 +2,24 @@ import { ReplaySubject } from 'rxjs';
 
 import { Injectable, Type } from '@angular/core';
 
+import { ModalContent } from './modal-content';
+
+interface ModalValue<T> {
+  component: Type<ModalContent<T>>;
+  data: T | undefined;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService {
-  private subject = new ReplaySubject<Type<{}>>();
+  subject = new ReplaySubject<ModalValue<{}> | null>();
 
   constructor() { }
 
-  subscribe = (func: ((value: Type<{}>) => void) | undefined) => this.subject.subscribe(func);
+  subscribe = (func: (value: ModalValue<{}> | null) => void) => this.subject.subscribe(func);
 
-  open = (val: Type<{}>) => this.subject.next(val);
+  open = <I>(val: ModalValue<I>) => this.subject.next(val);
+
+  close = () => this.subject.next(null);
 }

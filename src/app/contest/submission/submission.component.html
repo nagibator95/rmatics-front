@@ -1,0 +1,34 @@
+<ng-container *ngIf="!(isFetching | async); else loader">
+  <ng-container *ngIf="(submission | async) as submission">
+    <h2 class="title">
+      Посылка №{{submission.id}}
+    </h2>
+
+    <div class="status-box">
+      <span>102-1812</span>
+
+      <app-package-status class="status" [status]="submission.status"></app-package-status>
+    </div>
+
+    <b class="name">Николай Федоров</b>
+
+    <span class="date">{{getDate(submission.date, true)}}</span>
+
+    <p class="description">Данная задача содержит пять подзадач. Для оценки каждой подзадачи используется своя группа тестов. Баллы за подзадачу
+    начисляются только в том случае, если все тесты из этой группы пройдены.</p>
+
+    <app-tabs [tabs]="tabs" (tabClick)="activeTab = $event"></app-tabs>
+
+    <ng-container *ngIf="activeTab === 'submission_code'; else protocol">
+      submission_code
+    </ng-container>
+    <ng-template #protocol>
+      protocol
+    </ng-template>
+    
+  </ng-container>
+</ng-container>
+
+<ng-template #loader>
+  <app-loader class="loader"></app-loader>
+</ng-template>

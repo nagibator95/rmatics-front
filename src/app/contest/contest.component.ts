@@ -1,11 +1,13 @@
+import { map } from 'rxjs/operators';
+
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
 
 import { AuthService } from '../api/auth.service';
 
 import { ContestService } from './contest.service';
 import { ContestProblem } from './contest.types';
+import { SubmissionService } from './submission.service';
 
 const defaultContestId = 1;
 
@@ -46,11 +48,16 @@ export class ContestComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private auth: AuthService,
     private contestService: ContestService,
+    private submissionService: SubmissionService,
   ) {
   }
 
   addSubmission(data: { code: string, languageId: number }) {
     this.contestService.addSubmission(this.currentTaskId, data.code, data.languageId);
+  }
+
+  openSubmission(id: number) {
+    this.submissionService.showSubmission(id);
   }
 
   getSubmissions() {
