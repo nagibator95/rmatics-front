@@ -1,0 +1,25 @@
+:host{
+  display: block;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  top: 0;
+  height: 59px;
+  background-color: var(--black-3);
+  padding-right: 88px;
+
+  .title {
+    margin-left: 72px;
+    font-size: 18px;
+    color: #ffffff;
+  }
+
+  .app-link {
+    color: #ffffff;
+  }
+}

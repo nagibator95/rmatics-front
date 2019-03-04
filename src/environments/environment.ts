@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://edu.dev2.k8s.tcsbank.ru/api/v1',
+  apiUrl: 'https://cors-anywhere.herokuapp.com/http://85.93.88.189:12347/api/v1',
 };
 
 /*

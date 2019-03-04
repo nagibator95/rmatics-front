@@ -16,6 +16,7 @@ export class LoginFormComponent implements OnInit {
   telegramLink = 'https://t.me/joinchat/AAAAAECFqTNMd00Y93MX8Q';
   error = this.auth.error;
   isFetching = this.auth.isFetching;
+  rememberMe = true;
 
   constructor(private fb: FormBuilder, private auth: AuthService) {
   }
@@ -48,7 +49,7 @@ export class LoginFormComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.loginForm.valid) {
-      this.auth.login({ username: this.login.value, password: this.password.value });
+      this.auth.login({ username: this.login.value, password: this.password.value }, this.rememberMe);
     }
   }
 }

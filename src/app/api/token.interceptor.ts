@@ -14,11 +14,12 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(public authService: AuthService) {
+  constructor(
+    private authService: AuthService) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return [environment.apiUrl].some(domain => request.url.includes(domain))
+    return [environment.apiUrl].some(domain => request.url.includes(domain) && !request.url.includes('/auth/signin/'))
       ? this.authService.provideHeaders()
         .pipe(flatMap(headers => {
           request = request.clone({ setHeaders: headers });
