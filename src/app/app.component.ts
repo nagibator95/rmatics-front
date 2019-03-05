@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { AuthService } from './api/auth.service';
 
@@ -11,10 +11,11 @@ import { AuthService } from './api/auth.service';
 export class AppComponent implements OnInit {
   isLoggedIn = this.auth.isLoggedIn;
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.auth.init();
+    this.changeDetectorRef.detectChanges();
   }
 }

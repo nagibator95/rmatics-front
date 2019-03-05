@@ -1,13 +1,18 @@
-import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { Injectable } from '@angular/core';
 
 import { languages } from '../shared/constants';
 import { Store } from '../utils/Store';
 
-import { addFakeSubmission, getFakeContest, getFakeProblem, getFakeSubmissions } from './contest.fetcher';
-import { Contest, Problem, Submission, SubmissionApi } from './contest.types';
-import { PackageStatus } from './sent-packages/package-status/package-status.component';
+import {
+  addFakeSubmission,
+  getFakeContest,
+  getFakeProblem,
+  getFakeSubmissions,
+} from './contest.fetcher';
+import { Contest, PackageStatus, Problem, Submission, SubmissionApi } from './contest.types';
 
 interface ContestState {
   contest?: Contest;
@@ -17,6 +22,7 @@ interface ContestState {
   status: string;
   error?: string;
   isFetching: boolean;
+  isSubmissionsFetching: boolean;
 }
 
 const initialState: ContestState = {
@@ -27,6 +33,7 @@ const initialState: ContestState = {
   status: 'success',
   error: '',
   isFetching: false,
+  isSubmissionsFetching: false,
 };
 
 @Injectable({
@@ -35,6 +42,7 @@ const initialState: ContestState = {
 export class ContestService {
   private store = new Store<ContestState>(initialState);
   isFetching = this.store.state.pipe(map(state => state.isFetching));
+  isSubmissionsFetching = this.store.state.pipe(map(state => state.isSubmissionsFetching));
   contest = this.store.state.pipe(map(state => state.contest));
   problem = this.store.state.pipe(map(state => state.problem));
   submissions = this.store.state.pipe(map(state => state.submissions));
@@ -46,12 +54,18 @@ export class ContestService {
   }
 
   getSubmissions(problemId: number) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      isSubmissionsFetching: true,
+    }));
+
     const nextState = getFakeSubmissions(problemId).pipe(map(response => ({
       ...this.store.getState(),
       isFetching: false,
       statusCode: response.status_code,
       status: response.status,
       error: response.error,
+      isSubmissionsFetching: false,
       submissions: (response.data as SubmissionApi[]).map(item => {
         const lang = languages.find(language => language.id === item.ejudge_language_id);
 

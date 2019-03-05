@@ -1,0 +1,26 @@
+<table class="app-table">
+  <tr class="app-table__head-row">
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Параметр</span>
+    </th>
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Условия</span>
+    </th>
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Значение</span>
+    </th>
+    <th class="app-table__col col">
+      <span class="app-table__head-text">Тест</span>
+    </th>
+  </tr>
+
+  <ng-container *ngFor="let param of statistics">
+    <tr class="app-table__body-row">
+      <td class="app-table__col col">{{param.param}}</td>
+      <td class="app-table__col col">{{param.condition | statisticsParam}}</td>
+      <td class="app-table__col col">{{param.value | statisticsParam}}</td>
+      <td class="app-table__col col">{{param.test | statisticsParam}}</td>
+    </tr>
+  </ng-container>
+  
+</table>

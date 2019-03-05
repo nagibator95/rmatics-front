@@ -1,0 +1,16 @@
+<div class="tabs">
+  <ng-container *ngFor="let tab of tabs">
+    <ng-container *ngIf="href; else button">
+      <a class="tab" [ngClass]="{'tab_current': tab.current}" [routerLink]="tab.href" (click)="handleTabClick(tab)">{{tab.text}}</a>
+    </ng-container>
+    
+    <ng-template #button>
+      <button class="tab" [ngClass]="{'tab_current': tab.current}" (click)="handleTabClick(tab)">{{tab.text}}</button>
+    </ng-template>
+  </ng-container>
+  
+</div>
+
+<div class="extra">
+  <ng-content></ng-content>
+</div>

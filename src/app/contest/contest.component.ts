@@ -1,11 +1,13 @@
+import { map } from 'rxjs/operators';
+
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
 
 import { AuthService } from '../api/auth.service';
 
 import { ContestService } from './contest.service';
 import { ContestProblem } from './contest.types';
+import { SubmissionService } from './submission.service';
 
 const defaultContestId = 1;
 
@@ -21,6 +23,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   contest = this.contestService.contest;
   submissions = this.contestService.submissions;
   isFetching = this.contestService.isFetching;
+  isSubmissionsFetching = this.contestService.isSubmissionsFetching;
   paginationItems = this.contestService.contest
     .pipe(map(contest => {
       if (contest !== undefined) {
@@ -46,11 +49,17 @@ export class ContestComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private auth: AuthService,
     private contestService: ContestService,
+    private submissionService: SubmissionService,
   ) {
   }
 
   addSubmission(data: { code: string, languageId: number }) {
     this.contestService.addSubmission(this.currentTaskId, data.code, data.languageId);
+  }
+
+  openSubmission(id: number) {
+    this.contestService.getSubmissions(this.currentTaskId);
+    this.submissionService.showSubmission(id);
   }
 
   getSubmissions() {

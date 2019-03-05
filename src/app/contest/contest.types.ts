@@ -1,4 +1,23 @@
-import { PackageStatus } from './sent-packages/package-status/package-status.component';
+export type PackageStatus =
+  'OK' |
+  'RJ' |
+  'AC' |
+  'SV' |
+  'IG' |
+  'CE' |
+  'DQ' |
+  'PT' |
+  'PD' |
+  'RT' |
+  'TL' |
+  'PE' |
+  'WA' |
+  'CF' |
+  'ML' |
+  'SE' |
+  'RU' |
+  'CG' |
+  'AW';
 
 export interface ContestApi {
   id: number;
@@ -81,4 +100,20 @@ export interface Problem {
   input: string[];
   correct: string[];
   outputOnly: boolean;
+}
+
+export interface Statistics {
+  param: string;
+  condition?: string;
+  value?: string;
+  test?: number;
+}
+
+export interface Test {
+  id: number;
+  status: PackageStatus;
+  score?: number;
+  time: number;
+  realTime: number;
+  memory: number;
 }

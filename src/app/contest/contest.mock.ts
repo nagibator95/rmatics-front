@@ -244,34 +244,12 @@ const fakeSubmissionBase = {
   },
 };
 
-const submissionsBase: SubmissionApi[] = [
-  {
-    ...fakeSubmissionBase,
-    id: 1,
-    create_time: new Date().getTime() - 10000000000,
-    ejudge_status: 'RJ',
-    ejudge_language_id: 27,
-    ejudge_test_num: 2,
-    ejudge_score: 20,
-  },
-  {
-    ...fakeSubmissionBase,
-    id: 2,
-    create_time: new Date().getTime(),
-    ejudge_status: 'OK',
-    ejudge_language_id: 27,
-    ejudge_test_num: 5,
-    ejudge_score: 50,
-  },
-  {
-    ...fakeSubmissionBase,
-    id: 3,
-    create_time: new Date().getTime(),
-    ejudge_status: 'RJ',
-    ejudge_language_id: 27,
-    ejudge_test_num: 1,
-    ejudge_score: 10,
-  },
-];
-
-export const submissions: SubmissionApi[] = submissionsBase.concat(submissionsBase, submissionsBase);
+export const submissions: SubmissionApi[] = Array(14).fill(null).map((_item, index) => ({
+  ...fakeSubmissionBase,
+  id: index + 1,
+  create_time: new Date().getTime() - (Math.floor(Math.random() * 10000000000)),
+  ejudge_status: 'RJ',
+  ejudge_language_id: 27,
+  ejudge_test_num: 2,
+  ejudge_score: Math.floor(Math.random() * 100) + 1,
+}));

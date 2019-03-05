@@ -1,0 +1,18 @@
+:host {
+  display: block;
+}
+
+.col {
+  &:first-child {
+    flex: 1 1 404px;
+  }
+
+  &:nth-child(2),
+  &:nth-child(3) {
+    flex: 1 1 144px;
+  }
+
+  &:last-child {
+    flex: 1 1 112px;
+  }
+}

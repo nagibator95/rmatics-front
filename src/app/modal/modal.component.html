@@ -1,0 +1,8 @@
+<div class="overlay" (click)="handleClose($event)" *ngIf="open" #overlay>
+  <div class="modal">
+    <button class="close-button" (click)="handleClose()">
+      <app-icon icon="close" width="16px" height="16px"></app-icon>
+    </button>
+    <ng-template appDynamicHost></ng-template>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<ng-container *ngIf="!(isFetching | async) && (submission | async) as submission; else loader">
+  <h2 class="title">
+    Посылка №{{submission.id}}
+  </h2>
+
+  <div class="status-box">
+    <span>102-1812</span>
+
+    <app-package-status class="status" [status]="submission.status"></app-package-status>
+  </div>
+
+  <b class="name">Николай Федоров</b>
+
+  <span class="date">{{getDate(submission.date, true)}}</span>
+
+  <p class="description">Данная задача содержит пять подзадач. Для оценки каждой подзадачи используется своя группа тестов. Баллы за подзадачу
+  начисляются только в том случае, если все тесты из этой группы пройдены.</p>
+
+  <app-tabs class="tabs" [tabs]="tabs" (tabClick)="activeTab = $event">
+    <button class="app-link download">
+      <app-icon class="download-icon" icon="archive"></app-icon>
+      Скачать посылку
+    </button>
+  </app-tabs>
+
+  <ng-container *ngIf="activeTab === 'submission_code'">
+    <app-code-block [code]="code"></app-code-block>
+  </ng-container>
+
+  <ng-container *ngIf="activeTab === 'protocol'">
+    <ng-container *ngIf="submission.score > 50; else noTests">
+      <h3 class="title-small">Статистика</h3>
+      <app-statistics class="statistics" [statistics]="statistics"></app-statistics>
+
+      <h3 class="title-small">Название этой таблицы</h3>
+      <app-tests [tests]="tests"></app-tests>
+    </ng-container>
+
+    <ng-template #noTests>
+      <div class="error-no-tests">
+        <app-icon class="error-icon" icon="error"></app-icon>
+        0 пройденных тестов
+      </div>
+
+      <span class="compiler-title">Сообщение компилятора</span>
+
+      <div class="compiler-message">
+        {{compiler.join('')}}
+      </div>
+    </ng-template>
+  </ng-container>
+
+    
+</ng-container>
+
+<ng-template #loader>
+  <app-loader class="loader"></app-loader>
+</ng-template>
