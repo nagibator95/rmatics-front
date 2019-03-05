@@ -75,7 +75,7 @@ const constructHeaders = ({ accessToken, refreshToken }: { accessToken?: string,
 };
 
 const setTokenResponseToCookies = (item?: AuthData, rememberMe?: boolean) => {
-  const rememberData = item !== undefined && rememberMe ? {
+  const rememberData = item !== undefined && Boolean(rememberMe) ? {
     login: item.login,
     firstName: item.firstName,
     lastName: item.lastName,

@@ -1,15 +1,13 @@
 import { map } from 'rxjs/operators';
 
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-import { AuthService } from '../api/auth.service';
 
 import { ContestService } from './contest.service';
 import { ContestProblem } from './contest.types';
 import { SubmissionService } from './submission.service';
 
-const defaultContestId = 1;
+const defaultContestId = 32691;
 
 @Component({
   selector: 'app-contest',
@@ -19,6 +17,7 @@ const defaultContestId = 1;
 })
 
 export class ContestComponent implements OnInit, OnDestroy {
+  @Input() contestId = defaultContestId;
   problem = this.contestService.problem;
   contest = this.contestService.contest;
   submissions = this.contestService.submissions;
@@ -39,39 +38,32 @@ export class ContestComponent implements OnInit, OnDestroy {
     const taskNumber = Number(segments[segments.length - 1].path);
     if (!isNaN(taskNumber)) {
       this.contestService.getProblem(taskNumber);
-      this.contestService.getSubmissions(taskNumber);
-      this.contestService.getProblem(taskNumber);
+      this.contestService.getSubmissions(taskNumber, 10);
       this.currentTaskId = taskNumber;
     }
   });
 
   constructor(
     private route: ActivatedRoute,
-    private auth: AuthService,
     private contestService: ContestService,
     private submissionService: SubmissionService,
   ) {
   }
 
   addSubmission(data: { code: string, languageId: number }) {
-    this.contestService.addSubmission(this.currentTaskId, data.code, data.languageId);
+    this.contestService.addSubmission(this.currentTaskId, data.code, data.languageId, this.contestId);
   }
 
   openSubmission(id: number) {
-    this.contestService.getSubmissions(this.currentTaskId);
     this.submissionService.showSubmission(id);
   }
 
-  getSubmissions() {
-    this.contestService.getSubmissions(this.currentTaskId);
-  }
-
-  logout() {
-    this.auth.logout();
+  getSubmissions(count: number) {
+    this.contestService.getSubmissions(this.currentTaskId, count);
   }
 
   ngOnInit() {
-    this.contestService.getContest(defaultContestId);
+    this.contestService.getContest(this.contestId);
   }
 
   ngOnDestroy() {

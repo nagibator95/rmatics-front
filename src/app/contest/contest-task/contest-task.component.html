@@ -41,7 +41,7 @@
   <h2 class="title-2">Отправленные посылки</h2>
   <app-sent-packages
     [submissions]="submissions"
-    (updateSubmissions)="getSubmissions.emit()"
+    (updateSubmissions)="getSubmissions.emit($event)"
     (openSubmission)="openSubmission.emit($event)"
     [isFetching]="isSubmissionsFetching"
   ></app-sent-packages>

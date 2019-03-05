@@ -20,7 +20,7 @@ export class ContestTaskComponent {
   @Input() isSubmissionsFetching = false;
 
   @Output() addSubmission = new EventEmitter();
-  @Output() getSubmissions = new EventEmitter();
+  @Output() getSubmissions = new EventEmitter<number>();
   @Output() openSubmission = new EventEmitter();
 
   constructor() {
