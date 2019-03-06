@@ -12,21 +12,7 @@
 }
 
 .code {
-  display: block;
   margin-bottom: 16px;
-  border-radius: 4px;
-
-  ::ng-deep {
-    .CodeMirror {
-      border-radius: 4px;
-      background: var(--light-gray-3);
-    }
-
-    .CodeMirror-gutters {
-      background: transparent;
-      border: none;
-    }
-  }
 }
 
 .radio {
