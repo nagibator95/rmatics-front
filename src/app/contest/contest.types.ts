@@ -21,6 +21,28 @@ export type PackageStatus =
   'CG' |
   'AW';
 
+export enum PackageStatusEnum {
+  'OK' = 0,
+  'RJ' = 99,
+  'AC' = 8,
+  'SV' = 14,
+  'IG' = 9,
+  'CE' = 1,
+  'DQ' = 10,
+  'PT' = 7,
+  'PD' = 11,
+  'RT' = 2,
+  'TL' = 3,
+  'PE' = 4,
+  'WA' = 5,
+  'CF' = 6,
+  'ML' = 12,
+  'SE' = 13,
+  'RU' = 96,
+  'CG' = 98,
+  'AW' = 377,
+}
+
 export interface ContestApi {
   id: number;
   name: string;
@@ -46,7 +68,7 @@ export interface SubmissionApi {
     id: number,
     name: string,
   };
-  ejudge_status: string;
+  ejudge_status: number;
   create_time: number;
   ejudge_language_id: number;
   ejudge_test_num: number;

@@ -20,7 +20,7 @@
       [input]="problem.input"
       [name]="problem.name"
       [submissions]="submissions | async"
-      (getSubmissions)="getSubmissions()"
+      (getSubmissions)="getSubmissions($event)"
       (addSubmission)="addSubmission($event)"
       (openSubmission)="openSubmission($event)"
       [isSubmissionsFetching]="isSubmissionsFetching">

@@ -19,6 +19,7 @@ const minPageSize = 5;
   styleUrls: ['./sent-packages.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class SentPackagesComponent {
   _submisions: Submission[] = [];
   get submissions(): Submission[]  {
@@ -31,7 +32,7 @@ export class SentPackagesComponent {
   }
   @Input() isFetching = false;
   @Input() problemId!: number;
-  @Output() updateSubmissions = new EventEmitter();
+  @Output() updateSubmissions = new EventEmitter<number>();
   @Output() openSubmission = new EventEmitter();
 
   getDate = getDate;
@@ -59,8 +60,13 @@ export class SentPackagesComponent {
     return (reverse ? 1 : -1) * diff;
   }
 
+  update() {
+    this.updateSubmissions.emit(this.pageSize + minPageSize);
+  }
+
   changePageSize() {
     this.pageSize = this.pageSize + minPageSize;
+    this.update();
   }
 
   handleSort = (field: sortFields) => {
