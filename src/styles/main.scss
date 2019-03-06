@@ -92,3 +92,28 @@ a {
 .app-no-scroll {
   overflow-y: hidden;
 }
+
+.codemirror {
+  position: relative;
+  z-index: 0;
+  display: block;
+  padding: 8px;
+  border-radius: 4px;
+  background: var(--light-gray-3);
+
+  .CodeMirror {
+    font-size: 15px;
+    font-family: var(--pt-mono);
+    border-radius: 4px;
+    background: var(--light-gray-3);
+  }
+
+  .CodeMirror-code > div {
+    height: 1.8em;
+  }
+
+  .CodeMirror-gutters {
+    background: transparent;
+    border: none;
+  }
+}

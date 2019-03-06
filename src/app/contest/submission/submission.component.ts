@@ -59,7 +59,7 @@ export class SubmissionComponent extends ModalContent<SubmissionComponentInput> 
     '    if(p.find(a) == p.end())',
     '		p[a] = p.size()-1;',
     '     return p[a];',
-  ];
+  ].join('\n');
 
   compiler = [
     'Free Pascal Compiler version 3.0.2 [2017/03/22] for i386\n',

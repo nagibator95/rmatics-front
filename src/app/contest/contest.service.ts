@@ -72,7 +72,7 @@ export class ContestService {
         return {
           id: item.id,
           date: item.create_time,
-          lang: lang ? lang.title : '',
+          lang: lang ? lang : languages[0],
           tests: item.ejudge_test_num,
           score: item.ejudge_score,
           href: '',

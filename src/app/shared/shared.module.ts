@@ -6,6 +6,7 @@ import { FileDropDirective } from './file-drop.directive';
 import { FileSizePipe } from './file-size.pipe';
 import { IconComponent } from './icon/icon.component';
 import { LoaderComponent } from './loader/loader.component';
+import { NoEncapsulationComponent } from './no-encapsulation/no-encapsulation.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     FileSizePipe,
     SafeHtmlPipe,
     LoaderComponent,
+    NoEncapsulationComponent,
   ],
   exports: [
     IconComponent,
@@ -26,6 +28,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     FileSizePipe,
     SafeHtmlPipe,
     LoaderComponent,
+    NoEncapsulationComponent,
   ],
 })
 
