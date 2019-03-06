@@ -28,8 +28,7 @@ import { TaskSolutionComponent } from './task-solution/task-solution.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'task/1',
-    pathMatch: 'full',
+    component: ContestComponent,
   },
   {
     path: 'task/:id',

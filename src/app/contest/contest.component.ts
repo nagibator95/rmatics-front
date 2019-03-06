@@ -1,10 +1,10 @@
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ContestService } from './contest.service';
-import { ContestProblem } from './contest.types';
+import { Contest, ContestProblem } from './contest.types';
 import { SubmissionService } from './submission.service';
 
 const defaultContestId = 32691;
@@ -33,10 +33,14 @@ export class ContestComponent implements OnInit, OnDestroy {
       return [undefined, undefined];
     }));
 
-  currentTaskId = 1;
+  currentTaskId = 0;
   routeChangeSubscription = this.route.url.subscribe(segments => {
+    if (segments.length === 0) {
+      return;
+    }
+
     const taskNumber = Number(segments[segments.length - 1].path);
-    if (!isNaN(taskNumber)) {
+    if (!isNaN(taskNumber) && Boolean(taskNumber)) {
       this.contestService.getProblem(taskNumber);
       this.contestService.getSubmissions(taskNumber, 10);
       this.currentTaskId = taskNumber;
@@ -44,10 +48,10 @@ export class ContestComponent implements OnInit, OnDestroy {
   });
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private contestService: ContestService,
-    private submissionService: SubmissionService,
-  ) {
+    private submissionService: SubmissionService) {
   }
 
   addSubmission(data: { code: string, languageId: number }) {
@@ -64,6 +68,14 @@ export class ContestComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.contestService.getContest(this.contestId);
+    this.contest
+      .pipe(filter(Boolean))
+      .subscribe(contest => {
+        const problems = (contest as Contest).problems;
+        if (!this.currentTaskId && problems.length > 0) {
+          this.router.navigate(['contest', 'task', problems[0].id]);
+        }
+      });
   }
 
   ngOnDestroy() {
