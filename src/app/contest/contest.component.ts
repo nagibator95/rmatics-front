@@ -1,4 +1,4 @@
-import { filter, map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -69,7 +69,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.contestService.getContest(this.contestId);
     this.contest
-      .pipe(filter(Boolean))
+      .pipe(filter(Boolean), take(1))
       .subscribe(contest => {
         const problems = (contest as Contest).problems;
         if (!this.currentTaskId && problems.length > 0) {

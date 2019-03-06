@@ -106,17 +106,17 @@ export class ContestService {
         submissions: (response.data as SubmissionApi[]).map(item => {
           const lang = languages.find(language => language.id === item.ejudge_language_id);
 
-          return {
-            id: item.id,
-            date: item.create_time,
-            lang: lang ? lang.title : '',
-            tests: item.ejudge_test_num,
-            score: item.ejudge_score,
-            href: '',
-            status: PackageStatusEnum[item.ejudge_status] as PackageStatus,
-          };
-        }),
-      })));
+        return {
+          id: item.id,
+          date: item.create_time,
+          lang: lang ? lang : languages[0],
+          tests: item.ejudge_test_num,
+          score: item.ejudge_score,
+          href: '',
+          status: PackageStatusEnum[item.ejudge_status] as PackageStatus,
+        };
+      }),
+    })));
 
     this.store.setState(nextState);
   }

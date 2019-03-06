@@ -1,3 +1,5 @@
+import { Language } from '../shared/constants';
+
 export type PackageStatus =
   'OK' |
   'RJ' |
@@ -76,7 +78,7 @@ export interface SubmissionApi {
 export interface Submission {
   id: number;
   date: number;
-  lang: string;
+  lang: Language;
   tests: number;
   score: number;
   href: string;

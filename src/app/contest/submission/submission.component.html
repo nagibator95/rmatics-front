@@ -23,9 +23,17 @@
     </button>
   </app-tabs>
 
-  <ng-container *ngIf="activeTab === 'submission_code'">
-    <app-code-block [code]="code"></app-code-block>
-  </ng-container>
+  <app-no-encapsulation *ngIf="activeTab === 'submission_code'">
+    <ngx-codemirror
+      class="codemirror"
+      [(ngModel)]="code"
+      [disabled]="true"
+      [options]="{
+        lineNumbers: true,
+        mode: submission.lang.mode
+      }"
+    ></ngx-codemirror>
+  </app-no-encapsulation>
 
   <ng-container *ngIf="activeTab === 'protocol'">
     <ng-container *ngIf="submission.score > 50; else noTests">

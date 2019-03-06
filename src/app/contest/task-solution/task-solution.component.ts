@@ -1,15 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component, EventEmitter, Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 
-import { languages } from '../../shared/constants';
-
-export interface Language {
-  id?: number;
-  title?: string;
-  mode?: string;
-}
+import { languages, Language } from '../../shared/constants';
 
 @Component({
   selector: 'app-task-solution',
@@ -22,7 +13,7 @@ export class TaskSolutionComponent {
   code = '';
   languages = languages;
   showFileLoader = true;
-  selectedLanguage: Language = {};
+  selectedLanguage: Language = { ...languages[0] };
 
   @Output() pass = new EventEmitter();
 
