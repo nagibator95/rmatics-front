@@ -1,14 +1,13 @@
-import { Observable } from 'rxjs';
 import { ModalContent } from 'src/app/modal/modal-content';
 import { getDate } from 'src/app/utils/getDate';
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { PackageStatus, Statistics, Submission, Test } from '../contest.types';
+import { Statistics } from '../contest.types';
+import { SubmissionService } from '../submission.service';
 
 interface SubmissionComponentInput {
-  submission: Observable<Submission | undefined>;
-  isFetching: Observable<boolean>;
+  submissionService: SubmissionService;
 }
 
 @Component({
@@ -18,8 +17,9 @@ interface SubmissionComponentInput {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubmissionComponent extends ModalContent<SubmissionComponentInput> {
-  submission = this.data.submission;
-  isFetching = this.data.isFetching;
+  submissionService = this.data.submissionService;
+  submission = this.submissionService.submission;
+  isFetching = this.submissionService.isFetching;
 
   getDate = getDate;
 
@@ -91,12 +91,4 @@ export class SubmissionComponent extends ModalContent<SubmissionComponentInput> 
       test: 1,
     },
   ];
-
-  tests: Test[] = Array(5).fill(null).map((_item, index) => ({
-    id: index + 1,
-    status: 'OK' as PackageStatus,
-    time: 0,
-    realTime: 0.001,
-    memory: 1810432,
-  }));
 }

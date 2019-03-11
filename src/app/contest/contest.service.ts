@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 import { languages } from '../shared/constants';
@@ -103,19 +104,20 @@ export class ContestService {
         status: response.status,
         error: response.error,
         isSubmissionsFetching: false,
-        submissions: (response.data as SubmissionApi[]).map(item => {
+        submissions: (response.data as SubmissionApi[]).map((item, index) => {
           const lang = languages.find(language => language.id === item.ejudge_language_id);
 
-        return {
-          id: item.id,
-          date: item.create_time,
-          lang: lang ? lang : languages[0],
-          tests: item.ejudge_test_num,
-          score: item.ejudge_score,
-          href: '',
-          status: PackageStatusEnum[item.ejudge_status] as PackageStatus,
-        };
-      }),
+          return {
+            id: item.id,
+            index: index + 1,
+            userName: `${item.user.firstname} ${item.user.lastname}`,
+            date: item.create_time,
+            lang: lang ? lang : languages[0],
+            tests: item.ejudge_test_num,
+            score: item.ejudge_score,
+            status: PackageStatusEnum[item.ejudge_status] as PackageStatus,
+          };
+        }),
     })));
 
     this.store.setState(nextState);

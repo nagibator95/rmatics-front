@@ -6,7 +6,7 @@ import { ModalContent } from './modal-content';
 
 interface ModalValue<T> {
   component: Type<ModalContent<T>>;
-  data: T | undefined;
+  data?: T;
 }
 
 @Injectable({

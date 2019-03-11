@@ -1,16 +1,16 @@
 :host{
   display: block;
   width: 100%;
+  background-color: var(--black-3);
 }
 
-.header {
+.container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   top: 0;
   height: 59px;
-  background-color: var(--black-3);
   padding-right: 88px;
 
   .title {

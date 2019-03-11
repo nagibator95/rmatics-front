@@ -1,15 +1,15 @@
 <ng-container *ngIf="!(isFetching | async) && (submission | async) as submission; else loader">
   <h2 class="title">
-    Посылка №{{submission.id}}
+    Посылка №{{submission.index}}
   </h2>
 
   <div class="status-box">
-    <span>102-1812</span>
+    <span>{{submission.id}}</span>
 
     <app-package-status class="status" [status]="submission.status"></app-package-status>
   </div>
 
-  <b class="name">Николай Федоров</b>
+  <b class="name">{{submission.userName}}</b>
 
   <span class="date">{{getDate(submission.date, true)}}</span>
 
@@ -41,7 +41,7 @@
       <app-statistics class="statistics" [statistics]="statistics"></app-statistics>
 
       <h3 class="title-small">Название этой таблицы</h3>
-      <app-tests [tests]="tests"></app-tests>
+      <app-tests [tests]="submission.protocol.tests"></app-tests>
     </ng-container>
 
     <ng-template #noTests>

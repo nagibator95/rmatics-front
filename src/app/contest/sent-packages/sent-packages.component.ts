@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { getDate } from 'src/app/utils/getDate';
 
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
@@ -13,6 +14,8 @@ interface LastSorted {
 
 const minPageSize = 5;
 
+const convert = (field: sortFields, val: Submission): number => field === 'date' ? dayjs(val[field]).valueOf() : val[field];
+
 @Component({
   selector: 'app-sent-packages',
   templateUrl: './sent-packages.component.html',
@@ -21,7 +24,7 @@ const minPageSize = 5;
 })
 
 export class SentPackagesComponent {
-  _submisions: Submission[] = [];
+  private _submisions: Submission[] = [];
   get submissions(): Submission[]  {
     return this._submisions;
   }
@@ -33,7 +36,7 @@ export class SentPackagesComponent {
   @Input() isFetching = false;
   @Input() problemId!: number;
   @Output() updateSubmissions = new EventEmitter<number>();
-  @Output() openSubmission = new EventEmitter();
+  @Output() openSubmission = new EventEmitter<number>();
 
   getDate = getDate;
   lastSorted: LastSorted = { field: 'date', reverse: false };
@@ -52,7 +55,10 @@ export class SentPackagesComponent {
   compare = (field: sortFields, reverse = false) => (a: Submission, b: Submission): number => {
     this.lastSorted = { field, reverse };
 
-    const diff = a[field] - b[field];
+    const val1 = convert(field, a);
+    const val2 = convert(field, b);
+
+    const diff = val1 - val2;
 
     if (diff === 0) {
       return (reverse ? 1 : -1) * a.id - b.id;

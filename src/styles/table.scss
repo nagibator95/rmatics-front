@@ -1,17 +1,7 @@
 .app-table {
-  & , & > tbody {
-    display: flex;
-    flex-direction: column;
-  }
+  width: 100%;
 
-  tr {
-    display: flex;
-    justify-content: stretch;
-  }
-  
-  th, td {
-    display: flex;
-    align-items: center;
+  th {
     font-weight: normal;
   }
 
@@ -20,6 +10,7 @@
     font-size: 12px;
     line-height: 1.33;
     color: var(--gray);
+    text-align: left;
     background-color: var(--light-gray-2);
     border-radius: 4px;
   }

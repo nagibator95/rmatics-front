@@ -4,15 +4,15 @@
 
 .col {
   &:first-child {
-    flex: 1 1 404px;
+    min-width: 404px;
   }
 
   &:nth-child(2),
   &:nth-child(3) {
-    flex: 1 1 144px;
+    min-width: 144px;
   }
 
   &:last-child {
-    flex: 1 1 112px;
+    min-width: 112px;
   }
 }

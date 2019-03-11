@@ -8,25 +8,25 @@
 
 .col {
   &:first-child {
-    flex: 1 1 68px;
+    min-width: 68px;
   }
 
   &:nth-child(2) {
-    flex: 1 1 108px;
+    min-width: 108px;
   }
 
   &:nth-child(3) {
-    flex: 1 1 160px;
+    min-width: 160px;
   }
 
   &:nth-child(4),
   &:nth-child(5) {
-    flex: 1 1 80px;
+    min-width: 80px;
   }
 
   &:last-child {
-    flex: 1 1 240px;
-    justify-content: flex-end;
+    min-width: 240px;
+    text-align: right;
   }
 }
 

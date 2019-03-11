@@ -32,7 +32,7 @@
     <button
       type="submit"
       class="app-button_primary"
-      [disabled]="!loginForm.valid"
+      [disabled]="(isFetching | async) || !loginForm.valid"
       [class.app-button--loading]="isFetching | async"
     >
       Войти

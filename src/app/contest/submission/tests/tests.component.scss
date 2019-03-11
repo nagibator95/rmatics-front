@@ -6,12 +6,12 @@
   &:first-child,
   &:nth-child(2),
   &:nth-child(3) {
-    flex: 1 1 108px;
+    min-width: 108px;
   }
 
   &:nth-child(4),
   &:nth-child(5),
   &:last-child {
-    flex: 1 1 164px;
+    min-width: 164px;
   }
 }

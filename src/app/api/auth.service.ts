@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { of, EMPTY } from 'rxjs';
 import { catchError, map, mapTo, switchMap, tap } from 'rxjs/operators';
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 import { deleteCookie, getCookie, writeCookie } from '../utils/cookies';

@@ -75,14 +75,55 @@ export interface SubmissionApi {
   ejudge_score: number;
 }
 
+export interface RunSourceApi {
+  language_id: number;
+  source: string;
+}
+
+export interface RunTestApi {
+  status: string;
+  time: number;
+  real_time: number;
+  max_memory_used: string;
+  string_status: string;
+}
+
+export interface RunProtocolApi {
+  compiler_output: string;
+  host: string;
+  tests: {
+    [index: number]: RunTestApi;
+  };
+}
+
 export interface Submission {
   id: number;
+  index: number;
+  userName: string;
   date: number;
   lang: Language;
   tests: number;
   score: number;
-  href: string;
   status: PackageStatus;
+}
+
+export interface RunTest {
+  id: number;
+  status: string;
+  time: number;
+  realTime: number;
+  memory: string;
+}
+
+export interface RunProtocol {
+  compilerOutput?: string;
+  host?: string;
+  tests?: RunTest[];
+}
+
+export interface SubmissionDetailed extends Submission {
+  source?: string;
+  protocol?: RunProtocol;
 }
 
 export interface ContestProblemApi {
