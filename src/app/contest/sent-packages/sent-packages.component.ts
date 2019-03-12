@@ -11,8 +11,6 @@ interface LastSorted {
   reverse: boolean;
 }
 
-const minPageSize = 5;
-
 @Component({
   selector: 'app-sent-packages',
   templateUrl: './sent-packages.component.html',
@@ -37,7 +35,7 @@ export class SentPackagesComponent {
 
   getDate = getDate;
   lastSorted: LastSorted = { field: 'date', reverse: false };
-  pageSize = minPageSize;
+  page = 1;
 
   constructor() {}
 
@@ -61,11 +59,11 @@ export class SentPackagesComponent {
   }
 
   update() {
-    this.updateSubmissions.emit(this.pageSize + minPageSize);
+    this.updateSubmissions.emit(this.page);
   }
 
   changePageSize() {
-    this.pageSize = this.pageSize + minPageSize;
+    this.page = this.page + 1;
     this.update();
   }
 
