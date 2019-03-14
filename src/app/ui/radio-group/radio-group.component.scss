@@ -1,0 +1,36 @@
+$border-style: solid 1px var(--light-gray-1);
+
+.radio-group {
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.radio {
+  flex-grow: 1;
+  height: 44px;
+  align-items: center;
+  border: $border-style;
+  border-left: none;
+  border-right: none;
+  padding-left: 16px;
+  padding-right: 12px;
+  &:first-child {
+    border-radius: 4px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-left: $border-style;
+  }
+
+  &:nth-child(even) {
+    border-left: $border-style;
+    border-right: $border-style;
+  }
+
+  &:nth-last-child(-n + 1) {
+    border-radius: 4px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-right: $border-style;
+  }
+}

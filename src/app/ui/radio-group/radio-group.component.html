@@ -1,0 +1,13 @@
+<div class="radio-group">
+  <ng-container *ngFor="let radioButton of radioButtons; let i=index">
+    <app-radio
+      class="radio"
+      name="solution-type"
+      [checked]="i === 0"
+      [reverse]="true"
+      (change)="radioButton.onClickHandler()"
+    >
+      {{radioButton.text}}
+    </app-radio>
+  </ng-container>
+</div>

@@ -4,23 +4,28 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
+import {ControlsModule} from '../controls/controls.module';
 import { SharedModule } from '../shared/shared.module';
 
+import { RadioGroupComponent } from './radio-group/radio-group.component';
 import { TabsComponent } from './tabs/tabs.component';
 
 @NgModule({
   declarations: [
     TabsComponent,
+    RadioGroupComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule,
     FormsModule,
+    ControlsModule,
     CodemirrorModule,
   ],
   exports: [
     TabsComponent,
+    RadioGroupComponent,
   ],
 })
 export class UiModule { }
