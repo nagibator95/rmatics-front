@@ -15,6 +15,7 @@ import { TokenInterceptor } from './api/token.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContestModule } from './contest/contest.module';
+import { CoreModule } from './core/core.module';
 import { HeaderComponent } from './header/header.component';
 import { LoginModule } from './login/login.module';
 import { ModalModule } from './modal/modal.module';
@@ -25,6 +26,7 @@ import { ModalModule } from './modal/modal.module';
     HeaderComponent,
   ],
   imports: [
+    CoreModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,

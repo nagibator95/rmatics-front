@@ -6,29 +6,9 @@
   [items]="languages">
 </app-select>
 
-
-<div style="width: 1000px">
-  <div class="radio-group">
-    <app-radio
-      class="radio"
-      name="solution-type"
-      [checked]="true"
-      [reverse]="true"
-      (change)="showFileLoader = true"
-    >
-      Загрузить файл
-    </app-radio>
-    <app-radio
-      class="radio"
-      name="solution-type"
-      [reverse]="true"
-      (change)="showFileLoader = false"
-    >
-      Написать код
-    </app-radio>
-  </div>
+<div class="radio-group">
+  <app-radio-group [radioButtons]="radioButtons"x></app-radio-group>
 </div>
-
 
 <app-upload *ngIf="showFileLoader" class="upload"></app-upload>
 
