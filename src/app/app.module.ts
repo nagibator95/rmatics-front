@@ -19,6 +19,7 @@ import { CoreModule } from './core/core.module';
 import { HeaderComponent } from './header/header.component';
 import { LoginModule } from './login/login.module';
 import { ModalModule } from './modal/modal.module';
+import { RestorePasswordModule } from './restore-password/restore-password.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ModalModule } from './modal/modal.module';
     LoginModule,
     ModalModule,
     ContestModule,
+    RestorePasswordModule,
   ],
   providers: [
     {

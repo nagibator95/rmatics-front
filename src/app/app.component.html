@@ -3,7 +3,7 @@
 <router-outlet *ngIf="isLoggedIn | async; else loginForm"></router-outlet>
 
 <ng-template #loginForm>
-  <app-login-form></app-login-form>
+  <app-restore-password></app-restore-password>
 </ng-template>
 
 <app-modal></app-modal>

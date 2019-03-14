@@ -5,7 +5,7 @@
       name="solution-type"
       [checked]="i === 0"
       [reverse]="true"
-      (change)="radioButton.onClickHandler()"
+      (change)="radioButton.onClickHandler ? radioButton.onClickHandler() : null"
     >
       {{radioButton.text}}
     </app-radio>
