@@ -9,8 +9,8 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 
 export class UploadComponent {
   @Input() error = '';
+  @Input() file?: File;
   @Output() selectFile = new EventEmitter<File | undefined>();
-  file?: File;
 
   constructor() {}
 

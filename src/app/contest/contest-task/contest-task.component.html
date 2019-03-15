@@ -34,7 +34,55 @@
 
 <section class="section">
   <h2 class="title-2">Решение</h2>
-  <app-task-solution (pass)="addSolution($event)"></app-task-solution>
+  <app-select
+    class="select"
+    [(item)]="selectedLanguage"
+    labelField="title"
+    valueField="id"
+    [items]="languages">
+  </app-select>
+
+  <div class="radio-group">
+    <app-radio
+      class="radio"
+      name="solution-type"
+      [checked]="true"
+      [reverse]="true"
+      (change)="showFileLoader = true"
+    >
+      Загрузить файл
+    </app-radio>
+    <app-radio
+      class="radio"
+      name="solution-type"
+      [reverse]="true"
+      (change)="showFileLoader = false"
+    >
+      Написать код
+    </app-radio>
+  </div>
+
+  <app-upload
+    #upload
+    *ngIf="showFileLoader"
+    (selectFile)="select($event)"
+    [error]="fileError"
+    class="upload">
+  </app-upload>
+
+  <app-no-encapsulation>
+    <ngx-codemirror
+      *ngIf="!showFileLoader"
+      class="code codemirror"
+      [(ngModel)]="code"
+      [options]="{
+      lineNumbers: true,
+      mode: selectedLanguage.mode
+    }"
+    ></ngx-codemirror>
+  </app-no-encapsulation>
+
+  <button class="app-button_primary solution-button" (click)="passSolution()">Сдать решение</button>
 </section>
 
 <section class="section">

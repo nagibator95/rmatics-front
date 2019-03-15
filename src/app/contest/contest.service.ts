@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { languages } from '../shared/constants';
@@ -19,12 +19,15 @@ import {
   SubmissionApi,
 } from './contest.types';
 
+const defaultPageSize = 5;
+
 interface ContestState {
   contest?: Contest;
   problem?: Problem;
   submissions: Submission[];
   statusCode: number;
   status: string;
+  fileError?: string;
   error?: string;
   isFetching: boolean;
   isSubmissionsFetching: boolean;
@@ -36,12 +39,27 @@ const initialState: ContestState = {
   submissions: [],
   statusCode: 200,
   status: 'success',
+  fileError: '',
   error: '',
   isFetching: false,
   isSubmissionsFetching: false,
 };
 
-export const formatContest = (contest: ContestApi) => ({
+const formatSubmission = (submission: SubmissionApi) => {
+  const lang = languages.find(language => language.id === submission.ejudge_language_id);
+
+  return {
+    id: submission.id,
+    date: submission.create_time,
+    lang: lang ? lang : languages[0],
+    tests: submission.ejudge_test_num,
+    score: submission.ejudge_score,
+    href: '',
+    status: PackageStatusEnum[submission.ejudge_status] as PackageStatus,
+  } as Submission;
+};
+
+const formatContest = (contest: ContestApi, courseId: number) => ({
   id: contest.id,
   name: contest.name,
   summary: contest.summary,
@@ -50,11 +68,11 @@ export const formatContest = (contest: ContestApi) => ({
     name: item.name,
     id: item.id,
     rank: item.rank,
-    href: `/contest/task/${item.id}`,
+    href: `/contest/${courseId}/problem/${item.id}`,
   })),
 });
 
-export const formatProblem = (problem: ProblemApi) => ({
+const formatProblem = (problem: ProblemApi) => ({
   id: problem.id,
   name: problem.name,
   content: problem.content,
@@ -77,59 +95,90 @@ export class ContestService {
   contest = this.store.state.pipe(map(state => state.contest));
   problem = this.store.state.pipe(map(state => state.problem));
   submissions = this.store.state.pipe(map(state => state.submissions));
+  fileError = this.store.state.pipe(map(state => state.fileError));
 
   constructor(private http: HttpClient) {
+    this.store.state.subscribe(e => console.log(e));
   }
 
-  addSubmission(problemId: number, solution: string, languageId: number, contestId: number) {
-    this.http.post<ApiResponse<any>>(environment.apiUrl + `/contest/problem/${problemId}/submission`, {
-      lang_id: languageId,
-      statement_id: contestId,
-      file: btoa(solution),
-    }).subscribe();
-  }
+  addSubmission(problemId: number, file: File, languageId: number) {
+    const contest = this.store.getState().contest as Contest;
+    const formData = new FormData();
+    formData.append('lang_id', languageId.toString());
+    formData.append('statement_id', contest.id.toString());
+    formData.append('file', file, file.name);
 
-  getSubmissions(problemId: number, count: number) {
-    this.store.setState(of({
-      ...this.store.getState(),
-      isSubmissionsFetching: true,
-    }));
-
-    const nextState = this.http.get<ApiResponse<SubmissionApi[]>>(environment.apiUrl + `/contest/problem/${problemId}/submission?page=0&count=${count}`)
-      .pipe(map(response => ({
+    const nextState = this.http.post<ApiResponse<SubmissionApi[]>>(
+      environment.apiUrl + `/contest/problem/${problemId}/submission`,
+      formData,
+    ).pipe(
+      map(response => ({
         ...this.store.getState(),
-        isFetching: false,
+        submissions: [],
+        isSubmissionsFetching: true,
         statusCode: response.status_code,
         status: response.status,
-        error: response.error,
-        isSubmissionsFetching: false,
-        submissions: (response.data as SubmissionApi[]).map(item => {
-          const lang = languages.find(language => language.id === item.ejudge_language_id);
-
-        return {
-          id: item.id,
-          date: item.create_time,
-          lang: lang ? lang : languages[0],
-          tests: item.ejudge_test_num,
-          score: item.ejudge_score,
-          href: '',
-          status: PackageStatusEnum[item.ejudge_status] as PackageStatus,
-        };
-      }),
-    })));
+      })),
+      tap(() => this.getSubmissions(problemId, 1)),
+      catchError(({ error }) => of({
+        ...this.store.getState(),
+        statusCode: error.status_code,
+        status: error.status,
+        fileError: error.error,
+      })),
+    );
 
     this.store.setState(nextState);
   }
 
-  getContest(contestId: number) {
-    const nextState = this.http.get<ApiResponse<ContestApi>>(environment.apiUrl + `/contest/${contestId}`)
-      .pipe(map(response => ({
+  getSubmissions(problemId: number, page: number) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      isSubmissionsFetching: true,
+      submissions: page === 1 ? [] : this.store.getState().submissions,
+    }));
+
+    const nextState = this.http.get<ApiResponse<SubmissionApi[]>>(environment.apiUrl
+      + `/contest/problem/${problemId}/submission?count=${defaultPageSize}&page=${page}`,
+    ).pipe(
+      map(response => ({
         ...this.store.getState(),
+        isFetching: false,
         statusCode: response.status_code,
         status: response.status,
-        error: response.error,
-        contest: formatContest(response.data as ContestApi),
-      })));
+        isSubmissionsFetching: false,
+        submissions: [
+          ...this.store.getState().submissions,
+          ...(response.data as SubmissionApi[]).map(formatSubmission),
+        ],
+      })),
+      catchError(({ error }) => of({
+        ...this.store.getState(),
+        statusCode: error.status_code,
+        status: error.status,
+        error: error.error,
+      })),
+    );
+
+    this.store.setState(nextState);
+  }
+
+  getContest(courseId: number) {
+    const nextState = this.http.get<ApiResponse<ContestApi>>(environment.apiUrl + `/contest/${courseId}`)
+      .pipe(
+        map(response => ({
+          ...this.store.getState(),
+          statusCode: response.status_code,
+          status: response.status,
+          contest: formatContest(response.data as ContestApi, courseId),
+        })),
+        catchError(({ error }) => of({
+          ...this.store.getState(),
+          statusCode: error.status_code,
+          status: error.status,
+          error: error.error,
+        })),
+      );
 
     this.store.setState(nextState);
   }
@@ -141,15 +190,29 @@ export class ContestService {
     }));
 
     const nextState = this.http.get<ApiResponse<ProblemApi>>(environment.apiUrl + `/contest/problem/${problemId}`)
-      .pipe(map(response => ({
-        ...this.store.getState(),
-        statusCode: response.status_code,
-        status: response.status,
-        error: response.error,
-        problem: formatProblem(response.data as ProblemApi),
-        isFetching: false,
-      })));
+      .pipe(
+        map(response => ({
+          ...this.store.getState(),
+          statusCode: response.status_code,
+          status: response.status,
+          problem: formatProblem(response.data as ProblemApi),
+          isFetching: false,
+        })),
+        catchError(({ error }) => of({
+          ...this.store.getState(),
+          statusCode: error.status_code,
+          status: error.status,
+          error: error.error,
+        })),
+      );
 
     this.store.setState(nextState);
+  }
+
+  clearFileError() {
+    this.store.setState(of({
+      ...this.store.getState(),
+      fileError: '',
+    }));
   }
 }

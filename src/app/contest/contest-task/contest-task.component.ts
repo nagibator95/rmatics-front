@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
+import { UploadComponent } from '../../controls/upload/upload.component';
+import { languages, Language } from '../../shared/constants';
 import { Submission } from '../contest.types';
 
 @Component({
@@ -10,6 +12,9 @@ import { Submission } from '../contest.types';
 })
 
 export class ContestTaskComponent {
+  @ViewChild('upload') upload!: UploadComponent;
+
+  @Input() fileError = '';
   @Input() name = '';
   @Input() timeLimit = 0;
   @Input() memoryLimit = 0;
@@ -19,9 +24,17 @@ export class ContestTaskComponent {
   @Input() submissions: Submission[] = [];
   @Input() isSubmissionsFetching = false;
 
+  @Output() selectFile = new EventEmitter();
   @Output() addSubmission = new EventEmitter();
   @Output() getSubmissions = new EventEmitter<number>();
   @Output() openSubmission = new EventEmitter();
+  @Output() pass = new EventEmitter();
+
+  code = '';
+  languages = languages;
+  showFileLoader = true;
+  selectedLanguage: Language = { ...languages[0] } as Language;
+  selectedFile?: File;
 
   constructor() {
   }
@@ -30,7 +43,19 @@ export class ContestTaskComponent {
     return Math.max(this.input.length, this.correct.length);
   }
 
-  addSolution(data: { code: string, languageId: number }) {
-    this.addSubmission.emit(data);
+  select(file: File) {
+    if (file !== undefined) {
+      this.selectFile.emit();
+    }
+    this.selectedFile = file;
+  }
+
+  passSolution() {
+    this.addSubmission.emit({
+      file: this.showFileLoader
+        ? this.selectedFile
+        : new File([new Blob([this.code])], 'solution.code'),
+      languageId: this.selectedLanguage.id,
+    });
   }
 }
