@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../api/auth.service';
+import {TELEGRAM_LINK} from '../../core/constants/links';
 
 @Component({
   selector: 'app-login-form',
@@ -13,7 +14,7 @@ import { AuthService } from '../../api/auth.service';
 export class LoginFormComponent implements OnInit {
   loginForm = new FormGroup({});
   isFormSubmitted = false;
-  telegramLink = 'https://t.me/joinchat/AAAAAECFqTNMd00Y93MX8Q';
+  telegramLink = TELEGRAM_LINK;
   error = this.auth.error;
   isFetching = this.auth.isFetching;
   rememberMe = true;

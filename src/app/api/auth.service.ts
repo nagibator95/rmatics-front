@@ -289,4 +289,25 @@ export class AuthService {
       error: undefined,
     }));
   }
+
+  changePassword(authData: { email?: string, username?: string }) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      isFetching: true,
+    }));
+
+    const nextState = this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/change/', authData)
+      .pipe(
+        map(formatData),
+        catchError(response => of(formatData(response.error))),
+        map(state => ({
+          ...this.store.getState(),
+          ...state,
+          isFetching: false,
+        })),
+        tap(response => setTokenResponseToCookies(response.state)),
+      );
+
+    this.store.setState(nextState);
+  }
 }
