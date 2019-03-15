@@ -28,7 +28,7 @@
     </th>
   </tr>
 
-  <ng-container *ngFor="let package of submissions.slice(0, pageSize)">
+  <ng-container *ngFor="let package of submissions">
     <tr class="app-table__body-row">
       <td class="app-table__col col"><span class="body-secondary">{{package.id}}</span></td>
       <td class="app-table__col col"><span class="body-secondary">{{getDate(package.date)}}</span></td>
@@ -46,8 +46,7 @@
 
 <button
   class="app-link_icon-down"
-  *ngIf="pageSize < submissions.length"
   (click)="changePageSize()"
 >
-  Показать еще {{submissions.length - pageSize}}
+  Показать еще 5
 </button>

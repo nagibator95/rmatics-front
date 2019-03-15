@@ -1,13 +1,13 @@
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, take } from 'rxjs/operators';
 
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
+import { ContestTaskComponent } from './contest-task/contest-task.component';
 import { ContestService } from './contest.service';
 import { Contest, ContestProblem } from './contest.types';
 import { SubmissionService } from './submission.service';
 
-const defaultContestId = 32691;
+const defaultCourseId = 32691;
 
 @Component({
   selector: 'app-contest',
@@ -17,12 +17,19 @@ const defaultContestId = 32691;
 })
 
 export class ContestComponent implements OnInit, OnDestroy {
-  @Input() contestId = defaultContestId;
+  @ViewChild('task') task!: ContestTaskComponent;
+  @Input() courseId = defaultCourseId;
   problem = this.contestService.problem;
   contest = this.contestService.contest;
   submissions = this.contestService.submissions;
   isFetching = this.contestService.isFetching;
   isSubmissionsFetching = this.contestService.isSubmissionsFetching;
+  fileError = this.contestService.fileError;
+  uploadRemoveSubscription = this.submissions.subscribe(submissions => {
+    if (submissions.length === 0 && this.task !== undefined) {
+      this.task.upload.remove();
+    }
+  });
   paginationItems = this.contestService.contest
     .pipe(map(contest => {
       if (contest !== undefined) {
@@ -42,7 +49,7 @@ export class ContestComponent implements OnInit, OnDestroy {
     const taskNumber = Number(segments[segments.length - 1].path);
     if (!isNaN(taskNumber) && Boolean(taskNumber)) {
       this.contestService.getProblem(taskNumber);
-      this.contestService.getSubmissions(taskNumber, 10);
+      this.contestService.getSubmissions(taskNumber, 1);
       this.currentTaskId = taskNumber;
     }
   });
@@ -54,31 +61,36 @@ export class ContestComponent implements OnInit, OnDestroy {
     private submissionService: SubmissionService) {
   }
 
-  addSubmission(data: { code: string, languageId: number }) {
-    this.contestService.addSubmission(this.currentTaskId, data.code, data.languageId, this.contestId);
+  addSubmission(data: { file: File, languageId: number }) {
+    this.contestService.addSubmission(this.currentTaskId, data.file, data.languageId);
   }
 
   openSubmission(id: number) {
     this.submissionService.showSubmission(id);
   }
 
-  getSubmissions(count: number) {
-    this.contestService.getSubmissions(this.currentTaskId, count);
+  getSubmissions(page: number) {
+    this.contestService.getSubmissions(this.currentTaskId, page);
+  }
+
+  selectFile() {
+    this.contestService.clearFileError();
   }
 
   ngOnInit() {
-    this.contestService.getContest(this.contestId);
+    this.contestService.getContest(this.courseId);
     this.contest
       .pipe(filter(Boolean), take(1))
       .subscribe(contest => {
         const problems = (contest as Contest).problems;
         if (!this.currentTaskId && problems.length > 0) {
-          this.router.navigate(['contest', 'task', problems[0].id]);
+          this.router.navigate(['contest', this.courseId, 'problem', problems[0].id]);
         }
       });
   }
 
   ngOnDestroy() {
     this.routeChangeSubscription.unsubscribe();
+    this.uploadRemoveSubscription.unsubscribe();
   }
 }

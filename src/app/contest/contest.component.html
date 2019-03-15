@@ -12,7 +12,9 @@
 
   <div class="task" *ngIf="!(isFetching | async); else loading">
     <app-contest-task
+      #task
       *ngIf="(problem | async) as problem"
+      [fileError]="fileError | async"
       [memoryLimit]="problem.memoryLimit"
       [timeLimit]="problem.timeLimit"
       [content]="problem.content"
@@ -20,6 +22,7 @@
       [input]="problem.input"
       [name]="problem.name"
       [submissions]="submissions | async"
+      (selectFile)="selectFile()"
       (getSubmissions)="getSubmissions($event)"
       (addSubmission)="addSubmission($event)"
       (openSubmission)="openSubmission($event)"

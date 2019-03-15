@@ -12,8 +12,6 @@ interface LastSorted {
   reverse: boolean;
 }
 
-const minPageSize = 5;
-
 const convert = (field: sortFields, val: Submission): number => field === 'date' ? dayjs(val[field]).valueOf() : val[field];
 
 @Component({
@@ -40,7 +38,7 @@ export class SentPackagesComponent {
 
   getDate = getDate;
   lastSorted: LastSorted = { field: 'date', reverse: false };
-  pageSize = minPageSize;
+  page = 1;
 
   constructor() {}
 
@@ -67,11 +65,11 @@ export class SentPackagesComponent {
   }
 
   update() {
-    this.updateSubmissions.emit(this.pageSize + minPageSize);
+    this.updateSubmissions.emit(this.page);
   }
 
   changePageSize() {
-    this.pageSize = this.pageSize + minPageSize;
+    this.page = this.page + 1;
     this.update();
   }
 
