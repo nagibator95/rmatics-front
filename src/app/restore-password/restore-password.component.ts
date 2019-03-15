@@ -13,10 +13,13 @@ import {RadioButton} from '../ui/radio-group/radio-group.component';
 })
 export class RestorePasswordComponent implements OnInit {
   restorePasswordForm: FormGroup;
+  isFormSubmitted = false;
   telegramLink = TELEGRAM_LINK;
   byLogin = true;
   error = this.auth.error;
   isFetching = this.auth.isFetching;
+  isPasswordChangeSucceed = this.auth.isPasswordChangeSucceed;
+  isPasswordChangeFinished = this.auth.isPasswordChangeFinished;
 
   radioButtons: RadioButton[] = [
     {
@@ -50,10 +53,14 @@ export class RestorePasswordComponent implements OnInit {
   }
 
   handleInputChange() {
+    this.isFormSubmitted = false;
+
     this.auth.clearError();
   }
 
   onSubmit() {
+    this.isFormSubmitted = true;
+
     if (this.restorePasswordForm.valid) {
       this.auth.changePassword(this.byLogin ? {username: this.loginOrEmail.value} : {email: this.loginOrEmail.value});
     }
