@@ -10,6 +10,7 @@ import { AuthService } from './api/auth.service';
 
 export class AppComponent implements OnInit {
   isLoggedIn = this.auth.isLoggedIn;
+  changePassword = false;
 
   constructor(private auth: AuthService, private changeDetectorRef: ChangeDetectorRef) {
   }

@@ -304,7 +304,7 @@ export class AuthService {
     console.log('POST!!');
 
     // this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/change/')
-    const nextState = throwError('asdfsdf')
+    const nextState = of(changePasswordMock)
       .pipe(
         tap(() => this.isPasswordChangeFinished.next(false)),
         delay(1000),

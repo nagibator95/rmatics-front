@@ -3,7 +3,11 @@
 <router-outlet *ngIf="isLoggedIn | async; else loginForm"></router-outlet>
 
 <ng-template #loginForm>
-  <app-restore-password></app-restore-password>
+  <app-login-form *ngIf="!changePassword; else changePasswordFrom"
+    [(changePassword)]="changePassword"></app-login-form>
+  <ng-template #changePasswordFrom>
+    <app-restore-password></app-restore-password>
+  </ng-template>
 </ng-template>
 
 <app-modal></app-modal>

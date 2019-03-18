@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../api/auth.service';
@@ -12,12 +12,15 @@ import {TELEGRAM_LINK} from '../../core/constants/links';
 })
 
 export class LoginFormComponent implements OnInit {
+  @Output() changePasswordChange = new EventEmitter();
   loginForm = new FormGroup({});
   isFormSubmitted = false;
   telegramLink = TELEGRAM_LINK;
   error = this.auth.error;
   isFetching = this.auth.isFetching;
   rememberMe = true;
+
+  private toChangePassword: boolean;
 
   constructor(private fb: FormBuilder, private auth: AuthService) {
   }
@@ -33,6 +36,15 @@ export class LoginFormComponent implements OnInit {
         ]],
       },
     );
+  }
+
+  @Input()
+  get changePassword() {
+    return this.toChangePassword;
+  }
+
+  set changePassword(value: boolean) {
+    this.changePasswordChange.emit(value);
   }
 
   get login() {
@@ -52,5 +64,11 @@ export class LoginFormComponent implements OnInit {
     if (this.loginForm.valid) {
       this.auth.login({ username: this.login.value, password: this.password.value }, this.rememberMe);
     }
+  }
+
+  onChangePasswordClick() {
+    console.log(this.changePassword);
+
+    this.changePassword = true;
   }
 }
