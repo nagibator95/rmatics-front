@@ -306,11 +306,13 @@ export class AuthService {
     // this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/change/')
     const nextState = of(changePasswordMock)
       .pipe(
-        tap(() => this.isPasswordChangeFinished.next(false)),
+        tap(() => {
+          this.isPasswordChangeFinished.next(false);
+          this.isPasswordChangeSucceed.next(true);
+        }),
         delay(1000),
         map(formatData),
         catchError(response => {
-          console.log('error!');
           this.isPasswordChangeSucceed.next(false);
           return of(formatData(response.error));
         }),
@@ -321,16 +323,10 @@ export class AuthService {
         })),
         tap(response => {
           setTokenResponseToCookies(response.state);
-          this.isPasswordChangeSucceed.next(true);
         }),
         finalize(() => {
           console.log('finalize');
           this.isPasswordChangeFinished.next(true);
-
-          return {
-            ...this.store.getState(),
-            isFetching: false,
-          };
         }),
       );
 

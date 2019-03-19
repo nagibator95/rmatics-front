@@ -67,8 +67,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   onChangePasswordClick() {
-    console.log(this.changePassword);
-
     this.changePassword = true;
   }
 }

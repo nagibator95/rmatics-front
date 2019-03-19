@@ -12,4 +12,5 @@ export const changePasswordMock: ApiResponse<ApiAuth> = {
     refresh_token: '',
   },
   status: '',
+  error: '',
 };
