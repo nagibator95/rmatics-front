@@ -5,21 +5,21 @@ import {AuthState} from './models/authState.model';
 
 const featureSelector = createFeatureSelector<AuthState>(AUTH_STORE);
 
-export function getError<T>(formName: string): MemoizedSelector<AuthState, T> {
+export function getError(formName: string) {
   return createSelector(
     featureSelector,
     state => state.error || null,
   );
 }
 
-export function getFetching<T>(formName: string): MemoizedSelector<AuthState, T> {
+export function getFetching(formName: string) {
   return createSelector(
     featureSelector,
     state => state.isFetching || null,
   );
 }
 
-export function getIsLoggedIn<T>(formName: string): MemoizedSelector<AuthState, T> {
+export function getIsLoggedIn(formName: string) {
   return createSelector(
     featureSelector,
     state => state.isLoggedIn || null,
