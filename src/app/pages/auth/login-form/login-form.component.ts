@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService } from '../../api/auth.service';
+import { AuthService } from '../../../api/auth.service';
 
 @Component({
   selector: 'app-login-form',

@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { ControlsModule } from '../controls/controls.module';
 import { SharedModule } from '../shared/shared.module';
 
-import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginFormComponent } from '../pages/auth/login-form/login-form.component';
 
 @NgModule({
   imports: [
