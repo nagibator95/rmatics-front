@@ -15,11 +15,6 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: './pages/auth/auth.module#AuthModule',
   },
-  // {
-  //   path: 'auth',
-  //   redirectTo: '/auth/login',
-  //   pathMatch: 'full',
-  // },
 ];
 
 @NgModule({
