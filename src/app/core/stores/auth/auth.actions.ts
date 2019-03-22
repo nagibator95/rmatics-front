@@ -7,6 +7,26 @@ export enum Types {
   SetIsLoggedIn = '[Auth] SetIsLoggedIn',
   SetState = '[Auth] SetState',
   SetError = '[Auth] SetError',
+  Login = '[Auth] Login',
+  Initialize = '[Auth] Initialize',
+  RefreshToken = '[Auth] RefreshToken',
+  Logout = '[Auth] Logout',
+}
+
+export class Login implements Action {
+  readonly type = Types.Login;
+}
+
+export class Initialize implements Action {
+  readonly type = Types.Initialize;
+}
+
+export class RefreshToken implements Action {
+  readonly type = Types.RefreshToken;
+}
+
+export class Logout implements Action {
+  readonly type = Types.Logout;
 }
 
 export class SetFetching implements Action {
@@ -33,4 +53,4 @@ export class SetError implements Action {
   constructor(public payload: string) {}
 }
 
-export type All = SetFetching | SetIsLoggedIn | SetState | SetError;
+export type All = SetFetching | SetIsLoggedIn | SetState | SetError | Login | Initialize | RefreshToken | Logout;

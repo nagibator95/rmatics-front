@@ -1,4 +1,4 @@
-import {createFeatureSelector, createSelector, MemoizedSelector} from '@ngrx/store';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
 
 import {AUTH_STORE} from './auth-store.module';
 import {AuthState} from './models/authState.model';

@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {EMPTY, Observable, of} from 'rxjs';
-
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {of, EMPTY, Observable} from 'rxjs';
 import {catchError, map, mapTo, switchMap, tap} from 'rxjs/operators';
+
 import {environment} from '../../../../../environments/environment';
 import {notAuthenticatedCookies} from '../../../../api/auth.service';
 import {ApiAuth} from '../models/apiAuth.model';
@@ -14,7 +14,7 @@ import {
   getCookie,
   getDateNowInSeconds,
   setCookies,
-  setTokenResponseToCookies
+  setTokenResponseToCookies,
 } from '../util/util';
 
 @Injectable({
@@ -114,7 +114,6 @@ export class AuthService {
     return this.provideHeaders().pipe(
       switchMap(_headers => this.http.post(environment.apiUrl + '/auth/signout/', {})),
     );
-
   }
 
   clearError() {
