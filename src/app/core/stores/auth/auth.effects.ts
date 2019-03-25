@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ofType, Actions, Effect} from '@ngrx/effects';
-import {of} from 'rxjs';
+import {of, EMPTY} from 'rxjs';
 import {catchError, flatMap, map, switchMap, tap} from 'rxjs/operators';
 
 import {getCookie} from '../../../utils/cookies';
@@ -8,9 +8,11 @@ import {RouterActions} from '../router';
 import {Routes} from '../router/enum/routes.enum';
 
 import * as AuthActions from './auth.actions';
+import {ProvideHeadersActions} from './enum/provideHeadersActions.enum';
+import {notAuthenticatedCookies} from './models/cookies.model';
 import {FormattedApiResponse} from './models/formattedApiResponse.model';
 import {AuthService} from './services/auth.service';
-import {cookieNames, formatData, getDateNowInSeconds, setTokenResponseToCookies} from './util/util';
+import {cookieNames, formatData, getDateNowInSeconds, setCookies, setTokenResponseToCookies} from './util/util';
 
 @Injectable()
 export class AuthEffects {
@@ -48,6 +50,12 @@ export class AuthEffects {
   setTokenResponseToCookies$ = this.actions$.pipe(
     ofType(AuthActions.Types.SetTokenResponseToCookies),
     tap((action: AuthActions.SetTokenResponseToCookies) => setTokenResponseToCookies(action.payload.item, action.payload.rememberMe)),
+  );
+
+  @Effect({dispatch: false})
+  setCookies$ = this.actions$.pipe(
+    ofType(AuthActions.Types.SetCookies),
+    tap((action: AuthActions.SetCookies) => setCookies(action.payload)),
   );
 
   @Effect()
@@ -104,6 +112,55 @@ export class AuthEffects {
           new AuthActions.SetStatusCode(formattedData.statusCode),
           new AuthActions.SetTokenResponseToCookies({item: formattedData.state}),
           new RouterActions.Go({path: [Routes.DefaultRoute]}),
+        ]),
+      ),
+    ),
+  );
+
+  @Effect()
+  eraseLoginState$ = this.actions$.pipe(
+    ofType(AuthActions.Types.EraseLoginState),
+    flatMap((action: AuthActions.EraseLoginState) => [
+      new AuthActions.SetCookies(action.payload),
+      new AuthActions.SetIsLoggedIn(false),
+    ]),
+  );
+
+  @Effect()
+  logout$ = this.actions$.pipe(
+    ofType(AuthActions.Types.Logout),
+    flatMap((action: AuthActions.Logout) => [
+      new AuthActions.ProvideHeaders(),
+      new AuthActions.QueryLogout(),
+    ]),
+  );
+
+  @Effect()
+  provideHeaders$ = this.actions$.pipe(
+    ofType(AuthActions.Types.ProvideHeaders),
+    switchMap((action: AuthActions.ProvideHeaders) =>
+      this.authService.provideHeaders().pipe(
+        map(headers => {
+          if (headers.action === ProvideHeadersActions.TokenRefresh) {
+            return new AuthActions.RefreshToken();
+          } else if (headers.action === ProvideHeadersActions.EmptyHeaders) {
+            return new AuthActions.EraseLoginState(notAuthenticatedCookies);
+          } else {
+            return EMPTY;
+          }
+        }),
+      ),
+    ),
+  );
+
+  @Effect()
+  queryLogout$ = this.actions$.pipe(
+    ofType(AuthActions.Types.QueryLogout),
+    switchMap((action: AuthActions.QueryLogout) =>
+      this.authService.logout().pipe(
+        flatMap(() => [
+          new AuthActions.SetIsLoggedIn(false),
+          new AuthActions.SetCookies(notAuthenticatedCookies),
         ]),
       ),
     ),

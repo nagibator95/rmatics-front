@@ -9,3 +9,15 @@ export interface Cookies {
   email?: string;
   rememberMe: boolean;
 }
+
+export const notAuthenticatedCookies: Cookies = {
+  accessToken: '',
+  refreshToken: '',
+  accessTokenExpTime: undefined,
+  refreshTokenExpTime: undefined,
+  login: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  rememberMe: false,
+};

@@ -2,6 +2,7 @@ import {Action} from '@ngrx/store';
 
 import {AuthData} from '../../../api/auth.service';
 
+import {Cookies} from './models/cookies.model';
 import {LoginPayload} from './models/loginPayload.model';
 
 export enum Types {
@@ -11,13 +12,17 @@ export enum Types {
   SetError = '[Auth] SetError',
   SetStatus = '[Auth] SetStatus',
   SetStatusCode = '[Auth] SetStatusCode',
+  SetCookies = '[Auth] SetCookies',
   Login = '[Auth] Login',
+  QueryLogin = '[Auth] QueryLogin',
   Initialize = '[Auth] Initialize',
   InitializeState = '[Auth] InitializeState',
   RefreshToken = '[Auth] RefreshToken',
   Logout = '[Auth] Logout',
-  QueryLogin = '[Auth] QueryLogin',
+  QueryLogout = '[Auth] QueryLogout',
   SetTokenResponseToCookies = '[Auth] SetTokenResponseToCookies',
+  EraseLoginState = '[Auth] EraseLoginState',
+  ProvideHeaders = '[Auth] ProvideHeaders',
 }
 
 export class Login implements Action {
@@ -56,6 +61,10 @@ export class Logout implements Action {
   readonly type = Types.Logout;
 }
 
+export class QueryLogout implements Action {
+  readonly type = Types.QueryLogout;
+}
+
 export class SetFetching implements Action {
   readonly type = Types.SetFetching;
 
@@ -92,5 +101,21 @@ export class SetStatusCode implements Action {
   constructor(public payload: number) {}
 }
 
-export type All = SetFetching | SetIsLoggedIn | SetState | SetError | SetStatus | SetStatusCode | Login | Initialize
-  | InitializeState | RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies;
+export class SetCookies implements Action {
+  readonly type = Types.SetCookies;
+
+  constructor(public payload: Cookies) {}
+}
+
+export class EraseLoginState implements Action {
+  readonly type = Types.EraseLoginState;
+
+  constructor(public payload: Cookies) {}
+}
+
+export class ProvideHeaders implements Action {
+  readonly type = Types.ProvideHeaders;
+}
+
+export type All = SetFetching | SetIsLoggedIn | SetState | SetError | SetStatus | SetStatusCode | SetCookies | Login | ProvideHeaders
+  | QueryLogout | Initialize | InitializeState | RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies | EraseLoginState;

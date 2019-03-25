@@ -5,7 +5,7 @@
     <span class="nav-item" (click)="navigate('contest')">Контест</span>
   </div>
   <button
-    *ngIf="isLoggedIn | async"
+    *ngIf="isLoggedIn$ | async"
     class="app-link"
     (click)="logout()"
   >
