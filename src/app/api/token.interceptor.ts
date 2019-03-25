@@ -21,8 +21,7 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return [environment.apiUrl].some(domain =>
-      request.url.includes(domain) && authPaths.every(path => !request.url.includes(path)))
+    return [environment.apiUrl].some(domain => request.url.includes(domain) && authPaths.every(path => !request.url.includes(path)))
       ? this.authService.provideHeaders()
         .pipe(flatMap(headers => {
           request = request.clone({ setHeaders: headers });

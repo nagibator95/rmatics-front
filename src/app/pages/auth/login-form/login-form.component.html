@@ -10,7 +10,7 @@
       <app-input
         autocomplete="username"
         (valueChange)="handleInputChange()"
-        [hasError]="!!(error | async)"
+        [hasError]="!!(error$ | async)"
         [formControl]="login">
       </app-input>
     </label>
@@ -19,13 +19,13 @@
       <app-input
         autocomplete="current-password"
         (valueChange)="handleInputChange()"
-        [hasError]="!!(error | async)"
+        [hasError]="!!(error$ | async)"
         [formControl]="password"
         type="password">
       </app-input>
     </label>
 
-    <span class="form__error">{{error | async}}</span>
+    <span class="form__error">{{error$ | async}}</span>
   </div>
 
   <div class="form__controls">
@@ -33,7 +33,7 @@
       type="submit"
       class="app-button_primary"
       [disabled]="!loginForm.valid"
-      [class.app-button--loading]="isFetching | async"
+      [class.app-button--loading]="isFetching$ | async"
     >
       Войти
     </button>

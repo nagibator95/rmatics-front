@@ -2,6 +2,7 @@ import {ApiAuth} from '../models/apiAuth.model';
 import {ApiResponse} from '../models/apiResponse.model';
 import {AuthData} from '../models/authData.model';
 import {Cookies} from '../models/cookies.model';
+import {FormattedApiResponse} from '../models/formattedApiResponse.model';
 
 export const getCookie = (name: string) => {
   const matches = document.cookie.match(new RegExp(
@@ -35,7 +36,7 @@ export const cookieNames = {
   rememberMe: 'remember_me',
 };
 
-export const formatData = (response: ApiResponse<ApiAuth>) => {
+export const formatData = (response: ApiResponse<ApiAuth>): FormattedApiResponse => {
   const { data, error, status_code, status } = response;
 
   const state = data !== undefined

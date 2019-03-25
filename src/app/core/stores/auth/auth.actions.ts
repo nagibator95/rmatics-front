@@ -1,20 +1,40 @@
 import {Action} from '@ngrx/store';
 
-import {AuthState} from './models/authState.model';
+import {AuthData} from '../../../api/auth.service';
+
+import {LoginPayload} from './models/loginPayload.model';
 
 export enum Types {
   SetFetching = '[Auth] SetFetching',
   SetIsLoggedIn = '[Auth] SetIsLoggedIn',
   SetState = '[Auth] SetState',
   SetError = '[Auth] SetError',
+  SetStatus = '[Auth] SetStatus',
+  SetStatusCode = '[Auth] SetStatusCode',
   Login = '[Auth] Login',
   Initialize = '[Auth] Initialize',
   RefreshToken = '[Auth] RefreshToken',
   Logout = '[Auth] Logout',
+  QueryLogin = '[Auth] QueryLogin',
+  SetTokenResponseToCookies = '[Auth] SetTokenResponseToCookies',
 }
 
 export class Login implements Action {
   readonly type = Types.Login;
+
+  constructor(public payload: LoginPayload) {}
+}
+
+export class QueryLogin implements Action {
+  readonly type = Types.QueryLogin;
+
+  constructor(public payload: LoginPayload) {}
+}
+
+export class SetTokenResponseToCookies implements Action {
+  readonly type = Types.SetTokenResponseToCookies;
+
+  constructor(public payload: {item?: AuthData, rememberMe?: boolean}) {}
 }
 
 export class Initialize implements Action {
@@ -44,7 +64,7 @@ export class SetIsLoggedIn implements Action {
 export class SetState implements Action {
   readonly type = Types.SetState;
 
-  constructor(public payload: AuthState) {}
+  constructor(public payload: AuthData) {}
 }
 
 export class SetError implements Action {
@@ -53,4 +73,17 @@ export class SetError implements Action {
   constructor(public payload: string) {}
 }
 
-export type All = SetFetching | SetIsLoggedIn | SetState | SetError | Login | Initialize | RefreshToken | Logout;
+export class SetStatus implements Action {
+  readonly type = Types.SetStatus;
+
+  constructor(public payload: string) {}
+}
+
+export class SetStatusCode implements Action {
+  readonly type = Types.SetStatusCode;
+
+  constructor(public payload: number) {}
+}
+
+export type All = SetFetching | SetIsLoggedIn | SetState | SetError | SetStatus | SetStatusCode | Login | Initialize
+  | RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies;

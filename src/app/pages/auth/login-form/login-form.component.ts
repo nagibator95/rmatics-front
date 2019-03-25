@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 import { AuthService } from '../../../api/auth.service';
+import {AuthActions, AuthSelectors} from '../../../core/stores/auth';
 
 @Component({
   selector: 'app-login-form',
@@ -10,16 +14,15 @@ import { AuthService } from '../../../api/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class LoginFormComponent implements OnInit {
+export class LoginFormComponent implements OnInit, OnDestroy {
   loginForm = new FormGroup({});
-  isFormSubmitted = false;
   telegramLink = 'https://t.me/joinchat/AAAAAECFqTNMd00Y93MX8Q';
-  error = this.auth.error;
-  isFetching = this.auth.isFetching;
+  error$: Observable<boolean>;
+  isFetching$: Observable<boolean>;
   rememberMe = true;
+  private readonly destroy$ = new Subject();
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {
-  }
+  constructor(private fb: FormBuilder, private auth: AuthService, private store$: Store<any>) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group(
@@ -32,6 +35,20 @@ export class LoginFormComponent implements OnInit {
         ]],
       },
     );
+
+    this.isFetching$ = this.store$.pipe(
+      select(AuthSelectors.getFetching()),
+      takeUntil(this.destroy$));
+
+    this.error$ = this.store$.pipe(
+      select(AuthSelectors.getError()),
+      takeUntil(this.destroy$),
+    );
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   get login() {
@@ -43,13 +60,15 @@ export class LoginFormComponent implements OnInit {
   }
 
   handleInputChange() {
-    this.auth.clearError();
+    this.store$.dispatch(new AuthActions.SetError(undefined));
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
     if (this.loginForm.valid) {
-      this.auth.login({ username: this.login.value, password: this.password.value }, this.rememberMe);
+      this.store$.dispatch(new AuthActions.Login({
+        authData: {username: this.login.value, password: this.password.value},
+        rememberMe: this.rememberMe,
+      }));
     }
   }
 }

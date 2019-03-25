@@ -6,9 +6,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../../environments/environment';
 
+import {AuthStoreModule} from './stores/auth';
 import {RouterStoreModule} from './stores/router/router-store.module';
 
-const STORE_MODULES = [RouterStoreModule];
+const STORE_MODULES = [RouterStoreModule, AuthStoreModule];
 
 @NgModule({
   declarations: [],

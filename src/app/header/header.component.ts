@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {Store} from '@ngrx/store';
 
 import { AuthService } from '../api/auth.service';
-import {Store} from '@ngrx/store';
 import {RouterActions} from '../core/stores/router';
 
 @Component({
