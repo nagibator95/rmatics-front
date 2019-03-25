@@ -13,6 +13,7 @@ export enum Types {
   SetStatusCode = '[Auth] SetStatusCode',
   Login = '[Auth] Login',
   Initialize = '[Auth] Initialize',
+  InitializeState = '[Auth] InitializeState',
   RefreshToken = '[Auth] RefreshToken',
   Logout = '[Auth] Logout',
   QueryLogin = '[Auth] QueryLogin',
@@ -39,6 +40,12 @@ export class SetTokenResponseToCookies implements Action {
 
 export class Initialize implements Action {
   readonly type = Types.Initialize;
+}
+
+export class InitializeState implements Action {
+  readonly type = Types.InitializeState;
+
+  constructor(public payload: AuthData) {}
 }
 
 export class RefreshToken implements Action {
@@ -86,4 +93,4 @@ export class SetStatusCode implements Action {
 }
 
 export type All = SetFetching | SetIsLoggedIn | SetState | SetError | SetStatus | SetStatusCode | Login | Initialize
-  | RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies;
+  | InitializeState | RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies;

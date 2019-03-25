@@ -4,7 +4,7 @@ import {Observable, Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 
 import { AuthService } from './api/auth.service';
-import {AuthSelectors} from './core/stores/auth';
+import {AuthActions, AuthSelectors} from './core/stores/auth';
 import {RouterActions} from './core/stores/router';
 
 @Component({
@@ -21,12 +21,11 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private auth: AuthService, private changeDetectorRef: ChangeDetectorRef, private store$: Store<any>) {}
 
   ngOnInit() {
-    this.auth.init();
-    this.isLoggedIn$ = this.store$.pipe(select(AuthSelectors.getIsLoggedIn()), takeUntil(this.destroy$));
+    this.store$.dispatch(new AuthActions.Initialize());
     this.changeDetectorRef.detectChanges();
 
-    this.isLoggedIn$.pipe(take(1)).subscribe(isLoggedIn => {
-      console.log('isLoggedIn:', isLoggedIn);
+    this.isLoggedIn$ = this.store$.pipe(select(AuthSelectors.getIsLoggedIn()), takeUntil(this.destroy$));
+    this.isLoggedIn$.subscribe(isLoggedIn => {
       if (!isLoggedIn) {
         this.store$.dispatch(new RouterActions.Go({
           path: ['/auth/login'],
