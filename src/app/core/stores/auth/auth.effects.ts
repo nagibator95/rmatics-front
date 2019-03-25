@@ -13,7 +13,6 @@ export class AuthEffects {
   @Effect()
   login$ = this.actions$.pipe(
     ofType(AuthActions.Types.Login),
-    tap(() => console.log('LOG')),
     flatMap((action: AuthActions.Login) => [
       new AuthActions.SetFetching(true),
       new AuthActions.QueryLogin(action.payload),
@@ -47,6 +46,12 @@ export class AuthEffects {
   setTokenResponseToCookies$ = this.actions$.pipe(
     ofType(AuthActions.Types.SetTokenResponseToCookies),
     tap((action: AuthActions.SetTokenResponseToCookies) => setTokenResponseToCookies(action.payload.item, action.payload.rememberMe)),
+  );
+
+  @Effect()
+  initialize = this.actions$.pipe(
+    ofType(AuthActions.Types.Initialize),
+
   );
 
   constructor(private actions$: Actions,

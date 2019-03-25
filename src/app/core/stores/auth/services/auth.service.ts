@@ -6,6 +6,7 @@ import {environment} from '../../../../../environments/environment';
 import {ApiAuth} from '../models/apiAuth.model';
 import {ApiResponse} from '../models/apiResponse.model';
 import {LoginAuthData} from '../models/loginPayload.model';
+import {cookieNames, getCookie} from '../util/util';
 
 @Injectable({
   providedIn: 'root',
@@ -84,21 +85,10 @@ export class AuthService {
   //   }
   // }
   //
-  // refreshToken() {
-  //   return this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/refresh/',
-  //     { refresh_token: getCookie(cookieNames.refreshToken) })
-  //     .pipe(
-  //       map(formatData),
-  //       catchError(response => of(formatData(response.error))),
-  //       map(state => ({
-  //         ...this.store.getState(),
-  //         ...state,
-  //         isFetching: false,
-  //         isLoggedIn: state.statusCode === 200,
-  //       })),
-  //       tap(response => setTokenResponseToCookies(response.state)),
-  //     );
-  // }
+  refreshToken(): Observable<ApiResponse<ApiAuth>> {
+    return this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/refresh/',
+      { refresh_token: getCookie(cookieNames.refreshToken) });
+  }
   //
   // logout() {
   //   return this.provideHeaders().pipe(

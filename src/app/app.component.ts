@@ -1,7 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import {Store} from '@ngrx/store';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {Observable, Subject} from 'rxjs';
+import {take, takeUntil} from 'rxjs/operators';
 
 import { AuthService } from './api/auth.service';
+import {AuthSelectors} from './core/stores/auth';
 import {RouterActions} from './core/stores/router';
 
 @Component({
@@ -10,18 +13,20 @@ import {RouterActions} from './core/stores/router';
   styleUrls: ['./app.component.scss'],
 })
 
-export class AppComponent implements OnInit {
-  isLoggedIn = this.auth.isLoggedIn;
+export class AppComponent implements OnInit, OnDestroy {
+  isLoggedIn$: Observable<boolean>;
 
-  constructor(private auth: AuthService, private changeDetectorRef: ChangeDetectorRef, private store$: Store<any>) {
-  }
+  private readonly destroy$ = new Subject();
+
+  constructor(private auth: AuthService, private changeDetectorRef: ChangeDetectorRef, private store$: Store<any>) {}
 
   ngOnInit() {
     this.auth.init();
+    this.isLoggedIn$ = this.store$.pipe(select(AuthSelectors.getIsLoggedIn()), takeUntil(this.destroy$));
     this.changeDetectorRef.detectChanges();
 
-    this.isLoggedIn.subscribe(isLoggedIn => {
-      console.log(isLoggedIn);
+    this.isLoggedIn$.pipe(take(1)).subscribe(isLoggedIn => {
+      console.log('isLoggedIn:', isLoggedIn);
       if (!isLoggedIn) {
         this.store$.dispatch(new RouterActions.Go({
           path: ['/auth/login'],
@@ -32,5 +37,10 @@ export class AppComponent implements OnInit {
         }));
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
