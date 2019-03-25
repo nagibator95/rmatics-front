@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {ofType, Actions, Effect} from '@ngrx/effects';
-import {of, EMPTY} from 'rxjs';
+import {of} from 'rxjs';
 import {catchError, flatMap, map, switchMap, tap} from 'rxjs/operators';
 
 import {getCookie} from '../../../utils/cookies';
+import {RouterActions} from '../router';
+import {Routes} from '../router/enum/routes.enum';
 
 import * as AuthActions from './auth.actions';
 import {FormattedApiResponse} from './models/formattedApiResponse.model';
@@ -27,10 +29,7 @@ export class AuthEffects {
     switchMap((action: AuthActions.QueryLogin) =>
       this.authService.login(action.payload.authData).pipe(
         map(formatData),
-        catchError(response => {
-          console.log('ERROR!');
-          return of(formatData(response.error));
-        }),
+        catchError(response => of(formatData(response.error))),
         flatMap((formattedData: FormattedApiResponse) => [
           new AuthActions.SetState(formattedData.state),
           new AuthActions.SetError(formattedData.error),
@@ -39,6 +38,7 @@ export class AuthEffects {
           new AuthActions.SetStatus(formattedData.status),
           new AuthActions.SetStatusCode(formattedData.statusCode),
           new AuthActions.SetTokenResponseToCookies({item: formattedData.state, rememberMe: action.payload.rememberMe}),
+          new RouterActions.Go({path: [formattedData.statusCode === 200 ? Routes.DefaultRoute : Routes.AuthRoute]}),
         ]),
       ),
     ),
@@ -72,9 +72,9 @@ export class AuthEffects {
         } else {
           return new AuthActions.RefreshToken();
         }
+      } else {
+        return new RouterActions.Go({path: [Routes.AuthRoute]});
       }
-
-      return new AuthActions.SetIsLoggedIn(false);
     }),
   );
 
@@ -84,7 +84,29 @@ export class AuthEffects {
     flatMap((action: AuthActions.InitializeState) => [
       new AuthActions.SetState(action.payload),
       new AuthActions.SetIsLoggedIn(true),
+      new RouterActions.Go({path: [Routes.DefaultRoute]}),
     ]),
+  );
+
+  @Effect()
+  refreshToken$ = this.actions$.pipe(
+    ofType(AuthActions.Types.RefreshToken),
+    switchMap((action: AuthActions.RefreshToken) =>
+      this.authService.refreshToken().pipe(
+        map(formatData),
+        catchError(response => of(formatData(response.error))),
+        flatMap((formattedData: FormattedApiResponse) => [
+          new AuthActions.SetState(formattedData.state),
+          new AuthActions.SetError(formattedData.error),
+          new AuthActions.SetFetching(false),
+          new AuthActions.SetIsLoggedIn(formattedData.statusCode === 200),
+          new AuthActions.SetStatus(formattedData.status),
+          new AuthActions.SetStatusCode(formattedData.statusCode),
+          new AuthActions.SetTokenResponseToCookies({item: formattedData.state}),
+          new RouterActions.Go({path: [Routes.DefaultRoute]}),
+        ]),
+      ),
+    ),
   );
 
   constructor(private actions$: Actions,

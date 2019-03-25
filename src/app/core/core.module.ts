@@ -19,7 +19,7 @@ const STORE_MODULES = [RouterStoreModule, AuthStoreModule];
     StoreModule .forRoot({}),
     EffectsModule .forRoot([]),
     StoreDevtoolsModule.instrument({
-      maxAge: 15,
+      maxAge: 25,
       logOnly: environment.production,
     }),
   ],
