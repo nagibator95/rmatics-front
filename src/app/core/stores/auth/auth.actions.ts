@@ -4,6 +4,7 @@ import {AuthData} from './models/authData.model';
 import {AuthState} from './models/authState.model';
 import {Cookies} from './models/cookies.model';
 import {LoginPayload} from './models/loginPayload.model';
+import {RestorePasswordPayload} from './models/restorePasswordPayload.model';
 
 export enum Types {
   SetFetching = '[Auth] SetFetching',
@@ -12,6 +13,7 @@ export enum Types {
   SetError = '[Auth] SetError',
   SetStatus = '[Auth] SetStatus',
   SetStatusCode = '[Auth] SetStatusCode',
+  SetIsPasswordRestoreFinished = '[Auth] SetIsPasswordRestoreFinished',
   SetWholeState = '[Auth] SetWholeState',
   SetCookies = '[Auth] SetCookies',
   Login = '[Auth] Login',
@@ -25,6 +27,8 @@ export enum Types {
   EraseLoginState = '[Auth] EraseLoginState',
   ProvideHeaders = '[Auth] ProvideHeaders',
   NoTokenRefreshNeeded = '[Auth] NoTokenRefreshNeeded',
+  RestorePassword = '[Auth] RestorePassword',
+  QueryRestorePassword = '[Auth] QueryRestorePassword',
 }
 
 export class Login implements Action {
@@ -103,6 +107,12 @@ export class SetStatusCode implements Action {
   constructor(public payload: number) {}
 }
 
+export class SetIsPasswordRestoreFinished implements Action {
+  readonly type = Types.SetIsPasswordRestoreFinished;
+
+  constructor(public payload: boolean) {}
+}
+
 export class SetCookies implements Action {
   readonly type = Types.SetCookies;
 
@@ -129,5 +139,18 @@ export class NoTokenRefreshNeeded implements Action {
   readonly type = Types.NoTokenRefreshNeeded;
 }
 
-export type All = SetFetching | SetIsLoggedIn | SetState | SetError | SetStatus | SetStatusCode | SetCookies | SetWholeState | Login | ProvideHeaders
-  | QueryLogout | Initialize | InitializeState | RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies | EraseLoginState | NoTokenRefreshNeeded;
+export class RestorePassword implements Action {
+  readonly type = Types.RestorePassword;
+
+  constructor(public payload: RestorePasswordPayload) {}
+}
+
+export class QueryRestorePassword implements Action {
+  readonly type = Types.QueryRestorePassword;
+
+  constructor(public payload: RestorePasswordPayload) {}
+}
+
+export type All = SetFetching | SetIsLoggedIn | SetState | SetError | SetStatus | SetStatusCode | SetCookies | QueryRestorePassword |
+  SetWholeState | Login | ProvideHeaders | RestorePassword | QueryLogout | Initialize | InitializeState | SetIsPasswordRestoreFinished |
+  RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies | EraseLoginState | NoTokenRefreshNeeded;

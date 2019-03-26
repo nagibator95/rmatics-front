@@ -21,18 +21,22 @@ export class RestorePasswordFormComponent implements OnInit, OnDestroy {
   byLogin = true;
   isFetching$: Observable<boolean>;
   error$: Observable<boolean>;
-  // should include in store
-  isPasswordChangeFinished$: Observable<boolean>;
-  isPasswordChangeSucceed$: Observable<boolean>;
+  isPasswordRestoreFinished$: Observable<boolean>;
 
   radioButtons: RadioButton[] = [
     {
       text: 'По логину',
-      onClickHandler: () => this.switchSubmitWay(true),
+      onClickHandler: () => {
+        this.isFormSubmitted = false;
+        this.switchSubmitWay(true);
+      },
     },
     {
       text: 'По email',
-      onClickHandler: () => this.switchSubmitWay(false),
+      onClickHandler: () => {
+        this.isFormSubmitted = false;
+        this.switchSubmitWay(false);
+      },
     },
   ];
   private readonly destroy$ = new Subject();
@@ -54,6 +58,11 @@ export class RestorePasswordFormComponent implements OnInit, OnDestroy {
       select(AuthSelectors.getError()),
       takeUntil(this.destroy$),
     );
+
+    this.isPasswordRestoreFinished$ = this.store$.pipe(
+      select(AuthSelectors.getIsPasswordRestoreFinished()),
+      takeUntil(this.destroy$),
+    );
   }
 
   ngOnInit() {}
@@ -73,15 +82,13 @@ export class RestorePasswordFormComponent implements OnInit, OnDestroy {
 
   handleInputChange() {
     this.isFormSubmitted = false;
-
-    this.store$.dispatch(new AuthActions.SetError(''));
   }
 
   onSubmit() {
     this.isFormSubmitted = true;
-    //
-    // if (this.restorePasswordForm.valid) {
-    //   this.auth.changePassword(this.byLogin ? {username: this.loginOrEmail.value} : {email: this.loginOrEmail.value});
-    // }
+
+    if (this.restorePasswordForm.valid) {
+      this.store$.dispatch(new AuthActions.RestorePassword(this.byLogin ? {username: this.loginOrEmail.value} : {email: this.loginOrEmail.value}));
+    }
   }
 }

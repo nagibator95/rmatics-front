@@ -18,7 +18,7 @@ import {
   getCookie,
   getDateNowInSeconds,
   setCookies,
-  setTokenResponseToCookies
+  setTokenResponseToCookies,
 } from './util/util';
 
 @Injectable()
@@ -177,6 +177,39 @@ export class AuthEffects {
           new AuthActions.SetWholeState(initialState),
           new AuthActions.SetCookies(notAuthenticatedCookies),
           new RouterActions.Go({ path: [Routes.AuthRoute]} ),
+        ]),
+      ),
+    ),
+  );
+
+  @Effect()
+  restorePassword$ = this.actions$.pipe(
+    ofType(AuthActions.Types.RestorePassword),
+    flatMap((action: AuthActions.RestorePassword) => [
+      new AuthActions.SetFetching(true),
+      new AuthActions.SetIsPasswordRestoreFinished(false),
+      new AuthActions.QueryRestorePassword(action.payload),
+    ]),
+  );
+
+  @Effect()
+  queryRestorePassword$ = this.actions$.pipe(
+    ofType(AuthActions.Types.QueryRestorePassword),
+    switchMap((action: AuthActions.QueryRestorePassword) =>
+      this.authService.restorePassword(action.payload).pipe(
+        map(response => {
+          console.log('SUCCESS!', response.error);
+
+          return of(response);
+        }),
+        catchError(response => {
+          console.log('ERRORE!', response.error);
+          return of(response);
+        }),
+        flatMap(response => [
+          new AuthActions.SetError(response.error ? response.error.error : response.error),
+          new AuthActions.SetIsPasswordRestoreFinished(true),
+          new AuthActions.SetFetching(false),
         ]),
       ),
     ),

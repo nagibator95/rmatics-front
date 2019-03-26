@@ -1,18 +1,16 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {of, EMPTY, Observable} from 'rxjs';
+import {of, Observable} from 'rxjs';
 
 import {environment} from '../../../../../environments/environment';
 import {ProvideHeadersActions} from '../enum/provideHeadersActions.enum';
 import {ApiAuth} from '../models/apiAuth.model';
 import {ApiResponse} from '../models/apiResponse.model';
 import {LoginAuthData} from '../models/loginPayload.model';
+import {RestorePasswordPayload} from '../models/restorePasswordPayload.model';
 import {constructHeaders, cookieNames, getCookie, getDateNowInSeconds} from '../util/util';
 
-@Injectable({
-  providedIn: 'root',
-})
-
+@Injectable()
 export class AuthService {
   constructor(private http: HttpClient) {}
 
@@ -50,6 +48,10 @@ export class AuthService {
   refreshToken(): Observable<ApiResponse<ApiAuth>> {
     return this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/refresh/',
       { refresh_token: getCookie(cookieNames.refreshToken) });
+  }
+
+  restorePassword(data: RestorePasswordPayload): Observable<any> {
+    return this.http.post(environment.apiUrl + '/auth/reset/', data);
   }
 
   logout(): Observable<any> {

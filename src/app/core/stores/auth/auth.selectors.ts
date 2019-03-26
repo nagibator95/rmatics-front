@@ -25,3 +25,10 @@ export function getIsLoggedIn() {
     state => state.isLoggedIn || null,
   );
 }
+
+export function getIsPasswordRestoreFinished() {
+  return createSelector(
+    featureSelector,
+    state => state.isPasswordRestoreFinished || null,
+  );
+}
