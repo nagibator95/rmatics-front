@@ -7,7 +7,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../../environments/environment';
 
 import {AuthStoreModule} from './stores/auth';
-import {RouterStoreModule} from './stores/router/router-store.module';
+import {RouterStoreModule} from './stores/router';
 
 const STORE_MODULES = [RouterStoreModule, AuthStoreModule];
 
@@ -24,4 +24,4 @@ const STORE_MODULES = [RouterStoreModule, AuthStoreModule];
     }),
   ],
 })
-export class CoreModule { }
+export class CoreModule {}

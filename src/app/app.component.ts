@@ -7,9 +7,7 @@ import {AuthActions} from './core/stores/auth';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
 })
-
 export class AppComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
 

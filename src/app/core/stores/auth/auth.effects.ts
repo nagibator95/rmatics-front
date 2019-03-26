@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ofType, Actions, Effect} from '@ngrx/effects';
-import {of, EMPTY} from 'rxjs';
+import {of} from 'rxjs';
 import {catchError, flatMap, map, switchMap, tap} from 'rxjs/operators';
 
-import {getCookie} from '../../../utils/cookies';
 import {RouterActions} from '../router';
 import {Routes} from '../router/enum/routes.enum';
 
@@ -12,6 +11,7 @@ import {ProvideHeadersActions} from './enum/provideHeadersActions.enum';
 import {notAuthenticatedCookies} from './models/cookies.model';
 import {FormattedApiResponse} from './models/formattedApiResponse.model';
 import {AuthService} from './services/auth.service';
+import {getCookie} from './util/util';
 import {cookieNames, formatData, getDateNowInSeconds, setCookies, setTokenResponseToCookies} from './util/util';
 
 @Injectable()

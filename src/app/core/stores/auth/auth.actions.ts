@@ -1,7 +1,6 @@
 import {Action} from '@ngrx/store';
 
-import {AuthData} from '../../../api/auth.service';
-
+import {AuthData} from './models/authData.model';
 import {Cookies} from './models/cookies.model';
 import {LoginPayload} from './models/loginPayload.model';
 

@@ -3,7 +3,6 @@ import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-import { AuthService } from '../api/auth.service';
 import {AuthActions, AuthSelectors} from '../core/stores/auth';
 import {RouterActions} from '../core/stores/router';
 
@@ -18,7 +17,7 @@ export class HeaderComponent implements OnDestroy {
   isLoggedIn$: Observable<boolean>;
   private destroy$ = new Subject();
 
-  constructor(private auth: AuthService, private store$: Store<any>) {
+  constructor(private store$: Store<any>) {
     this.isLoggedIn$ = this.store$.pipe(select(AuthSelectors.getIsLoggedIn()), takeUntil(this.destroy$));
   }
 

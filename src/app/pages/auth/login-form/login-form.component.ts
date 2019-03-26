@@ -4,8 +4,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-import { AuthService } from '../../../api/auth.service';
+import {TELEGRAM_LINK} from '../../../core/constants/links';
 import {AuthActions, AuthSelectors} from '../../../core/stores/auth';
+import {RouterActions} from '../../../core/stores/router';
+import {Routes} from '../../../core/stores/router/enum/routes.enum';
 
 @Component({
   selector: 'app-login-form',
@@ -16,13 +18,22 @@ import {AuthActions, AuthSelectors} from '../../../core/stores/auth';
 
 export class LoginFormComponent implements OnInit, OnDestroy {
   loginForm = new FormGroup({});
-  telegramLink = 'https://t.me/joinchat/AAAAAECFqTNMd00Y93MX8Q';
+  telegramLink = TELEGRAM_LINK;
   error$: Observable<boolean>;
   isFetching$: Observable<boolean>;
   rememberMe = true;
   private readonly destroy$ = new Subject();
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private store$: Store<any>) {}
+  constructor(private fb: FormBuilder, private store$: Store<any>) {
+    this.isFetching$ = this.store$.pipe(
+      select(AuthSelectors.getFetching()),
+      takeUntil(this.destroy$));
+
+    this.error$ = this.store$.pipe(
+      select(AuthSelectors.getError()),
+      takeUntil(this.destroy$),
+    );
+  }
 
   ngOnInit() {
     this.loginForm = this.fb.group(
@@ -34,15 +45,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           Validators.required,
         ]],
       },
-    );
-
-    this.isFetching$ = this.store$.pipe(
-      select(AuthSelectors.getFetching()),
-      takeUntil(this.destroy$));
-
-    this.error$ = this.store$.pipe(
-      select(AuthSelectors.getError()),
-      takeUntil(this.destroy$),
     );
   }
 
@@ -61,6 +63,12 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   handleInputChange() {
     this.store$.dispatch(new AuthActions.SetError(undefined));
+  }
+
+  onChangePasswordClick() {
+    this.store$.dispatch(new RouterActions.Go({
+      path: [Routes.RestorePasswordRoute],
+    }));
   }
 
   onSubmit() {

@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 
-import {ControlsModule} from '../../controls/controls.module';
 import {SharedModule} from '../../shared/shared.module';
+import {ControlsModule} from '../../ui/controls/controls.module';
+import {UiModule} from '../../ui/ui.module';
 
 import { AuthComponent } from './auth.component';
 import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
     SharedModule,
     ControlsModule,
     FormsModule,
+    UiModule,
   ],
   declarations: [
     AuthComponent,
@@ -43,7 +45,7 @@ const routes: Routes = [
     AuthComponent,
     LoginFormComponent,
     RestorePasswordFormComponent,
-    ChangePasswordFormComponent
+    ChangePasswordFormComponent,
   ],
 })
 export class AuthModule { }

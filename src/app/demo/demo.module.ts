@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ControlsModule } from '../controls/controls.module';
+import { ControlsModule } from '../ui/controls/controls.module';
 import { UiModule } from '../ui/ui.module';
 
 import { ButtonDemoComponent } from './button/button-demo.component';
 import { CheckboxDemoComponent } from './checkbox/checkbox-demo.component';
 import { DemoComponent } from './demo.component';
 import { InputDemoComponent } from './input/input-demo.component';
+import { RadioGroupDemoComponent } from './radio-group-demo/radio-group-demo.component';
 import { RadioDemoComponent } from './radio/radio-demo.component';
 import { SelectDemoComponent } from './select/select-demo.component';
 import { TabsDemoComponent } from './tabs/tabs-demo.component';
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'upload', component: UploadDemoComponent },
       { path: 'select', component: SelectDemoComponent },
       { path: 'tabs', component: TabsDemoComponent },
+      { path: 'radioGroup', component: RadioGroupDemoComponent },
     ],
   },
 ];
@@ -44,6 +46,7 @@ const routes: Routes = [
     UploadDemoComponent,
     SelectDemoComponent,
     TabsDemoComponent,
+    RadioGroupDemoComponent,
   ],
   exports: [
     DemoComponent,
@@ -53,6 +56,7 @@ const routes: Routes = [
     RadioDemoComponent,
     UploadDemoComponent,
     SelectDemoComponent,
+    RadioGroupDemoComponent,
   ],
 })
 

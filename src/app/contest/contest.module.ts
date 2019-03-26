@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
-import { ControlsModule } from '../controls/controls.module';
 import { SharedModule } from '../shared/shared.module';
+import { ControlsModule } from '../ui/controls/controls.module';
 import { UiModule } from '../ui/ui.module';
 
 import { CodeBlockComponent } from './code-block/code-block.component';
