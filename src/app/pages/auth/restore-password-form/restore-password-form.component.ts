@@ -19,9 +19,9 @@ export class RestorePasswordFormComponent implements OnInit, OnDestroy {
   isFormSubmitted = false;
   telegramLink = TELEGRAM_LINK;
   byLogin = true;
-  isFetching$: Observable<boolean>;
-  error$: Observable<boolean>;
-  isPasswordRestoreFinished$: Observable<boolean>;
+  isFetching$: Observable<boolean | null>;
+  error$: Observable<string | null>;
+  isPasswordRestoreFinished$: Observable<boolean | null>;
 
   radioButtons: RadioButton[] = [
     {

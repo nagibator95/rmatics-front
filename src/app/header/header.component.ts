@@ -14,7 +14,7 @@ import {RouterActions} from '../core/stores/router';
 })
 
 export class HeaderComponent implements OnDestroy {
-  isLoggedIn$: Observable<boolean>;
+  isLoggedIn$: Observable<boolean | null>;
   private destroy$ = new Subject();
 
   constructor(private store$: Store<any>) {

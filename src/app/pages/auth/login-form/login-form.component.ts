@@ -19,8 +19,8 @@ import {Routes} from '../../../core/stores/router/enum/routes.enum';
 export class LoginFormComponent implements OnInit, OnDestroy {
   loginForm = new FormGroup({});
   telegramLink = TELEGRAM_LINK;
-  error$: Observable<boolean>;
-  isFetching$: Observable<boolean>;
+  error$: Observable<string | null>;
+  isFetching$: Observable<boolean | null>;
   rememberMe = true;
   private readonly destroy$ = new Subject();
 

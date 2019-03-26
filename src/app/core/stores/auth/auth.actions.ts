@@ -86,13 +86,13 @@ export class SetIsLoggedIn implements Action {
 export class SetState implements Action {
   readonly type = Types.SetState;
 
-  constructor(public payload: AuthData) {}
+  constructor(public payload: AuthData | undefined) {}
 }
 
 export class SetError implements Action {
   readonly type = Types.SetError;
 
-  constructor(public payload: string) {}
+  constructor(public payload: string | undefined) {}
 }
 
 export class SetStatus implements Action {

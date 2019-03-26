@@ -68,13 +68,13 @@ export class AuthEffects {
   @Effect({dispatch: false})
   NoTokenRefreshNeeded$ = this.actions$.pipe(
     ofType(AuthActions.Types.NoTokenRefreshNeeded),
-    tap((action: AuthActions.NoTokenRefreshNeeded) => {}),
+    tap(() => {}),
   );
 
   @Effect()
   initialize$ = this.actions$.pipe(
     ofType(AuthActions.Types.Initialize),
-    map((action: AuthActions.Types.Initialize) => {
+    map(() => {
       const dateNowInSeconds = getDateNowInSeconds();
       const accessTokenExpTime = +(getCookie(cookieNames.accessTokenExpTime) || 0);
       const rememberMe = getCookie(cookieNames.rememberMe);
@@ -112,7 +112,7 @@ export class AuthEffects {
   @Effect()
   refreshToken$ = this.actions$.pipe(
     ofType(AuthActions.Types.RefreshToken),
-    switchMap((action: AuthActions.RefreshToken) =>
+    switchMap(() =>
       this.authService.refreshToken().pipe(
         map(formatData),
         catchError(response => of(formatData(response.error))),
@@ -143,7 +143,7 @@ export class AuthEffects {
   @Effect()
   logout$ = this.actions$.pipe(
     ofType(AuthActions.Types.Logout),
-    flatMap((action: AuthActions.Logout) => [
+    flatMap(() => [
       new AuthActions.ProvideHeaders(),
       new AuthActions.QueryLogout(),
     ]),
@@ -152,7 +152,7 @@ export class AuthEffects {
   @Effect()
   provideHeaders$ = this.actions$.pipe(
     ofType(AuthActions.Types.ProvideHeaders),
-    switchMap((action: AuthActions.ProvideHeaders) =>
+    switchMap(() =>
       this.authService.provideHeaders().pipe(
         map(headers => {
           switch (headers.action) {
@@ -171,7 +171,7 @@ export class AuthEffects {
   @Effect()
   queryLogout$ = this.actions$.pipe(
     ofType(AuthActions.Types.QueryLogout),
-    switchMap((action: AuthActions.QueryLogout) =>
+    switchMap(() =>
       this.authService.logout().pipe(
         flatMap(() => [
           new AuthActions.SetWholeState(initialState),

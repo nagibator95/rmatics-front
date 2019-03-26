@@ -18,7 +18,7 @@ export class AuthService {
     return this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/signin/', authData);
   }
 
-  provideHeaders(): Observable<{ headers: AuthHeaders; action: ProvideHeadersActions }> {
+  provideHeaders(): Observable<{ headers: AuthHeaders | {}; action: ProvideHeadersActions }> {
     const dateNowInSeconds = getDateNowInSeconds();
     const accessTokenExpTime = +(getCookie(cookieNames.accessTokenExpTime) || 0);
     const refreshTokenExpTime = +(getCookie(cookieNames.refreshTokenExpTime) || 0);
