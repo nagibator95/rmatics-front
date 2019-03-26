@@ -7,12 +7,19 @@ import {RouterActions} from '../router';
 import {Routes} from '../router/enum/routes.enum';
 
 import * as AuthActions from './auth.actions';
+import {initialState} from './auth.reducer';
 import {ProvideHeadersActions} from './enum/provideHeadersActions.enum';
 import {notAuthenticatedCookies} from './models/cookies.model';
 import {FormattedApiResponse} from './models/formattedApiResponse.model';
 import {AuthService} from './services/auth.service';
-import {getCookie} from './util/util';
-import {cookieNames, formatData, getDateNowInSeconds, setCookies, setTokenResponseToCookies} from './util/util';
+import {
+  cookieNames,
+  formatData,
+  getCookie,
+  getDateNowInSeconds,
+  setCookies,
+  setTokenResponseToCookies
+} from './util/util';
 
 @Injectable()
 export class AuthEffects {
@@ -56,6 +63,12 @@ export class AuthEffects {
   setCookies$ = this.actions$.pipe(
     ofType(AuthActions.Types.SetCookies),
     tap((action: AuthActions.SetCookies) => setCookies(action.payload)),
+  );
+
+  @Effect({dispatch: false})
+  NoTokenRefreshNeeded$ = this.actions$.pipe(
+    ofType(AuthActions.Types.NoTokenRefreshNeeded),
+    tap((action: AuthActions.NoTokenRefreshNeeded) => {}),
   );
 
   @Effect()
@@ -111,7 +124,8 @@ export class AuthEffects {
           new AuthActions.SetStatus(formattedData.status),
           new AuthActions.SetStatusCode(formattedData.statusCode),
           new AuthActions.SetTokenResponseToCookies({item: formattedData.state}),
-          new RouterActions.Go({path: [Routes.DefaultRoute]}),
+          // TODO: убрать условие когда появятся гарды
+          new RouterActions.Go({path: [formattedData.statusCode === 200 ? Routes.DefaultRoute : Routes.AuthRoute]}),
         ]),
       ),
     ),
@@ -141,13 +155,13 @@ export class AuthEffects {
     switchMap((action: AuthActions.ProvideHeaders) =>
       this.authService.provideHeaders().pipe(
         map(headers => {
-          if (headers.action === ProvideHeadersActions.TokenRefresh) {
-            return new AuthActions.RefreshToken();
-          } else if (headers.action === ProvideHeadersActions.EmptyHeaders) {
-            return new AuthActions.EraseLoginState(notAuthenticatedCookies);
-          } else {
-            // not sure, maybe return EMPTY instead
-            return new AuthActions.SetIsLoggedIn(false);
+          switch (headers.action) {
+            case ProvideHeadersActions.TokenRefresh:
+              return new AuthActions.RefreshToken();
+            case ProvideHeadersActions.EmptyHeaders:
+              return new AuthActions.EraseLoginState(notAuthenticatedCookies);
+            case ProvideHeadersActions.NoTokenRefresh:
+              return new AuthActions.NoTokenRefreshNeeded();
           }
         }),
       ),
@@ -160,8 +174,9 @@ export class AuthEffects {
     switchMap((action: AuthActions.QueryLogout) =>
       this.authService.logout().pipe(
         flatMap(() => [
-          new AuthActions.SetIsLoggedIn(false),
+          new AuthActions.SetWholeState(initialState),
           new AuthActions.SetCookies(notAuthenticatedCookies),
+          new RouterActions.Go({ path: [Routes.AuthRoute]} ),
         ]),
       ),
     ),

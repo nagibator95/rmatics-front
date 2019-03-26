@@ -53,6 +53,6 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(environment.apiUrl + '/auth/signout/', {});
+    return this.http.post(environment.apiUrl + '/auth/signout/', { refresh_token: getCookie(cookieNames.refreshToken) });
   }
 }

@@ -74,7 +74,7 @@ export class RestorePasswordFormComponent implements OnInit, OnDestroy {
   handleInputChange() {
     this.isFormSubmitted = false;
 
-    this.store$.dispatch(new AuthActions.SetError(undefined));
+    this.store$.dispatch(new AuthActions.SetError(''));
   }
 
   onSubmit() {

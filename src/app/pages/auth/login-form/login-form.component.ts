@@ -62,7 +62,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   handleInputChange() {
-    this.store$.dispatch(new AuthActions.SetError(undefined));
+    this.store$.dispatch(new AuthActions.SetError(''));
   }
 
   onChangePasswordClick() {

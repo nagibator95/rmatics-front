@@ -1,6 +1,7 @@
 import {Action} from '@ngrx/store';
 
 import {AuthData} from './models/authData.model';
+import {AuthState} from './models/authState.model';
 import {Cookies} from './models/cookies.model';
 import {LoginPayload} from './models/loginPayload.model';
 
@@ -11,6 +12,7 @@ export enum Types {
   SetError = '[Auth] SetError',
   SetStatus = '[Auth] SetStatus',
   SetStatusCode = '[Auth] SetStatusCode',
+  SetWholeState = '[Auth] SetWholeState',
   SetCookies = '[Auth] SetCookies',
   Login = '[Auth] Login',
   QueryLogin = '[Auth] QueryLogin',
@@ -22,6 +24,7 @@ export enum Types {
   SetTokenResponseToCookies = '[Auth] SetTokenResponseToCookies',
   EraseLoginState = '[Auth] EraseLoginState',
   ProvideHeaders = '[Auth] ProvideHeaders',
+  NoTokenRefreshNeeded = '[Auth] NoTokenRefreshNeeded',
 }
 
 export class Login implements Action {
@@ -116,5 +119,15 @@ export class ProvideHeaders implements Action {
   readonly type = Types.ProvideHeaders;
 }
 
-export type All = SetFetching | SetIsLoggedIn | SetState | SetError | SetStatus | SetStatusCode | SetCookies | Login | ProvideHeaders
-  | QueryLogout | Initialize | InitializeState | RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies | EraseLoginState;
+export class SetWholeState implements Action {
+  readonly type = Types.SetWholeState;
+
+  constructor(public payload: AuthState) {}
+}
+
+export class NoTokenRefreshNeeded implements Action {
+  readonly type = Types.NoTokenRefreshNeeded;
+}
+
+export type All = SetFetching | SetIsLoggedIn | SetState | SetError | SetStatus | SetStatusCode | SetCookies | SetWholeState | Login | ProvideHeaders
+  | QueryLogout | Initialize | InitializeState | RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies | EraseLoginState | NoTokenRefreshNeeded;

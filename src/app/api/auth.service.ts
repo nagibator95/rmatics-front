@@ -303,7 +303,7 @@ export class AuthService {
     console.log('POST!!');
 
     // this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/change/', AuthData)
-    const nextState = of(changePasswordMock)
+    const nextState = this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/change/', authData)
       .pipe(
         tap(() => {
           this.isPasswordChangeFinished.next(false);

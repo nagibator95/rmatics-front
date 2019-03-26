@@ -1,7 +1,7 @@
 import * as StoreActions from './auth.actions';
 import {AuthState} from './models/authState.model';
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   isLoggedIn: false,
   state: undefined,
   statusCode: 200,
@@ -47,6 +47,9 @@ export function authReducer(state: AuthState = initialState, action: StoreAction
         ...state,
         statusCode: action.payload,
       };
+
+    case StoreActions.Types.SetWholeState:
+      return action.payload;
 
     default:
       return state;
