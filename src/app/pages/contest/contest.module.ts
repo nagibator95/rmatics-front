@@ -23,6 +23,7 @@ import { StatisticsComponent } from './submission/statistics/statistics.componen
 import { SubmissionComponent } from './submission/submission.component';
 import { TestsParamPipe } from './submission/tests/tests-param.pipe';
 import { TestsComponent } from './submission/tests/tests.component';
+import { TaskSolutionComponent } from './task-solution/task-solution.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,7 @@ const routes: Routes = [
     ContestTaskComponent,
     ContestMenuComponent,
     SentPackagesComponent,
+    TaskSolutionComponent,
     TaskItemComponent,
     CodeBlockComponent,
     IconLabelComponent,
