@@ -2,7 +2,7 @@ import { map } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 
-import { ModalService } from '../modal/modal.service';
+import { ModalService } from '../../modal/modal.service';
 
 import { ContestService } from './contest.service';
 import { SubmissionComponent } from './submission/submission.component';

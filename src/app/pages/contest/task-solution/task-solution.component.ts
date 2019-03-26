@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 
-import { ContestSolutionsWays } from '../../core/enum/contest-solutions-ways.enum';
-import { languages, Language } from '../../shared/constants';
-import { RadioButton } from '../../ui/radio-group/radio-group.component';
+import { ContestSolutionsWays } from '../../../core/enum/contest-solutions-ways.enum';
+import { languages, Language } from '../../../shared/constants';
+import { RadioButton } from '../../../ui/radio-group/radio-group.component';
 
 @Component({
   selector: 'app-task-solution',

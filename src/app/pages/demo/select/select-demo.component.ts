@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { languages } from '../../shared/constants';
+import { languages } from '../../../shared/constants';
 
 @Component({
   selector: 'app-select-demo',

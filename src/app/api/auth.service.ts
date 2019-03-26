@@ -5,7 +5,7 @@ import { catchError, delay, finalize, map, mapTo, switchMap, tap } from 'rxjs/op
 
 import { environment } from '../../environments/environment';
 import { changePasswordMock } from '../core/mocks/change-password-post.mock';
-import { deleteCookie, getCookie, writeCookie } from '../utils/cookies';
+import { deleteCookie, getCookie, writeCookie } from '../core/stores/auth/util/util';
 import { ApiResponse } from '../utils/types';
 import { Store } from '../utils/Store';
 

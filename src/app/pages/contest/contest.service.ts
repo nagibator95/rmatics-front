@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
-import { languages } from '../shared/constants';
-import { ApiResponse } from '../utils/types';
-import { Store } from '../utils/Store';
+import { environment } from '../../../environments/environment';
+import { languages } from '../../shared/constants';
+import { ApiResponse } from '../../utils/types';
+import { Store } from '../../utils/Store';
 
 import {
   Contest,

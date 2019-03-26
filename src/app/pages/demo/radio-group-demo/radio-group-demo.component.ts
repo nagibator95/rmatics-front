@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
-import {RadioButton} from '../../ui/radio-group/radio-group.component';
+import {RadioButton} from '../../../ui/radio-group/radio-group.component';
 
 @Component({
   selector: 'app-radio-group-demo',

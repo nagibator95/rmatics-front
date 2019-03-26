@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
-import { UploadComponent } from '../../controls/upload/upload.component';
-import { languages, Language } from '../../shared/constants';
+import { languages, Language } from '../../../shared/constants';
+import { UploadComponent } from '../../../ui/controls/upload/upload.component';
 import { Submission } from '../contest.types';
 
 @Component({

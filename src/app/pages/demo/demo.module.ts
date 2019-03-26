@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ControlsModule } from '../ui/controls/controls.module';
-import { UiModule } from '../ui/ui.module';
+import { ControlsModule } from '../../ui/controls/controls.module';
+import { UiModule } from '../../ui/ui.module';
 
 import { ButtonDemoComponent } from './button/button-demo.component';
 import { CheckboxDemoComponent } from './checkbox/checkbox-demo.component';

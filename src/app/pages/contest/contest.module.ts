@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
-import { SharedModule } from '../shared/shared.module';
-import { ControlsModule } from '../ui/controls/controls.module';
-import { UiModule } from '../ui/ui.module';
+import { SharedModule } from '../../shared/shared.module';
+import { ControlsModule } from '../../ui/controls/controls.module';
+import { UiModule } from '../../ui/ui.module';
 
 import { CodeBlockComponent } from './code-block/code-block.component';
 import { ContestMenuComponent } from './contest-menu/contest-menu.component';

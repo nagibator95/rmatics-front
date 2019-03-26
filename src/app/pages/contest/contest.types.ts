@@ -1,4 +1,4 @@
-import { Language } from '../shared/constants';
+import { Language } from '../../shared/constants';
 
 export type PackageStatus =
   'OK' |

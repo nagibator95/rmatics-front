@@ -5,11 +5,11 @@ const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
     path: 'demo',
-    loadChildren: './demo/demo.module#DemoModule',
+    loadChildren: './pages/demo/demo.module#DemoModule',
   },
   {
     path: 'contest',
-    loadChildren: './contest/contest.module#ContestModule',
+    loadChildren: './pages/contest/contest.module#ContestModule',
   },
   {
     path: 'auth',
