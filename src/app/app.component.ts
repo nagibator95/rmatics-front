@@ -2,7 +2,6 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Subject} from 'rxjs';
 
-import { AuthService } from './api/auth.service';
 import {AuthActions} from './core/stores/auth';
 
 @Component({
@@ -14,7 +13,7 @@ import {AuthActions} from './core/stores/auth';
 export class AppComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
 
-  constructor(private auth: AuthService, private changeDetectorRef: ChangeDetectorRef, private store$: Store<any>) {}
+  constructor(private changeDetectorRef: ChangeDetectorRef, private store$: Store<any>) {}
 
   ngOnInit() {
     this.store$.dispatch(new AuthActions.Initialize());

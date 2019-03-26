@@ -146,7 +146,8 @@ export class AuthEffects {
           } else if (headers.action === ProvideHeadersActions.EmptyHeaders) {
             return new AuthActions.EraseLoginState(notAuthenticatedCookies);
           } else {
-            return EMPTY;
+            // not sure, maybe return EMPTY instead
+            return new AuthActions.SetIsLoggedIn(false);
           }
         }),
       ),
