@@ -1,0 +1,27 @@
+<app-select
+  class="select"
+  [(item)]="selectedLanguage"
+  labelField="title"
+  valueField="id"
+  [items]="languages">
+</app-select>
+
+<div class="radio-group">
+  <app-radio-group [radioButtons]="radioButtons"x></app-radio-group>
+</div>
+
+<app-upload *ngIf="showFileLoader" class="upload"></app-upload>
+
+<app-no-encapsulation>
+  <ngx-codemirror
+    *ngIf="!showFileLoader"
+    class="code codemirror"
+    [(ngModel)]="code"
+    [options]="{
+      lineNumbers: true,
+      mode: selectedLanguage.mode
+    }"
+  ></ngx-codemirror>
+</app-no-encapsulation>
+
+<button class="app-button_primary solution-button" (click)="passSolution()">Сдать решение</button>

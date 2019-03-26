@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, EMPTY } from 'rxjs';
-import { catchError, map, mapTo, switchMap, tap } from 'rxjs/operators';
+import {of, BehaviorSubject, EMPTY} from 'rxjs';
+import { catchError, delay, finalize, map, mapTo, switchMap, tap } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
-import { deleteCookie, getCookie, writeCookie } from '../utils/cookies';
+import { changePasswordMock } from '../core/mocks/change-password-post.mock';
+import { deleteCookie, getCookie, writeCookie } from '../core/stores/auth/util/util';
 import { ApiResponse } from '../utils/types';
 import { Store } from '../utils/Store';
 
@@ -164,6 +165,9 @@ export const notAuthenticatedCookies: Cookies = {
 
 export class AuthService {
   private store = new Store<AuthState>(initialState);
+
+  isPasswordChangeSucceed = new BehaviorSubject<boolean>(false);
+  isPasswordChangeFinished = new BehaviorSubject<boolean>(false);
   error = this.store.state.pipe(map(state => state.error));
   isFetching = this.store.state.pipe(map(state => state.isFetching));
   isLoggedIn = this.store.state.pipe(map(state => state.isLoggedIn));
@@ -288,5 +292,43 @@ export class AuthService {
       ...this.store.getState(),
       error: undefined,
     }));
+  }
+
+  changePassword(authData: { email?: string, username?: string }) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      isFetching: true,
+    }));
+
+    console.log('POST!!');
+
+    // this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/change/', AuthData)
+    const nextState = this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/change/', authData)
+      .pipe(
+        tap(() => {
+          this.isPasswordChangeFinished.next(false);
+          this.isPasswordChangeSucceed.next(true);
+        }),
+        delay(1000),
+        map(formatData),
+        catchError(response => {
+          this.isPasswordChangeSucceed.next(false);
+          return of(formatData(response.error));
+        }),
+        map(state => ({
+          ...this.store.getState(),
+          ...state,
+          isFetching: false,
+        })),
+        tap(response => {
+          setTokenResponseToCookies(response.state);
+        }),
+        finalize(() => {
+          console.log('finalize');
+          this.isPasswordChangeFinished.next(true);
+        }),
+      );
+
+    this.store.setState(nextState);
   }
 }
