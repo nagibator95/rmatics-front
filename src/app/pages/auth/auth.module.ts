@@ -11,6 +11,7 @@ import { AuthComponent } from './auth.component';
 import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RestorePasswordFormComponent } from './restore-password-form/restore-password-form.component';
+import { AuthFooterComponent } from './shared/auth-footer/auth-footer.component';
 
 const routes: Routes = [
   {
@@ -40,12 +41,14 @@ const routes: Routes = [
     LoginFormComponent,
     RestorePasswordFormComponent,
     ChangePasswordFormComponent,
+    AuthFooterComponent,
   ],
   exports: [
     AuthComponent,
     LoginFormComponent,
     RestorePasswordFormComponent,
     ChangePasswordFormComponent,
+    AuthFooterComponent,
   ],
 })
 export class AuthModule { }
