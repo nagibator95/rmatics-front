@@ -9,6 +9,7 @@ export const initialState: AuthState = {
   error: '',
   isFetching: false,
   isPasswordRestoreFinished: false,
+  isPasswordChangeFinished: false,
 };
 
 export function authReducer(state: AuthState = initialState, action: StoreActions.All): AuthState {
@@ -53,6 +54,12 @@ export function authReducer(state: AuthState = initialState, action: StoreAction
       return {
         ...state,
         isPasswordRestoreFinished: action.payload,
+      };
+
+    case StoreActions.Types.SetIsPasswordChangeFinished:
+      return {
+        ...state,
+        isPasswordChangeFinished: action.payload,
       };
 
     case StoreActions.Types.SetWholeState:

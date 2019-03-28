@@ -13,10 +13,12 @@ import {AuthActions, AuthSelectors} from '../../../core/stores/auth';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangePasswordFormComponent implements OnInit {
+  isFormSubmitted = false;
   changePasswordForm = new FormGroup({});
   error$: Observable<string | null>;
   isFetching$: Observable<boolean | null>;
   email$: Observable<string | null>;
+  isPasswordChangeFinished$: Observable<boolean | null>;
   private readonly destroy$ = new Subject();
 
   constructor(private fb: FormBuilder, private store$: Store<any>) {
@@ -31,6 +33,11 @@ export class ChangePasswordFormComponent implements OnInit {
 
     this.email$ = this.store$.pipe(
       select(AuthSelectors.getEmail()),
+      takeUntil(this.destroy$),
+    );
+
+    this.isPasswordChangeFinished$ = this.store$.pipe(
+      select(AuthSelectors.getIsPasswordChangeFinished()),
       takeUntil(this.destroy$),
     );
   }
@@ -62,12 +69,14 @@ export class ChangePasswordFormComponent implements OnInit {
   }
 
   handleInputChange() {
-    this.store$.dispatch(new AuthActions.SetError(''));
+    this.isFormSubmitted = false;
   }
 
   onSubmit() {
+    this.isFormSubmitted = true;
+
     if (this.changePasswordForm.valid) {
-        // new action from store
+        this.store$.dispatch(new AuthActions.ChangePassword({password: this.password.value}));
     }
   }
 }

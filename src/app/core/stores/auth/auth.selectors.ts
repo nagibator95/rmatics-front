@@ -39,3 +39,10 @@ export function getIsPasswordRestoreFinished() {
     state => state.isPasswordRestoreFinished || null,
   );
 }
+
+export function getIsPasswordChangeFinished() {
+  return createSelector(
+    featureSelector,
+    state => state.isPasswordChangeFinished || null,
+  );
+}

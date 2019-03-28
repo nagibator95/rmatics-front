@@ -54,6 +54,12 @@ export class AuthService {
     return this.http.post(environment.apiUrl + '/auth/reset/', data);
   }
 
+  changePassword(data: {password: string}): Observable<any> {
+    return this.http.post(environment.apiUrl + '/actions/change_password', data, {
+      params: { token: getCookie(cookieNames.accessToken)},
+    });
+  }
+
   logout(): Observable<any> {
     return this.http.post(environment.apiUrl + '/auth/signout/', { refresh_token: getCookie(cookieNames.refreshToken) });
   }

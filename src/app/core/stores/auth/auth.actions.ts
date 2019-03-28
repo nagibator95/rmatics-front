@@ -14,6 +14,7 @@ export enum Types {
   SetStatus = '[Auth] SetStatus',
   SetStatusCode = '[Auth] SetStatusCode',
   SetIsPasswordRestoreFinished = '[Auth] SetIsPasswordRestoreFinished',
+  SetIsPasswordChangeFinished = '[Auth] SetIsPasswordChangeFinished',
   SetWholeState = '[Auth] SetWholeState',
   SetCookies = '[Auth] SetCookies',
   Login = '[Auth] Login',
@@ -29,6 +30,8 @@ export enum Types {
   NoTokenRefreshNeeded = '[Auth] NoTokenRefreshNeeded',
   RestorePassword = '[Auth] RestorePassword',
   QueryRestorePassword = '[Auth] QueryRestorePassword',
+  ChangePassword = '[Auth] ChangePassword',
+  QueryChangePassword = '[Auth] QueryChangePassword',
 }
 
 export class Login implements Action {
@@ -113,6 +116,12 @@ export class SetIsPasswordRestoreFinished implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class SetIsPasswordChangeFinished implements Action {
+  readonly type = Types.SetIsPasswordChangeFinished;
+
+  constructor(public payload: boolean) {}
+}
+
 export class SetCookies implements Action {
   readonly type = Types.SetCookies;
 
@@ -151,6 +160,18 @@ export class QueryRestorePassword implements Action {
   constructor(public payload: RestorePasswordPayload) {}
 }
 
+export class ChangePassword implements Action {
+  readonly type = Types.ChangePassword;
+
+  constructor(public payload: {password: string}) {}
+}
+
+export class QueryChangePassword implements Action {
+  readonly type = Types.QueryChangePassword;
+
+  constructor(public payload: {password: string}) {}
+}
+
 export type All = SetFetching | SetIsLoggedIn | SetState | SetError | SetStatus | SetStatusCode | SetCookies | QueryRestorePassword |
   SetWholeState | Login | ProvideHeaders | RestorePassword | QueryLogout | Initialize | InitializeState | SetIsPasswordRestoreFinished |
-  RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies | EraseLoginState | NoTokenRefreshNeeded;
+  RefreshToken | Logout | QueryLogin | SetTokenResponseToCookies | EraseLoginState | NoTokenRefreshNeeded | ChangePassword | QueryChangePassword | SetIsPasswordChangeFinished;
