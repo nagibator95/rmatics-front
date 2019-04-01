@@ -198,7 +198,8 @@ export class AuthEffects {
     switchMap((action: AuthActions.QueryRestorePassword) =>
       this.authService.restorePassword(action.payload).pipe(
         map(response => response),
-        catchError(response => response),
+        // because of lug in pipe use of() operator
+        catchError(response => of(response)),
         flatMap(response => [
           new AuthActions.SetError(response.error ? response.error.error : response.error),
           new AuthActions.SetIsPasswordRestoreFinished(true),
