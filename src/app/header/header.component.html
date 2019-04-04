@@ -1,7 +1,11 @@
-<header class="app-container container">
-  <span class="title">Информатикс</span>
+<header class="header">
+  <div class="nav-section">
+    <span class="title">Информатикс</span>
+    <span class="nav-item" (click)="navigate('demo')">Демо</span>
+    <span class="nav-item" (click)="navigate('contest')">Контест</span>
+  </div>
   <button
-    *ngIf="isLoggedIn | async"
+    *ngIf="isLoggedIn$ | async"
     class="app-link"
     (click)="logout()"
   >

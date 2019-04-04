@@ -1,11 +1,5 @@
 <app-header></app-header>
 
-<ng-container *ngIf="isLoggedIn | async; else loginForm">
-  <router-outlet ></router-outlet>
+<router-outlet></router-outlet>
 
-  <app-modal></app-modal>
-</ng-container>
-
-<ng-template #loginForm>
-  <app-login-form></app-login-form>
-</ng-template>
+<app-modal></app-modal>

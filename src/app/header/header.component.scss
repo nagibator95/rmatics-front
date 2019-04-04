@@ -4,7 +4,13 @@
   background-color: var(--black-3);
 }
 
-.container {
+.nav-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -14,8 +20,17 @@
   padding-right: 88px;
 
   .title {
+    margin-right: 15px;
     margin-left: 72px;
     font-size: 18px;
+    color: #ffffff;
+  }
+
+  .nav-item {
+    cursor: pointer;
+    margin-left: 15px;
+    margin-right: 15px;
+    font-size: 15px;
     color: #ffffff;
   }
 

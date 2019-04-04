@@ -2,14 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/demo', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
     path: 'demo',
-    loadChildren: './demo/demo.module#DemoModule',
+    loadChildren: './pages/demo/demo.module#DemoModule',
   },
   {
     path: 'contest',
-    loadChildren: './contest/contest.module#ContestModule',
+    loadChildren: './pages/contest/contest.module#ContestModule',
+  },
+  {
+    path: 'auth',
+    loadChildren: './pages/auth/auth.module#AuthModule',
   },
 ];
 
