@@ -14,12 +14,12 @@
     </th>
   </tr>
 
-  <ng-container *ngFor="let param of statistics">
+  <ng-container *ngFor="let field of statisticsFields">
     <tr class="app-table__body-row">
-      <td class="app-table__col col">{{param.param}}</td>
-      <td class="app-table__col col">{{param.condition | statisticsParam}}</td>
-      <td class="app-table__col col">{{param.value | statisticsParam}}</td>
-      <td class="app-table__col col">{{param.test | statisticsParam}}</td>
+      <td class="app-table__col col">{{field.name}}</td>
+      <td class="app-table__col col">{{field.condition | statisticsParam}}</td>
+      <td class="app-table__col col">{{field.value | statisticsParam}}</td>
+      <td class="app-table__col col">{{field.testId | statisticsParam}}</td>
     </tr>
   </ng-container>
   

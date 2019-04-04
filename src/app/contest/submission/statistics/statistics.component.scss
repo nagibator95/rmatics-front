@@ -4,15 +4,15 @@
 
 .col {
   &:first-child {
-    min-width: 404px;
+    width: (100% / 800) * 404;
   }
 
   &:nth-child(2),
   &:nth-child(3) {
-    min-width: 144px;
+    width: (100% / 800) * 144;
   }
 
   &:last-child {
-    min-width: 112px;
+    width: (100% / 800) * 112;
   }
 }

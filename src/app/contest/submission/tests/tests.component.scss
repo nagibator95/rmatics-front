@@ -6,12 +6,12 @@
   &:first-child,
   &:nth-child(2),
   &:nth-child(3) {
-    min-width: 108px;
+    width: (100% / 800) * 108;
   }
 
   &:nth-child(4),
   &:nth-child(5),
   &:last-child {
-    min-width: 164px;
+    width: (100% / 800) * 164;
   }
 }

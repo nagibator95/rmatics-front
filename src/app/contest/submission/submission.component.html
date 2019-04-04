@@ -23,10 +23,10 @@
     </button>
   </app-tabs>
 
-  <app-no-encapsulation *ngIf="activeTab === 'submission_code'">
+  <app-no-encapsulation *ngIf="activeTab === 'submission_code' && submission.source">
     <ngx-codemirror
       class="codemirror"
-      [(ngModel)]="code"
+      [ngModel]="submission.source.code"
       [disabled]="true"
       [options]="{
         lineNumbers: true,
@@ -35,12 +35,17 @@
     ></ngx-codemirror>
   </app-no-encapsulation>
 
-  <ng-container *ngIf="activeTab === 'protocol'">
-    <ng-container *ngIf="submission.score > 50; else noTests">
+  <ng-container *ngIf="activeTab === 'protocol' && submission.protocol">
+    <ng-container *ngIf="!submission.protocol.compilerOutput; else noTests">
       <h3 class="title-small">Статистика</h3>
-      <app-statistics class="statistics" [statistics]="statistics"></app-statistics>
+      <app-statistics
+        class="statistics"
+        [tests]="submission.protocol.tests"
+        [timeLimit]="(problem | async).timeLimit"
+        [memoryLimit]="(problem | async).memoryLimit"
+      ></app-statistics>
 
-      <h3 class="title-small">Название этой таблицы</h3>
+      <h3 class="title-small">Результаты тестирования</h3>
       <app-tests [tests]="submission.protocol.tests"></app-tests>
     </ng-container>
 
@@ -53,7 +58,7 @@
       <span class="compiler-title">Сообщение компилятора</span>
 
       <div class="compiler-message">
-        {{compiler.join('')}}
+        {{submission.protocol.compilerOutput}}
       </div>
     </ng-template>
   </ng-container>

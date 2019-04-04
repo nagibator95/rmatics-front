@@ -50,7 +50,7 @@ const formatSubmission = (submission: SubmissionApi, index: number) => {
   const lang = languages.find(language => language.id === submission.ejudge_language_id);
 
   return {
-    index,
+    index: index + 1,
     userName: `${submission.user.firstname} ${submission.user.lastname}`,
     id: submission.id,
     date: submission.create_time,
@@ -101,7 +101,6 @@ export class ContestService {
   fileError = this.store.state.pipe(map(state => state.fileError));
 
   constructor(private http: HttpClient) {
-    this.store.state.subscribe(e => console.log(e));
   }
 
   addSubmission(problemId: number, file: File, languageId: number) {

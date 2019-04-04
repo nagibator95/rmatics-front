@@ -8,24 +8,24 @@
 
 .col {
   &:first-child {
-    min-width: 68px;
+    width: (100% / 736) * 68;
   }
 
   &:nth-child(2) {
-    min-width: 108px;
+    width: (100% / 736) * 108;
   }
 
   &:nth-child(3) {
-    min-width: 160px;
+    width: (100% / 736) * 160;
   }
 
   &:nth-child(4),
   &:nth-child(5) {
-    min-width: 80px;
+    width: (100% / 736) * 80;
   }
 
   &:last-child {
-    min-width: 240px;
+    width: (100% / 736) * 240;
     text-align: right;
   }
 }

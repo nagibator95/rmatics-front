@@ -116,14 +116,19 @@ export interface RunTest {
 }
 
 export interface RunProtocol {
-  compilerOutput?: string;
-  host?: string;
-  tests?: RunTest[];
+  compilerOutput: string;
+  host: string;
+  tests: RunTest[];
+}
+
+export interface RunSource {
+  language: Language;
+  code: string;
 }
 
 export interface SubmissionDetailed extends Submission {
-  source?: string;
-  protocol?: RunProtocol;
+  source: RunSource;
+  protocol: RunProtocol;
 }
 
 export interface ContestProblemApi {
@@ -165,13 +170,6 @@ export interface Problem {
   input: string[];
   correct: string[];
   outputOnly: boolean;
-}
-
-export interface Statistics {
-  param: string;
-  condition?: string;
-  value?: string;
-  test?: number;
 }
 
 export interface Test {
