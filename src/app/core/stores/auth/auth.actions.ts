@@ -5,6 +5,7 @@ import {AuthState} from './models/authState.model';
 import {Cookies} from './models/cookies.model';
 import {LoginPayload} from './models/loginPayload.model';
 import {RestorePasswordPayload} from './models/restorePasswordPayload.model';
+import {Params} from '@angular/router';
 
 export enum Types {
   SetFetching = '[Auth] SetFetching',
@@ -163,13 +164,13 @@ export class QueryRestorePassword implements Action {
 export class ChangePassword implements Action {
   readonly type = Types.ChangePassword;
 
-  constructor(public payload: {password: string}) {}
+  constructor(public payload: {password: string, params: Params}) {}
 }
 
 export class QueryChangePassword implements Action {
   readonly type = Types.QueryChangePassword;
 
-  constructor(public payload: {password: string}) {}
+  constructor(public payload: {password: string, params: Params}) {}
 }
 
 export type All = SetFetching | SetIsLoggedIn | SetState | SetError | SetStatus | SetStatusCode | SetCookies | QueryRestorePassword |

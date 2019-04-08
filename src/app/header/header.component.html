@@ -9,7 +9,7 @@
     <button
       *ngIf="isLoggedIn$ | async"
       class="app-link"
-      (click)="navigate('auth/change-password')"
+      (click)="navigate('auth/change-password', {token: 'eyJ1c2VyX2lkIjo0MTkyNjN9.XKs0iQ.q4Z4xvp0jVQJbAnFig5xcMImsn0'})"
     >
       Сменить пароль
     </button>

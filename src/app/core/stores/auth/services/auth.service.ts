@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {Params} from '@angular/router';
 import {of, Observable} from 'rxjs';
 
 import {environment} from '../../../../../environments/environment';
@@ -54,9 +55,9 @@ export class AuthService {
     return this.http.post(environment.apiUrl + '/auth/reset/', data);
   }
 
-  changePassword(data: {password: string}): Observable<any> {
+  changePassword(data: {password: string}, params: Params): Observable<any> {
     return this.http.post(environment.apiUrl + '/actions/change_password', data, {
-      params: { token: getCookie(cookieNames.accessToken)},
+      params: params,
     });
   }
 

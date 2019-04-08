@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Params} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -19,9 +20,10 @@ export class ChangePasswordFormComponent implements OnInit {
   isFetching$: Observable<boolean | null>;
   email$: Observable<string | null>;
   isPasswordChangeFinished$: Observable<boolean | null>;
+  queryParams: Params;
   private readonly destroy$ = new Subject();
 
-  constructor(private fb: FormBuilder, private store$: Store<any>) {
+  constructor(private fb: FormBuilder, private store$: Store<any>, private activatedRoute: ActivatedRoute) {
     this.isFetching$ = this.store$.pipe(
       select(AuthSelectors.getFetching()),
       takeUntil(this.destroy$));
@@ -40,6 +42,10 @@ export class ChangePasswordFormComponent implements OnInit {
       select(AuthSelectors.getIsPasswordChangeFinished()),
       takeUntil(this.destroy$),
     );
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.queryParams = params;
+    });
   }
 
   ngOnInit() {
@@ -76,7 +82,7 @@ export class ChangePasswordFormComponent implements OnInit {
     this.isFormSubmitted = true;
 
     if (this.changePasswordForm.valid) {
-        this.store$.dispatch(new AuthActions.ChangePassword({password: this.password.value}));
+        this.store$.dispatch(new AuthActions.ChangePassword({password: this.password.value, params: this.queryParams}));
     }
   }
 }

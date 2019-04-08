@@ -223,7 +223,7 @@ export class AuthEffects {
   queryChangePassword$ = this.actions$.pipe(
     ofType(AuthActions.Types.QueryChangePassword),
     switchMap((action: AuthActions.QueryChangePassword) =>
-      this.authService.changePassword(action.payload).pipe(
+      this.authService.changePassword({ password: action.payload.password}, action.payload.params).pipe(
         map(response => {
           console.log('SUCCESS: ', response);
           return of(response);
