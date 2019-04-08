@@ -1,7 +1,7 @@
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+
 import dayjs from 'dayjs';
 import { getDate } from 'src/app/utils/getDate';
-
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Submission } from '../contest.types';
 

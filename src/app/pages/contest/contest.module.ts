@@ -16,8 +16,10 @@ import { ContentComponent } from './contest-task/content/content.component';
 import { ContestTaskComponent } from './contest-task/contest-task.component';
 import { IconLabelComponent } from './contest-task/icon-label/icon-label.component';
 import { ContestComponent } from './contest.component';
+import { ContestService } from './contest.service';
 import { PackageStatusComponent } from './package-status/package-status.component';
 import { SentPackagesComponent } from './sent-packages/sent-packages.component';
+import { SubmissionService } from './submission.service';
 import { StatisticsParamPipe } from './submission/statistics/statistics-param.pipe';
 import { StatisticsComponent } from './submission/statistics/statistics.component';
 import { SubmissionComponent } from './submission/submission.component';
@@ -70,6 +72,10 @@ const routes: Routes = [
   ],
   entryComponents: [
     SubmissionComponent,
+  ],
+  providers: [
+    ContestService,
+    SubmissionService,
   ],
 })
 

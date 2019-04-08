@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { combineLatest, of } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -11,29 +11,39 @@ import { ApiResponse } from '../../utils/types';
 import { Store } from '../../utils/Store';
 
 import { ContestService } from './contest.service';
-import {
-  RunProtocol,
-  RunProtocolApi,
-  RunSource,
-  RunSourceApi,
-  SubmissionDetailed,
-} from './contest.types';
+import { RunProtocol, RunProtocolApi, RunSource, RunSourceApi } from './contest.types';
 import { SubmissionComponent } from './submission/submission.component';
 
 interface SubmissionState {
-  protocol?: RunProtocol;
-  source?: RunSource,
-  statusCode: number;
-  status: string;
-  error?: string;
-  isFetching: boolean;
+  protocol: {
+    data?: RunProtocol;
+    statusCode: number;
+    status: string;
+    error?: string;
+    isFetching: boolean;
+  };
+  source: {
+    data?: RunSource;
+    statusCode: number;
+    status: string;
+    error?: string;
+    isFetching: boolean;
+  },
 }
 
 const initialState: SubmissionState = {
-  statusCode: 200,
-  status: 'success',
-  error: '',
-  isFetching: false,
+  protocol: {
+    statusCode: 200,
+    status: 'success',
+    error: '',
+    isFetching: false,
+  },
+  source: {
+    statusCode: 200,
+    status: 'success',
+    error: '',
+    isFetching: false,
+  }
 };
 
 const formatProtocol = (protocol: RunProtocolApi): RunProtocol => ({
@@ -57,23 +67,18 @@ const formatSource = (source: RunSourceApi): RunSource => ({
   language: languages.find(language => language.id === source.language_id) || languages[0],
 })
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SubmissionService {
   private store = new Store<SubmissionState>(initialState);
   private submissionId?: number;
-  isFetching = combineLatest(
-    this.contestService.isSubmissionsFetching,
-    this.store.state.pipe(map(state => state.isFetching)),
-    (one, two) => one || two,
-  );
-  submission = combineLatest(
-    this.contestService.submissions.pipe(map(submissions => submissions.find(val => val.id === this.submissionId))),
-    this.store.state.pipe(map(state => state.protocol)),
-    this.store.state.pipe(map(state => state.source)),
-    (submission, protocol, source) => ({ ...submission, protocol, source } as SubmissionDetailed),
-  );
+
+  isSubmissionsFetching = this.contestService.isSubmissionsFetching;
+  isProtocolFetching = this.store.state.pipe(map(state => state.protocol.isFetching));
+  isSourceFetching = this.store.state.pipe(map(state => state.source.isFetching));
+
+  submissionPreview = this.contestService.submissions.pipe(map(submissions => submissions.find(val => val.id === this.submissionId)));
+  protocol = this.store.state.pipe(map(state => state.protocol.data));
+  source = this.store.state.pipe(map(state => state.source.data));
   problem = this.contestService.problem;
 
   constructor(
@@ -97,24 +102,31 @@ export class SubmissionService {
   getSubmissionProtocol(submissionId: number) {
     this.store.setState(of({
       ...this.store.getState(),
-      isFetching: true,
+      protocol: {
+        ...initialState.protocol,
+        isFetching: true,
+      }
     }));
 
     const nextState = this.http.get<ApiResponse<RunProtocolApi>>(environment.apiUrl + `/contest/run/${submissionId}/protocol`)
       .pipe(
         map(response => ({
           ...this.store.getState(),
-          isFetching: false,
-          statusCode: response.status_code,
-          status: response.status,
-          protocol: formatProtocol(response.data as RunProtocolApi),
+          protocol: {
+            isFetching: false,
+            statusCode: response.status_code,
+            status: response.status,
+            data: formatProtocol(response.data as RunProtocolApi),
+          }
         })),
         catchError(({ error }) => of({
           ...this.store.getState(),
-          isFetching: false,
-          statusCode: error.status_code,
-          status: error.status,
-          error: error.error,
+          protocol: {
+            isFetching: false,
+            statusCode: error.status_code,
+            status: error.status,
+            error: error.error,
+          }
         })),
       );
 
@@ -124,26 +136,31 @@ export class SubmissionService {
   getSubmissionSource(submissionId: number) {
     this.store.setState(of({
       ...this.store.getState(),
-      isFetching: true,
+      source: {
+        ...initialState.source,
+        isFetching: true,
+      }
     }));
 
     const nextState = this.http.get<ApiResponse<RunSourceApi>>(environment.apiUrl + `/contest/run/${submissionId}/source`)
       .pipe(
-        map(response => {
-          return ({
-            ...this.store.getState(),
+        map(response => ({
+          ...this.store.getState(),
+          source: {
             isFetching: false,
             statusCode: response.status_code,
             status: response.status,
-            source: formatSource(response.data as RunSourceApi),
-          })
-        }),
+            data: formatSource(response.data as RunSourceApi),
+          }
+        })),
         catchError(({ error }) => of({
           ...this.store.getState(),
-          isFetching: false,
-          statusCode: error.status_code,
-          status: error.status,
-          error: error.error,
+          source: {
+            isFetching: false,
+            statusCode: error.status_code,
+            status: error.status,
+            error: error.error,
+          }
         })),
       );
 

@@ -1,6 +1,6 @@
-import { ReplaySubject } from 'rxjs';
-
 import { Injectable, Type } from '@angular/core';
+
+import { ReplaySubject } from 'rxjs';
 
 import { ModalContent } from './modal-content';
 

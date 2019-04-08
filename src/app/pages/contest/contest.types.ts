@@ -126,11 +126,6 @@ export interface RunSource {
   code: string;
 }
 
-export interface SubmissionDetailed extends Submission {
-  source: RunSource;
-  protocol: RunProtocol;
-}
-
 export interface ContestProblemApi {
   id: number;
   name: string;

@@ -1,8 +1,9 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { ModalContent } from 'src/app/modal/modal-content';
 import { getDate } from 'src/app/utils/getDate';
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
+import { RunProtocol } from '../contest.types';
 import { SubmissionService } from '../submission.service';
 
 interface SubmissionComponentInput {
@@ -17,23 +18,40 @@ interface SubmissionComponentInput {
 })
 export class SubmissionComponent extends ModalContent<SubmissionComponentInput> {
   submissionService = this.data.submissionService;
-  submission = this.submissionService.submission;
+  submissionPreview = this.submissionService.submissionPreview;
+  protocol = this.submissionService.protocol;
+  source = this.submissionService.source;
   problem = this.submissionService.problem;
-  isFetching = this.submissionService.isFetching;
+
+  isSubmissionsFetching = this.submissionService.isSubmissionsFetching;
+  isProtocolFetching = this.submissionService.isProtocolFetching;
+  isSourceFetching = this.submissionService.isSourceFetching;
 
   getDate = getDate;
 
-  tabs = [
-    {
-      text: 'Код посылки',
-      id: 'submission_code',
-      current: true,
-    }, {
-      text: 'Протокол',
-      id: 'protocol',
-      current: false,
-    },
-  ];
+  activeTab = 'submission_code';
 
-  activeTab: string = this.tabs[0].id;
+  createTabs(protocol?: RunProtocol) {
+    if (protocol) {
+      return [
+        {
+          text: 'Код посылки',
+          id: 'submission_code',
+          current: true,
+        }, {
+          text: 'Протокол',
+          id: 'protocol',
+          current: false,
+        },
+      ];
+    }
+
+    return [
+      {
+        text: 'Код посылки',
+        id: 'submission_code',
+        current: true,
+      }
+    ];
+  }
 }
