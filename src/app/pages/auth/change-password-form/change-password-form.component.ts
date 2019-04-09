@@ -6,6 +6,15 @@ import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 import {AuthActions, AuthSelectors} from '../../../core/stores/auth';
+import {RouterActions} from '../../../core/stores/router';
+import {Routes} from '../../../core/stores/router/enum/routes.enum';
+
+export function checkPasswords(group: FormGroup) {
+  const password = group.controls.password.value;
+  const passwordRepeat = group.controls.passwordRepeat.value;
+
+  return password === passwordRepeat ? null : {notSame: true};
+}
 
 @Component({
   selector: 'app-change-password-form',
@@ -58,6 +67,9 @@ export class ChangePasswordFormComponent implements OnInit {
           Validators.required,
         ]],
       },
+      {
+        validators: checkPasswords,
+      },
     );
   }
 
@@ -76,6 +88,10 @@ export class ChangePasswordFormComponent implements OnInit {
 
   handleInputChange() {
     this.isFormSubmitted = false;
+  }
+
+  onBackButtonClicked() {
+    this.store$.dispatch(new RouterActions.Go({path: [Routes.DefaultRoute]}));
   }
 
   onSubmit() {

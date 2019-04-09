@@ -56,7 +56,7 @@ export class AuthService {
   }
 
   changePassword(data: {password: string}, params: Params): Observable<any> {
-    return this.http.post(environment.apiUrl + '/actions/change_password', data, {
+    return this.http.post(environment.apiUrl + '/auth/change-password', data, {
       params: params,
     });
   }
