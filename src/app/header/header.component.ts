@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
-import {Params} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -31,10 +30,9 @@ export class HeaderComponent implements OnDestroy {
     this.store$.dispatch(new AuthActions.Logout());
   }
 
-  navigate(route?: string, queryParams?: Params = {}) {
+  navigate(route?: string) {
     this.store$.dispatch(route ? new RouterActions.Go({
       path: [route],
-      queryParams: queryParams,
     }) : new RouterActions.Back());
   }
 }

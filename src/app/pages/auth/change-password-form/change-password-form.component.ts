@@ -27,9 +27,9 @@ export class ChangePasswordFormComponent implements OnInit {
   changePasswordForm = new FormGroup({});
   error$: Observable<string | null>;
   isFetching$: Observable<boolean | null>;
-  email$: Observable<string | null>;
+  email$: Observable<string | null | undefined>;
   isPasswordChangeFinished$: Observable<boolean | null>;
-  queryParams: Params;
+  queryParams: Params = {};
   private readonly destroy$ = new Subject();
 
   constructor(private fb: FormBuilder, private store$: Store<any>, private activatedRoute: ActivatedRoute) {
