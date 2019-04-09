@@ -8,4 +8,5 @@ export interface AuthState {
   error?: string;
   isFetching: boolean;
   isPasswordRestoreFinished: boolean;
+  isPasswordChangeFinished: boolean;
 }

@@ -4,7 +4,6 @@ import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-import {TELEGRAM_LINK} from '../../../core/constants/links';
 import {AuthActions, AuthSelectors} from '../../../core/stores/auth';
 import {RouterActions} from '../../../core/stores/router';
 import {Routes} from '../../../core/stores/router/enum/routes.enum';
@@ -18,7 +17,6 @@ import {Routes} from '../../../core/stores/router/enum/routes.enum';
 
 export class LoginFormComponent implements OnInit, OnDestroy {
   loginForm = new FormGroup({});
-  telegramLink = TELEGRAM_LINK;
   error$: Observable<string | null>;
   isFetching$: Observable<boolean | null>;
   rememberMe = true;

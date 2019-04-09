@@ -4,11 +4,14 @@
     <span class="nav-item" (click)="navigate('demo')">Демо</span>
     <span class="nav-item" (click)="navigate('contest')">Контест</span>
   </div>
-  <button
-    *ngIf="isLoggedIn$ | async"
-    class="app-link"
-    (click)="logout()"
-  >
-    Выйти
-  </button>
+
+  <div class="auth-section">
+    <button
+      *ngIf="isLoggedIn$ | async"
+      class="app-link"
+      (click)="logout()"
+    >
+      Выйти
+    </button>
+  </div>
 </header>

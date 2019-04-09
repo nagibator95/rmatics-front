@@ -197,18 +197,44 @@ export class AuthEffects {
     ofType(AuthActions.Types.QueryRestorePassword),
     switchMap((action: AuthActions.QueryRestorePassword) =>
       this.authService.restorePassword(action.payload).pipe(
-        map(response => {
-          console.log('SUCCESS!', response.error);
+        map(response => response),
+        // because of lug in pipe use of() operator
+        catchError(response => of(response)),
+        flatMap(response => [
+          new AuthActions.SetError(response.error ? response.error.error : response.error),
+          new AuthActions.SetIsPasswordRestoreFinished(true),
+          new AuthActions.SetFetching(false),
+        ]),
+      ),
+    ),
+  );
 
+  @Effect()
+  changePassword$ = this.actions$.pipe(
+    ofType(AuthActions.Types.ChangePassword),
+    flatMap((action: AuthActions.QueryChangePassword) => [
+      new AuthActions.SetFetching(true),
+      new AuthActions.SetIsPasswordChangeFinished(false),
+      new AuthActions.QueryChangePassword(action.payload),
+    ]),
+  );
+
+  @Effect()
+  queryChangePassword$ = this.actions$.pipe(
+    ofType(AuthActions.Types.QueryChangePassword),
+    switchMap((action: AuthActions.QueryChangePassword) =>
+      this.authService.changePassword({ password: action.payload.password}, action.payload.params).pipe(
+        map(response => {
+          console.log('SUCCESS: ', response);
           return of(response);
         }),
         catchError(response => {
-          console.log('ERRORE!', response.error);
+          console.log('ERROR: ', response);
           return of(response);
         }),
         flatMap(response => [
           new AuthActions.SetError(response.error ? response.error.error : response.error),
-          new AuthActions.SetIsPasswordRestoreFinished(true),
+          new AuthActions.SetIsPasswordChangeFinished(true),
           new AuthActions.SetFetching(false),
         ]),
       ),

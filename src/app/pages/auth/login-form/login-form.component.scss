@@ -77,24 +77,6 @@
   }
 }
 
-.form__description {
-  margin-top: 48px;
-  bottom: 24px;
-  width: 360px;
-
-  a {
-    text-decoration: none;
-    cursor: pointer;
-    color: var(--primary-color)
-  }
-
-  app-icon {
-    display: inline-block;
-    width: 13px;
-    height: 11px;
-  }
-}
-
 .form__change-password {
   color: var(--primary-color);
   cursor: pointer;

@@ -26,9 +26,23 @@ export function getIsLoggedIn() {
   );
 }
 
+export function getEmail() {
+  return createSelector(
+    featureSelector,
+    state => state.state ? state.state.email : null,
+  );
+}
+
 export function getIsPasswordRestoreFinished() {
   return createSelector(
     featureSelector,
     state => state.isPasswordRestoreFinished || null,
+  );
+}
+
+export function getIsPasswordChangeFinished() {
+  return createSelector(
+    featureSelector,
+    state => state.isPasswordChangeFinished || null,
   );
 }
