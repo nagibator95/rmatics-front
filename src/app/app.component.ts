@@ -4,9 +4,6 @@ import {Store} from '@ngrx/store';
 import {Subject} from 'rxjs';
 import {filter} from 'rxjs/operators';
 
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-
 import { AuthActions } from './core/stores/auth';
 
 @Component({
