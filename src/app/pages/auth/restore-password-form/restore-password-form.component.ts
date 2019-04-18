@@ -4,7 +4,6 @@ import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-import {TELEGRAM_LINK} from '../../../core/constants/links';
 import {AuthActions, AuthSelectors} from '../../../core/stores/auth';
 import {RadioButton} from '../../../ui/radio-group/radio-group.component';
 
@@ -17,7 +16,6 @@ import {RadioButton} from '../../../ui/radio-group/radio-group.component';
 export class RestorePasswordFormComponent implements OnInit, OnDestroy {
   restorePasswordForm: FormGroup;
   isFormSubmitted = false;
-  telegramLink = TELEGRAM_LINK;
   byLogin = true;
   isFetching$: Observable<boolean | null>;
   error$: Observable<string | null>;
