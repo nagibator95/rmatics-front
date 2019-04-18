@@ -6,7 +6,7 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { SharedModule } from '../shared/shared.module';
 
-import {ControlsModule} from './controls/controls.module';
+import { ControlsModule } from './controls/controls.module';
 import { RadioGroupComponent } from './radio-group/radio-group.component';
 import { TabsComponent } from './tabs/tabs.component';
 

@@ -89,6 +89,10 @@ a {
   text-decoration: none;
 }
 
+table {
+  border-collapse: collapse;
+}
+
 .app-no-scroll {
   overflow-y: hidden;
 }
@@ -116,4 +120,12 @@ a {
     background: transparent;
     border: none;
   }
+}
+
+.app-container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 88px;
+  padding-left: 88px;
 }

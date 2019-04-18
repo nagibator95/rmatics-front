@@ -1,12 +1,12 @@
-import { ReplaySubject } from 'rxjs';
-
 import { Injectable, Type } from '@angular/core';
+
+import { ReplaySubject } from 'rxjs';
 
 import { ModalContent } from './modal-content';
 
 interface ModalValue<T> {
   component: Type<ModalContent<T>>;
-  data: T | undefined;
+  data?: T;
 }
 
 @Injectable({

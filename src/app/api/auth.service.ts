@@ -1,7 +1,8 @@
+import { of, BehaviorSubject, EMPTY } from 'rxjs';
+import { catchError, delay, finalize, map, mapTo, switchMap, tap } from 'rxjs/operators';
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {of, BehaviorSubject, EMPTY} from 'rxjs';
-import { catchError, delay, finalize, map, mapTo, switchMap, tap } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { deleteCookie, getCookie, writeCookie } from '../core/stores/auth/util/util';

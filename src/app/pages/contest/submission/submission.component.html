@@ -1,22 +1,22 @@
-<ng-container *ngIf="!(isFetching | async) && (submission | async) as submission; else loader">
+<ng-container *ngIf="!(isSubmissionsFetching | async) && (submissionPreview | async) as submissionPreview; else loader">
   <h2 class="title">
-    Посылка №{{submission.id}}
+    Посылка №{{submissionPreview.index}}
   </h2>
 
   <div class="status-box">
-    <span>102-1812</span>
+    <span>{{submissionPreview.id}}</span>
 
-    <app-package-status class="status" [status]="submission.status"></app-package-status>
+    <app-package-status class="status" [status]="submissionPreview.status"></app-package-status>
   </div>
 
-  <b class="name">Николай Федоров</b>
+  <b class="name">{{submissionPreview.userName}}</b>
 
-  <span class="date">{{getDate(submission.date, true)}}</span>
+  <span class="date">{{getDate(submissionPreview.date, true)}}</span>
 
   <p class="description">Данная задача содержит пять подзадач. Для оценки каждой подзадачи используется своя группа тестов. Баллы за подзадачу
   начисляются только в том случае, если все тесты из этой группы пройдены.</p>
 
-  <app-tabs class="tabs" [tabs]="tabs" (tabClick)="activeTab = $event">
+  <app-tabs class="tabs" [tabs]="createTabs(protocol | async)" (tabClick)="onTabClick($event)">
     <button class="app-link download">
       <app-icon class="download-icon" icon="archive"></app-icon>
       Скачать посылку
@@ -24,38 +24,51 @@
   </app-tabs>
 
   <app-no-encapsulation *ngIf="activeTab === 'submission_code'">
-    <ngx-codemirror
-      class="codemirror"
-      [(ngModel)]="code"
-      [disabled]="true"
-      [options]="{
-        lineNumbers: true,
-        mode: submission.lang.mode
-      }"
-    ></ngx-codemirror>
+
+    <ng-container *ngIf="!(isSourceFetching | async) && (source | async) as source; else loader">
+      <ngx-codemirror
+        class="codemirror"
+        [ngModel]="source.code"
+        [disabled]="true"
+        [options]="{
+          lineNumbers: true,
+          mode: submissionPreview.lang.mode
+        }"
+      ></ngx-codemirror>
+    </ng-container>
+    
   </app-no-encapsulation>
 
   <ng-container *ngIf="activeTab === 'protocol'">
-    <ng-container *ngIf="submission.score > 50; else noTests">
-      <h3 class="title-small">Статистика</h3>
-      <app-statistics class="statistics" [statistics]="statistics"></app-statistics>
+    <ng-container *ngIf="!(isProtocolFetching | async) && (protocol | async) as protocol; else loader">
 
-      <h3 class="title-small">Название этой таблицы</h3>
-      <app-tests [tests]="tests"></app-tests>
+      <ng-container *ngIf="!protocol.compilerOutput; else noTests">
+        <h3 class="title-small">Статистика</h3>
+        <app-statistics
+          class="statistics"
+          [tests]="protocol.tests"
+          [timeLimit]="(problem | async).timeLimit"
+          [memoryLimit]="(problem | async).memoryLimit"
+        ></app-statistics>
+  
+        <h3 class="title-small">Результаты тестирования</h3>
+        <app-tests [tests]="protocol.tests"></app-tests>
+      </ng-container>
+  
+      <ng-template #noTests>
+        <div class="error-no-tests">
+          <app-icon class="error-icon" icon="error"></app-icon>
+          0 пройденных тестов
+        </div>
+  
+        <span class="compiler-title">Сообщение компилятора</span>
+  
+        <div class="compiler-message">
+          {{protocol.compilerOutput}}
+        </div>
+      </ng-template>
+
     </ng-container>
-
-    <ng-template #noTests>
-      <div class="error-no-tests">
-        <app-icon class="error-icon" icon="error"></app-icon>
-        0 пройденных тестов
-      </div>
-
-      <span class="compiler-title">Сообщение компилятора</span>
-
-      <div class="compiler-message">
-        {{compiler.join('')}}
-      </div>
-    </ng-template>
   </ng-container>
 
     

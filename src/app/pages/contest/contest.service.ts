@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -45,10 +46,12 @@ const initialState: ContestState = {
   isSubmissionsFetching: false,
 };
 
-const formatSubmission = (submission: SubmissionApi) => {
+const formatSubmission = (submission: SubmissionApi, index: number) => {
   const lang = languages.find(language => language.id === submission.ejudge_language_id);
 
   return {
+    index: index + 1,
+    userName: `${submission.user.firstname} ${submission.user.lastname}`,
     id: submission.id,
     date: submission.create_time,
     lang: lang ? lang : languages[0],
@@ -84,10 +87,7 @@ const formatProblem = (problem: ProblemApi) => ({
   outputOnly: problem.output_only,
 });
 
-@Injectable({
-  providedIn: 'root',
-})
-
+@Injectable()
 export class ContestService {
   private store = new Store<ContestState>(initialState);
   isFetching = this.store.state.pipe(map(state => state.isFetching));
@@ -98,7 +98,6 @@ export class ContestService {
   fileError = this.store.state.pipe(map(state => state.fileError));
 
   constructor(private http: HttpClient) {
-    this.store.state.subscribe(e => console.log(e));
   }
 
   addSubmission(problemId: number, file: File, languageId: number) {
@@ -135,7 +134,6 @@ export class ContestService {
     this.store.setState(of({
       ...this.store.getState(),
       isSubmissionsFetching: true,
-      submissions: page === 1 ? [] : this.store.getState().submissions,
     }));
 
     const nextState = this.http.get<ApiResponse<SubmissionApi[]>>(environment.apiUrl
@@ -147,10 +145,12 @@ export class ContestService {
         statusCode: response.status_code,
         status: response.status,
         isSubmissionsFetching: false,
-        submissions: [
-          ...this.store.getState().submissions,
-          ...(response.data as SubmissionApi[]).map(formatSubmission),
-        ],
+        submissions: page === 1
+          ? (response.data as SubmissionApi[]).map(formatSubmission)
+          : [
+            ...this.store.getState().submissions,
+            ...(response.data as SubmissionApi[]).map(formatSubmission),
+          ],
       })),
       catchError(({ error }) => of({
         ...this.store.getState(),

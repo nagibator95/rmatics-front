@@ -1,6 +1,7 @@
 :host{
   display: block;
   width: 100%;
+  background-color: var(--black-3);
 }
 
 .nav-section {
@@ -16,12 +17,9 @@
   width: 100%;
   top: 0;
   height: 59px;
-  background-color: var(--black-3);
-  padding-right: 88px;
 
   .title {
     margin-right: 15px;
-    margin-left: 72px;
     font-size: 18px;
     color: #ffffff;
   }

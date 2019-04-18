@@ -4,7 +4,10 @@ import {Store} from '@ngrx/store';
 import {Subject} from 'rxjs';
 import {filter} from 'rxjs/operators';
 
-import {AuthActions} from './core/stores/auth';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import { AuthActions } from './core/stores/auth';
 
 @Component({
   selector: 'app-root',

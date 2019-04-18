@@ -5,12 +5,15 @@ import {
   ComponentFactoryResolver,
   ElementRef,
   Injector,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 
+import { Subscription } from 'rxjs';
+
 import { DynamicHostDirective } from './dynamic-host.directive';
-import { ModalData } from './modal-content';
+import { MODAL_DATA } from './modal-content';
 import { ModalService } from './modal.service';
 
 @Component({
@@ -19,8 +22,9 @@ import { ModalService } from './modal.service';
   styleUrls: ['./modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, OnDestroy {
   private _open = false;
+  private sub?: Subscription;
 
   @ViewChild(DynamicHostDirective) innerContent!: DynamicHostDirective;
   @ViewChild('overlay') overlay!: ElementRef;
@@ -32,7 +36,7 @@ export class ModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.modalService.subscribe(value => {
+    this.sub = this.modalService.subscribe(value => {
       if (!value) {
         this.open = false;
         return;
@@ -44,7 +48,7 @@ export class ModalComponent implements OnInit {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
       const viewContainerRef = this.innerContent.viewContainerRef;
       const injector = Injector.create({
-        providers: [{ provide: ModalData, useValue: data }],
+        providers: [{ provide: MODAL_DATA, useValue: data }],
       });
 
       viewContainerRef.clear();
@@ -53,6 +57,12 @@ export class ModalComponent implements OnInit {
 
       this.changeDetectorRef.detectChanges();
     });
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   set open(val: boolean) {

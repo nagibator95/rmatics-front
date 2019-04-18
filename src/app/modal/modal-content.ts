@@ -1,8 +1,8 @@
 import { Inject, InjectionToken } from '@angular/core';
 
-export const ModalData = new InjectionToken('modalData');
+export const MODAL_DATA = new InjectionToken('modalData');
 
 export class ModalContent<I> {
-  constructor(@Inject(ModalData) protected data: I) {
+  constructor(@Inject(MODAL_DATA) protected data: I) {
   }
 }
