@@ -51,7 +51,11 @@ export class SubmissionComponent extends ModalContent<SubmissionComponentInput> 
         text: 'Код посылки',
         id: 'submission_code',
         current: true,
-      }
+      },
     ];
+  }
+
+  onTabClick(event: string) {
+    this.activeTab = event;
   }
 }

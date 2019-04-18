@@ -16,7 +16,7 @@
   <p class="description">Данная задача содержит пять подзадач. Для оценки каждой подзадачи используется своя группа тестов. Баллы за подзадачу
   начисляются только в том случае, если все тесты из этой группы пройдены.</p>
 
-  <app-tabs class="tabs" [tabs]="createTabs(protocol | async)" (tabClick)="activeTab = $event">
+  <app-tabs class="tabs" [tabs]="createTabs(protocol | async)" (tabClick)="onTabClick($event)">
     <button class="app-link download">
       <app-icon class="download-icon" icon="archive"></app-icon>
       Скачать посылку
