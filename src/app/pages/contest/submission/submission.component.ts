@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 import { ModalContent } from 'src/app/modal/modal-content';
 import { getDate } from 'src/app/utils/getDate';
 
+import {Tab} from '../../../ui/tabs/tabs.component';
 import { RunProtocol } from '../contest.types';
 import { SubmissionService } from '../submission.service';
 
@@ -16,7 +17,7 @@ interface SubmissionComponentInput {
   styleUrls: ['./submission.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SubmissionComponent extends ModalContent<SubmissionComponentInput> {
+export class SubmissionComponent extends ModalContent<SubmissionComponentInput> implements OnInit {
   submissionService = this.data.submissionService;
   submissionPreview = this.submissionService.submissionPreview;
   protocol = this.submissionService.protocol;
@@ -30,29 +31,31 @@ export class SubmissionComponent extends ModalContent<SubmissionComponentInput> 
   getDate = getDate;
 
   activeTab = 'submission_code';
+  tabs: Tab[] = [
+    {
+      text: 'Код посылки',
+      id: 'submission_code',
+      current: true,
+    },
+  ];
 
-  createTabs(protocol?: RunProtocol) {
-    if (protocol) {
-      return [
-        {
-          text: 'Код посылки',
-          id: 'submission_code',
-          current: true,
-        }, {
-          text: 'Протокол',
-          id: 'protocol',
-          current: false,
-        },
-      ];
-    }
-
-    return [
-      {
-        text: 'Код посылки',
-        id: 'submission_code',
-        current: true,
-      },
-    ];
+  ngOnInit() {
+    this.protocol.subscribe((value: RunProtocol) => {
+      if (value) {
+        this.tabs = [
+          {
+            text: 'Код посылки',
+            id: 'submission_code',
+            current: true,
+          },
+          {
+            text: 'Протокол',
+            id: 'protocol',
+            current: false,
+          },
+        ];
+      }
+    });
   }
 
   onTabClick(event: string) {
