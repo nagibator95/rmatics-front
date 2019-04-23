@@ -23,10 +23,12 @@ export class SubmissionComponent extends ModalContent<SubmissionComponentInput> 
   protocol = this.submissionService.protocol;
   source = this.submissionService.source;
   problem = this.submissionService.problem;
+  comments = this.submissionService.comments;
 
   isSubmissionsFetching = this.submissionService.isSubmissionsFetching;
   isProtocolFetching = this.submissionService.isProtocolFetching;
   isSourceFetching = this.submissionService.isSourceFetching;
+  areCommentsFetching = this.submissionService.areCommentsFetching;
 
   getDate = getDate;
 
@@ -56,6 +58,8 @@ export class SubmissionComponent extends ModalContent<SubmissionComponentInput> 
         ];
       }
     });
+
+    this.comments.subscribe(value => console.log(value));
   }
 
   onTabClick(event: string) {

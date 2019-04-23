@@ -96,6 +96,20 @@ export interface RunProtocolApi {
   };
 }
 
+export interface RunCommentApi {
+  author_user: {
+    firstname: string;
+    id: number;
+    lastname: string;
+    username: string;
+  };
+  comment: string;
+  date: string;
+  id: number;
+  run_id: number;
+  user_id: number;
+}
+
 export interface Submission {
   id: number;
   index: number;
@@ -124,6 +138,20 @@ export interface RunProtocol {
 export interface RunSource {
   language: Language;
   code: string;
+}
+
+export interface RunComment {
+  author: {
+    firstname: string;
+    id: number;
+    lastname: string;
+    username: string;
+  };
+  comment: string;
+  date: string;
+  id: number;
+  runId: number;
+  userId: number;
 }
 
 export interface ContestProblemApi {

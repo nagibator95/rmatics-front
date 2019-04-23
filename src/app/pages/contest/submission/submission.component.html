@@ -9,13 +9,14 @@
     <app-package-status class="status" [status]="submissionPreview.status"></app-package-status>
   </div>
 
-  <b class="name">{{submissionPreview.userName}}</b>
+  <ng-container *ngIf="!(areCommentsFetching | async) && (comments | async); else loader">
+    <div *ngFor="let comment of (comments| async)"></div>
+    <b class="name">{{comment['author']['firstname']}}</b>
 
-  <span class="date">{{getDate(submissionPreview.date, true)}}</span>
+    <span class="date">{{comment.date}}</span>
 
-  <p class="description">Данная задача содержит пять подзадач. Для оценки каждой подзадачи используется своя группа тестов. Баллы за подзадачу
-  начисляются только в том случае, если все тесты из этой группы пройдены.</p>
-
+    <p class="description">{{comment.comment}}</p>
+  </ng-container>
   <app-tabs class="tabs" [tabs]="tabs" (tabClick)="onTabClick($event)">
     <button class="app-link download">
       <app-icon class="download-icon" icon="archive"></app-icon>

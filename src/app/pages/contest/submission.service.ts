@@ -11,7 +11,7 @@ import { ApiResponse } from '../../utils/types';
 import { Store } from '../../utils/Store';
 
 import { ContestService } from './contest.service';
-import { RunProtocol, RunProtocolApi, RunSource, RunSourceApi } from './contest.types';
+import {RunComment, RunCommentApi, RunProtocol, RunProtocolApi, RunSource, RunSourceApi} from './contest.types';
 import { SubmissionComponent } from './submission/submission.component';
 
 interface SubmissionState {
@@ -28,7 +28,14 @@ interface SubmissionState {
     status: string;
     error?: string;
     isFetching: boolean;
-  },
+  };
+  comments?: {
+    data?: RunComment[];
+    statusCode: number;
+    status: string;
+    error?: string;
+    isFetching: boolean;
+  };
 }
 
 const initialState: SubmissionState = {
@@ -43,7 +50,13 @@ const initialState: SubmissionState = {
     status: 'success',
     error: '',
     isFetching: false,
-  }
+  },
+  comments: {
+    statusCode: 200,
+    status: 'success',
+    error: '',
+    isFetching: false,
+  },
 };
 
 const formatProtocol = (protocol: RunProtocolApi): RunProtocol => ({
@@ -65,7 +78,22 @@ const formatProtocol = (protocol: RunProtocolApi): RunProtocol => ({
 const formatSource = (source: RunSourceApi): RunSource => ({
   code: source.source,
   language: languages.find(language => language.id === source.language_id) || languages[0],
-})
+});
+
+const formatComment = (comment: RunCommentApi): RunComment => ({
+  author: {
+      firstname: comment.author_user.firstname,
+      id: comment.author_user.id,
+      lastname: comment.author_user.lastname,
+      username: comment.author_user.username,
+    },
+    comment: comment.comment,
+    date: comment.date,
+    id: comment.id,
+    runId: comment.run_id,
+    userId: comment.user_id,
+  }
+);
 
 @Injectable()
 export class SubmissionService {
@@ -75,10 +103,12 @@ export class SubmissionService {
   isSubmissionsFetching = this.contestService.isSubmissionsFetching;
   isProtocolFetching = this.store.state.pipe(map(state => state.protocol.isFetching));
   isSourceFetching = this.store.state.pipe(map(state => state.source.isFetching));
+  areCommentsFetching = this.store.state.pipe(map(state => state.comments.isFetching));
 
   submissionPreview = this.contestService.submissions.pipe(map(submissions => submissions.find(val => val.id === this.submissionId)));
   protocol = this.store.state.pipe(map(state => state.protocol.data));
   source = this.store.state.pipe(map(state => state.source.data));
+  comments = this.store.state.pipe(map(state => state.comments.data));
   problem = this.contestService.problem;
 
   constructor(
@@ -92,6 +122,7 @@ export class SubmissionService {
     this.submissionId = submissionId;
     this.getSubmissionProtocol(submissionId);
     this.getSubmissionSource(submissionId);
+    this.getSubmissionComments(submissionId);
 
     this.modalService.open({
       component: SubmissionComponent,
@@ -105,7 +136,7 @@ export class SubmissionService {
       protocol: {
         ...initialState.protocol,
         isFetching: true,
-      }
+      },
     }));
 
     const nextState = this.http.get<ApiResponse<RunProtocolApi>>(environment.apiUrl + `/contest/run/${submissionId}/protocol`)
@@ -117,7 +148,7 @@ export class SubmissionService {
             statusCode: response.status_code,
             status: response.status,
             data: formatProtocol(response.data as RunProtocolApi),
-          }
+          },
         })),
         catchError(({ error }) => of({
           ...this.store.getState(),
@@ -126,7 +157,7 @@ export class SubmissionService {
             statusCode: error.status_code,
             status: error.status,
             error: error.error,
-          }
+          },
         })),
       );
 
@@ -139,7 +170,7 @@ export class SubmissionService {
       source: {
         ...initialState.source,
         isFetching: true,
-      }
+      },
     }));
 
     const nextState = this.http.get<ApiResponse<RunSourceApi>>(environment.apiUrl + `/contest/run/${submissionId}/source`)
@@ -151,7 +182,7 @@ export class SubmissionService {
             statusCode: response.status_code,
             status: response.status,
             data: formatSource(response.data as RunSourceApi),
-          }
+          },
         })),
         catchError(({ error }) => of({
           ...this.store.getState(),
@@ -160,7 +191,41 @@ export class SubmissionService {
             statusCode: error.status_code,
             status: error.status,
             error: error.error,
-          }
+          },
+        })),
+      );
+
+    this.store.setState(nextState);
+  }
+
+  getSubmissionComments(submissionId: number) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      comments: {
+        ...initialState.comments,
+        isFetching: true,
+      },
+    }));
+
+    const nextState = this.http.get<ApiResponse<RunSourceApi>>(environment.apiUrl + `/contest/run/${submissionId}/comments`)
+      .pipe(
+        map(response => ({
+          ...this.store.getState(),
+          comments: {
+            isFetching: false,
+            statusCode: response.status_code,
+            status: response.status,
+            data: (response.data as RunCommentApi[]).map(formatComment),
+          },
+        })),
+        catchError(({ error }) => of({
+          ...this.store.getState(),
+          comments: {
+            isFetching: false,
+            statusCode: error.status_code,
+            status: error.status,
+            error: error.error,
+          },
         })),
       );
 
