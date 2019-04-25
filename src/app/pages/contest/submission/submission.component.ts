@@ -58,8 +58,6 @@ export class SubmissionComponent extends ModalContent<SubmissionComponentInput> 
         ];
       }
     });
-
-    this.comments.subscribe(value => console.log(value));
   }
 
   onTabClick(event: string) {
