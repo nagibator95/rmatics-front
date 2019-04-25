@@ -42,7 +42,7 @@ export class SubmissionComponent extends ModalContent<SubmissionComponentInput> 
   ];
 
   ngOnInit() {
-    this.protocol.subscribe((value: RunProtocol) => {
+    this.protocol.subscribe((value: RunProtocol | undefined) => {
       if (value) {
         this.tabs = [
           {

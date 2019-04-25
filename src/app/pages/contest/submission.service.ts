@@ -29,7 +29,7 @@ interface SubmissionState {
     error?: string;
     isFetching: boolean;
   };
-  comments?: {
+  comments: {
     data?: RunComment[];
     statusCode: number;
     status: string;
@@ -207,7 +207,7 @@ export class SubmissionService {
       },
     }));
 
-    const nextState = this.http.get<ApiResponse<RunSourceApi>>(environment.apiUrl + `/contest/run/${submissionId}/comments`)
+    const nextState = this.http.get<ApiResponse<RunCommentApi[]>>(environment.apiUrl + `/contest/run/${submissionId}/comments`)
       .pipe(
         map(response => ({
           ...this.store.getState(),
