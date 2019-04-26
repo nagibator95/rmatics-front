@@ -26,6 +26,7 @@ import { SubmissionComponent } from './submission/submission.component';
 import { TestsParamPipe } from './submission/tests/tests-param.pipe';
 import { TestsComponent } from './submission/tests/tests.component';
 import { TaskSolutionComponent } from './task-solution/task-solution.component';
+import {ContestGuardService} from './contest-guard.service';
 
 const routes: Routes = [
   {
@@ -76,6 +77,7 @@ const routes: Routes = [
   providers: [
     ContestService,
     SubmissionService,
+    ContestGuardService,
   ],
 })
 

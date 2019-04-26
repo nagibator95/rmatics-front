@@ -7,7 +7,7 @@ import { ContestService } from './contest.service';
 import { Contest, ContestProblem } from './contest.types';
 import { SubmissionService } from './submission.service';
 
-const defaultCourseId = 32691;
+export const defaultCourseId = 1;
 
 @Component({
   selector: 'app-contest',
@@ -26,6 +26,8 @@ export class ContestComponent implements OnInit, OnDestroy {
   isSubmissionsFetching = this.contestService.isSubmissionsFetching;
   fileError = this.contestService.fileError;
   uploadRemoveSubscription = this.submissions.subscribe(submissions => {
+    console.log(submissions);
+
     if (submissions.length === 0 && this.task !== undefined) {
       this.task.upload.remove();
     }
@@ -48,8 +50,8 @@ export class ContestComponent implements OnInit, OnDestroy {
 
     const taskNumber = Number(segments[segments.length - 1].path);
     if (!isNaN(taskNumber) && Boolean(taskNumber)) {
-      this.contestService.getProblem(taskNumber);
-      this.contestService.getSubmissions(taskNumber, 1);
+      this.contestService.getProblem(taskNumber, defaultCourseId);
+      this.contestService.getSubmissions(taskNumber, 1, defaultCourseId);
       this.currentTaskId = taskNumber;
     }
   });
@@ -62,7 +64,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   addSubmission(data: { file: File, languageId: number }) {
-    this.contestService.addSubmission(this.currentTaskId, data.file, data.languageId);
+    this.contestService.addSubmission(this.currentTaskId, data.file, data.languageId, defaultCourseId);
   }
 
   openSubmission(id: number) {
@@ -70,7 +72,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   getSubmissions(page: number) {
-    this.contestService.getSubmissions(this.currentTaskId, page);
+    this.contestService.getSubmissions(this.currentTaskId, page, defaultCourseId);
   }
 
   selectFile() {

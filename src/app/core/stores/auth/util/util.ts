@@ -37,6 +37,7 @@ export const cookieNames = {
 };
 
 export const formatData = (response: ApiResponse<ApiAuth>): FormattedApiResponse => {
+  console.log(response);
   const { data, error, status_code, status } = response;
 
   const state = data !== undefined

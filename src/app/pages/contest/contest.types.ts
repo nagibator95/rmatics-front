@@ -43,7 +43,24 @@ export enum PackageStatusEnum {
   'AW' = 377,
 }
 
+export interface ContestConnectionApi {
+  id: number;
+  created_at: string;
+  contest: ContestApi;
+}
+
 export interface ContestApi {
+  id: number;
+  workshop_id: number;
+  position: number;
+  time_start: string;
+  time_stop: string;
+  is_virtual: boolean;
+  virtual_duration: number;
+  statement: StatementApi;
+}
+
+export interface StatementApi {
   id: number;
   name: string;
   summary: string;

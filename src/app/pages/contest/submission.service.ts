@@ -81,7 +81,7 @@ const formatSource = (source: RunSourceApi): RunSource => ({
 });
 
 const formatComment = (comment: RunCommentApi): RunComment => ({
-  author: {
+    author: {
       firstname: comment.author_user.firstname,
       id: comment.author_user.id,
       lastname: comment.author_user.lastname,
@@ -139,26 +139,33 @@ export class SubmissionService {
       },
     }));
 
-    const nextState = this.http.get<ApiResponse<RunProtocolApi>>(environment.apiUrl + `/contest/run/${submissionId}/protocol`)
+    const nextState = this.http.get<ApiResponse<RunProtocolApi>>(environment.apiUrl + `/run/${submissionId}/protocol`)
       .pipe(
-        map(response => ({
-          ...this.store.getState(),
-          protocol: {
-            isFetching: false,
-            statusCode: response.status_code,
-            status: response.status,
-            data: formatProtocol(response.data as RunProtocolApi),
-          },
-        })),
-        catchError(({ error }) => of({
-          ...this.store.getState(),
-          protocol: {
-            isFetching: false,
-            statusCode: error.status_code,
-            status: error.status,
-            error: error.error,
-          },
-        })),
+        map(response => {
+          console.log(response);
+          return {
+            ...this.store.getState(),
+            protocol: {
+              isFetching: false,
+              statusCode: response.status_code,
+              status: response.status,
+              data: formatProtocol(response.data as RunProtocolApi),
+            },
+          };
+      }),
+        catchError(({ error }) => {
+          console.log(error);
+
+          return of({
+            ...this.store.getState(),
+            protocol: {
+              isFetching: false,
+              statusCode: error.status_code,
+              status: error.status,
+              error: error.error,
+            },
+          });
+        }),
       );
 
     this.store.setState(nextState);
@@ -173,7 +180,7 @@ export class SubmissionService {
       },
     }));
 
-    const nextState = this.http.get<ApiResponse<RunSourceApi>>(environment.apiUrl + `/contest/run/${submissionId}/source`)
+    const nextState = this.http.get<ApiResponse<RunSourceApi>>(environment.apiUrl + `/run/${submissionId}/source`)
       .pipe(
         map(response => ({
           ...this.store.getState(),
@@ -207,7 +214,7 @@ export class SubmissionService {
       },
     }));
 
-    const nextState = this.http.get<ApiResponse<RunCommentApi[]>>(environment.apiUrl + `/contest/run/${submissionId}/comments`)
+    const nextState = this.http.get<ApiResponse<RunCommentApi[]>>(environment.apiUrl + `/run/${submissionId}/comments`)
       .pipe(
         map(response => ({
           ...this.store.getState(),

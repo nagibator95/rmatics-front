@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import {ContestGuardService} from './pages/contest/contest-guard.service';
+
 const routes: Routes = [
   {
     path: 'demo',
@@ -9,6 +11,7 @@ const routes: Routes = [
   {
     path: 'contest',
     loadChildren: './pages/contest/contest.module#ContestModule',
+    canActivate: [ContestGuardService],
   },
   {
     path: 'auth',
@@ -22,6 +25,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-
 export class AppRoutingModule {
 }

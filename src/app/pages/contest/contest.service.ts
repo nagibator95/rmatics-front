@@ -11,15 +11,16 @@ import { Store } from '../../utils/Store';
 
 import {
   Contest,
-  ContestApi,
+  ContestApi, ContestConnectionApi,
   PackageStatus,
   PackageStatusEnum,
   Problem,
-  ProblemApi,
+  ProblemApi, StatementApi,
   Submission,
   SubmissionApi,
 } from './contest.types';
 
+const defaultCourseId = 1;
 const defaultPageSize = 5;
 
 interface ContestState {
@@ -62,7 +63,7 @@ const formatSubmission = (submission: SubmissionApi, index: number) => {
   } as Submission;
 };
 
-const formatContest = (contest: ContestApi, courseId: number) => ({
+const formatContest = (contest: StatementApi, courseId: number) => ({
   id: contest.id,
   name: contest.name,
   summary: contest.summary,
@@ -100,7 +101,7 @@ export class ContestService {
   constructor(private http: HttpClient) {
   }
 
-  addSubmission(problemId: number, file: File, languageId: number) {
+  addSubmission(problemId: number, file: File, languageId: number, contestId: number) {
     const contest = this.store.getState().contest as Contest;
     const formData = new FormData();
     formData.append('lang_id', languageId.toString());
@@ -108,7 +109,7 @@ export class ContestService {
     formData.append('file', file, file.name);
 
     const nextState = this.http.post<ApiResponse<SubmissionApi[]>>(
-      environment.apiUrl + `/contest/problem/${problemId}/submission`,
+      environment.apiUrl + `/contest/${contestId}/problem/${problemId}/submission`,
       formData,
     ).pipe(
       map(response => ({
@@ -118,7 +119,7 @@ export class ContestService {
         statusCode: response.status_code,
         status: response.status,
       })),
-      tap(() => this.getSubmissions(problemId, 1)),
+      tap(() => this.getSubmissions(problemId, 1, defaultCourseId)),
       catchError(({ error }) => of({
         ...this.store.getState(),
         statusCode: error.status_code,
@@ -130,14 +131,14 @@ export class ContestService {
     this.store.setState(nextState);
   }
 
-  getSubmissions(problemId: number, page: number) {
+  getSubmissions(problemId: number, page: number, contestId: number) {
     this.store.setState(of({
       ...this.store.getState(),
       isSubmissionsFetching: true,
     }));
 
     const nextState = this.http.get<ApiResponse<SubmissionApi[]>>(environment.apiUrl
-      + `/contest/problem/${problemId}/submission?count=${defaultPageSize}&page=${page}`,
+      + `/contest/${contestId}/problem/${problemId}/submission?count=${defaultPageSize}&page=${page}`,
     ).pipe(
       map(response => ({
         ...this.store.getState(),
@@ -164,32 +165,40 @@ export class ContestService {
   }
 
   getContest(courseId: number) {
-    const nextState = this.http.get<ApiResponse<ContestApi>>(environment.apiUrl + `/contest/${courseId}`)
+    const nextState = this.http.get<ApiResponse<ContestConnectionApi>>(environment.apiUrl + `/contest/${courseId}`)
       .pipe(
-        map(response => ({
-          ...this.store.getState(),
-          statusCode: response.status_code,
-          status: response.status,
-          contest: formatContest(response.data as ContestApi, courseId),
-        })),
-        catchError(({ error }) => of({
-          ...this.store.getState(),
-          statusCode: error.status_code,
-          status: error.status,
-          error: error.error,
-        })),
+        map(response => {
+          console.log(response);
+
+          return {
+            ...this.store.getState(),
+            statusCode: response.status_code,
+            status: response.status,
+            contest: formatContest(response.data.contest.statement as StatementApi, courseId),
+          };
+        }),
+        catchError(({ error }) => {
+          console.log(error);
+
+          return of({
+            ...this.store.getState(),
+            statusCode: error.status_code,
+            status: error.status,
+            error: error.error,
+          });
+        }),
       );
 
     this.store.setState(nextState);
   }
 
-  getProblem(problemId: number) {
+  getProblem(problemId: number, contestId: number) {
     this.store.setState(of({
       ...this.store.getState(),
       isFetching: true,
     }));
 
-    const nextState = this.http.get<ApiResponse<ProblemApi>>(environment.apiUrl + `/contest/problem/${problemId}`)
+    const nextState = this.http.get<ApiResponse<ProblemApi>>(environment.apiUrl + `/contest/${contestId}/problem/${problemId}`)
       .pipe(
         map(response => ({
           ...this.store.getState(),
