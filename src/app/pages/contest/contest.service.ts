@@ -11,7 +11,7 @@ import { Store } from '../../utils/Store';
 
 import {
   Contest,
-  ContestApi, ContestConnectionApi,
+  ContestConnectionApi,
   PackageStatus,
   PackageStatusEnum,
   Problem,
