@@ -94,7 +94,8 @@ export class AuthEffects {
           return new AuthActions.RefreshToken();
         }
       } else {
-        return new RouterActions.Go({path: [Routes.AuthRoute]});
+        // return new RouterActions.Go({path: [Routes.AuthRoute]});
+        return new AuthActions.NoTokenRefreshNeeded();
       }
     }),
   );
@@ -105,7 +106,7 @@ export class AuthEffects {
     flatMap((action: AuthActions.InitializeState) => [
       new AuthActions.SetState(action.payload),
       new AuthActions.SetIsLoggedIn(true),
-      new RouterActions.Go({path: [Routes.DefaultRoute]}),
+      // new RouterActions.Go({path: [Routes.DefaultRoute]}),
     ]),
   );
 
@@ -116,6 +117,7 @@ export class AuthEffects {
       this.authService.refreshToken().pipe(
         map(formatData),
         catchError(response => of(formatData(response.error))),
+        tap(formattedData => console.log(formattedData)),
         flatMap((formattedData: FormattedApiResponse) => [
           new AuthActions.SetState(formattedData.state),
           new AuthActions.SetError(formattedData.error),
@@ -125,7 +127,7 @@ export class AuthEffects {
           new AuthActions.SetStatusCode(formattedData.statusCode),
           new AuthActions.SetTokenResponseToCookies({item: formattedData.state}),
           // TODO: убрать условие когда появятся гарды
-          new RouterActions.Go({path: [formattedData.statusCode === 200 ? Routes.DefaultRoute : Routes.AuthRoute]}),
+          // new RouterActions.Go({path: [formattedData.statusCode === 200 ? Routes.DefaultRoute : Routes.AuthRoute]}),
         ]),
       ),
     ),
