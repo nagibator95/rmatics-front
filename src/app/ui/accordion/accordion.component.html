@@ -1,0 +1,15 @@
+<button class="button flex-center flex-space-between" (click)="open = !open">
+  <div class="flex-center">
+    <span class="title">
+      {{titleMain}}
+    </span>
+    <span *ngIf="titleExtra" class="title title_extra flex-center">
+      {{titleExtra}}
+    </span>
+  </div>
+
+  <app-icon icon="arrow" class="icon" [ngClass]="{'icon_rotated': open}" width="13" height="9"></app-icon>
+</button>
+<div *ngIf="open" class="inner">
+  <ng-content></ng-content>
+</div>

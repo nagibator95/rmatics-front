@@ -6,6 +6,7 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { SharedModule } from '../shared/shared.module';
 
+import { AccordionComponent } from './accordion/accordion.component';
 import { ControlsModule } from './controls/controls.module';
 import { RadioGroupComponent } from './radio-group/radio-group.component';
 import { TabsComponent } from './tabs/tabs.component';
@@ -14,6 +15,7 @@ import { TabsComponent } from './tabs/tabs.component';
   declarations: [
     TabsComponent,
     RadioGroupComponent,
+    AccordionComponent,
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,7 @@ import { TabsComponent } from './tabs/tabs.component';
   exports: [
     TabsComponent,
     RadioGroupComponent,
+    AccordionComponent,
   ],
 })
 export class UiModule { }

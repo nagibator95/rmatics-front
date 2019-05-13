@@ -8,6 +8,7 @@ import { IconComponent } from './icon/icon.component';
 import { LoaderComponent } from './loader/loader.component';
 import { NoEncapsulationComponent } from './no-encapsulation/no-encapsulation.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
+import { WhiteBlockComponent } from './white-block/white-block.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     SafeHtmlPipe,
     LoaderComponent,
     NoEncapsulationComponent,
+    WhiteBlockComponent,
   ],
   exports: [
     IconComponent,
@@ -29,6 +31,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     SafeHtmlPipe,
     LoaderComponent,
     NoEncapsulationComponent,
+    WhiteBlockComponent,
   ],
 })
 
