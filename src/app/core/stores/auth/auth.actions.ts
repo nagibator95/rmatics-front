@@ -90,7 +90,7 @@ export class SetIsLoggedIn implements Action {
 export class SetState implements Action {
   readonly type = Types.SetState;
 
-  constructor(public payload: AuthData | undefined) {}
+  constructor(public payload: AuthData | undefined, public isRefresh?: boolean) {}
 }
 
 export class SetError implements Action {

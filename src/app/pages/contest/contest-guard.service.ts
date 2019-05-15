@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {CanActivate} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {map, take, tap} from 'rxjs/operators';
+import {delay, map, take, tap} from 'rxjs/operators';
 
 import {AuthSelectors} from '../../core/stores/auth';
 import {RouterActions} from '../../core/stores/router';
@@ -14,6 +14,7 @@ export class ContestGuardService implements CanActivate {
   canActivate() {
     return this.store$.pipe(
       select(AuthSelectors.getIsLoggedIn()),
+      // delay(1000),
       take(1),
       map(value => !!value),
       tap(value => {

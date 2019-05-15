@@ -1,0 +1,11 @@
+{
+  "https://localhost:4200": {
+    "target": "http://rmatics.tcsbank.info:12343",
+    "secure": false,
+    "pathRewrite": {
+      "^https://localhost:4200": ""
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

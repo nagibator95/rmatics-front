@@ -33,7 +33,17 @@ export function authReducer(state: AuthState = initialState, action: StoreAction
       };
 
     case StoreActions.Types.SetState:
-      return {
+      return action.isRefresh ? {
+        ...state,
+        state: {
+          ...state.state,
+          login: action.payload!.login,
+          firstName: action.payload!.firstName,
+          lastName: action.payload!.lastName,
+          email: action.payload!.email,
+          token: action.payload!.token,
+        },
+      } : {
         ...state,
         state: action.payload,
       };
