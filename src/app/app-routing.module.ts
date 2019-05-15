@@ -19,6 +19,11 @@ const routes: Routes = [
     canActivate: [ContestGuardService],
   },
   {
+    path: 'monitor',
+    loadChildren: './pages/monitor/monitor.module#MonitorModule',
+    canActivate: [ContestGuardService],
+  },
+  {
     path: 'auth',
     loadChildren: './pages/auth/auth.module#AuthModule',
   },

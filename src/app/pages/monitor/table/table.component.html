@@ -1,0 +1,82 @@
+<div class="scrollable" (scrollLeft)="onScroll($event)">
+  <table class="table">
+  
+    <thead class="thead">
+      <tr>
+        <th
+          *ngFor="let colHead of head"
+          class="col col_head"
+          [ngClass]="{
+            'col_sticky': isStickyCol(colHead),
+            'col_scrolled': isScrolled
+          }"
+          #col
+        >
+          <ng-container *ngIf="isSortable(colHead); else staticCell">
+            <button
+              class="cell cell_header cell_button"
+              (mouseenter)="showTooltip($event, colHead.detailed)"
+              (mouseleave)="hideTooltip()"
+            >
+              {{colHead.name}}
+              <span class="sort-icon">{{sorted ? '▴' : '▾'}}</span>
+            </button>
+          </ng-container>
+          <ng-template #staticCell>
+            <div class="cell cell_header">
+              {{colHead.name}}
+            </div>
+          </ng-template>
+        </th>
+      </tr>
+    </thead>
+  
+    <tbody class="tbody">
+      <tr *ngFor="let row of body">
+        <td class="col col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
+          <div class="cell">
+            {{row.rating}}
+          </div>
+        </td>
+        <td class="col col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
+          <div class="cell">
+            <div class="participator">
+              <span class="participator-name">{{row.name}}</span>
+              <span class="secondary-text">{{row.from}}</span>
+            </div>
+          </div>
+        </td>
+        <td class="col col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
+          <div class="cell cell_total">
+            {{row.total}}
+          </div>
+        </td>
+        <td *ngFor="let colBody of iterableCols" #col>
+          <div class="participator">
+            <span>{{row[colBody].score}}</span>
+            <span>{{row[colBody].time}}</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  
+  </table>
+</div>
+
+<div
+  *ngIf="tooltipData"
+  class="tooltip"
+  [ngClass]="'tooltip_orientation_' + tooltipPosition.orientation"
+  [ngStyle]="{'transform': 'translate(' + tooltipPosition.left + 'px,' + tooltipPosition.top + 'px)'}"
+>
+  <div class="tooltip-block">
+    <span class="secondary-text tooltip-title">Контест</span>
+    {{tooltipData.contest}}
+  </div>
+  <div class="tooltip-block">
+    <span class="secondary-text tooltip-title">Задача</span>
+    {{tooltipData.problem}}
+  </div>
+  <p class="secondary-text secondary-text_default tooltip-block">{{tooltipData.description}}</p>
+
+</div>
