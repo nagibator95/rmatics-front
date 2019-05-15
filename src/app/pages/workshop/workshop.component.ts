@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
-import { WorkshopService } from './workshop.service';
+// import { WorkshopService } from './workshop.service';
 
 @Component({
   selector: 'app-workshop',
@@ -11,11 +11,12 @@ import { WorkshopService } from './workshop.service';
 export class WorkshopComponent implements OnInit {
 
   constructor(
-    private workshopService: WorkshopService,
+    // private workshopService: WorkshopService,
   ) { }
 
   ngOnInit() {
-    this.workshopService.workshop.subscribe(data => console.log(data))
+    // this.workshopService.getWorkshop(1);
+    // this.workshopService.workshop.subscribe(data => console.log(data));
   }
 
 }
