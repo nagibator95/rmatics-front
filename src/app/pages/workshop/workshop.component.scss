@@ -2,3 +2,21 @@
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.loading {
+  width: 500px;
+  height: 500px;
+  margin: auto auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.workshop-title {
+  padding-bottom: 24px;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.29;
+  letter-spacing: normal;
+  color: #2d3446;
+}
