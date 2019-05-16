@@ -6,8 +6,6 @@ import { ApiResponse } from 'src/app/core/stores/auth/models/apiResponse.model';
 import { Store } from 'src/app/utils/Store';
 import { environment } from 'src/environments/environment';
 
-import { SubmissionApi } from '../contest/contest.types';
-
 import {WorkshopApi} from './workshop.types';
 
 interface WorkshopState {
@@ -39,7 +37,7 @@ export class WorkshopService {
   getWorkshop(workshopId: number) {
     this.setFetching(true);
 
-    const nextState = this.http.get<ApiResponse<SubmissionApi[]>>(environment.apiUrl
+    const nextState = this.http.get<ApiResponse<WorkshopApi>>(environment.apiUrl
       + `/workshop/${workshopId}`,
     ).pipe(
       map(response => ({

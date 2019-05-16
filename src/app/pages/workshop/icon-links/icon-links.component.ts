@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 
 type Icon =
   'archive-2' |
@@ -18,7 +18,7 @@ type Icon =
   styleUrls: ['./icon-links.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IconLinksComponent implements OnInit {
+export class IconLinksComponent {
   @Input() icon: Icon = 'package';
   @Output() click = new EventEmitter();
 
@@ -34,11 +34,6 @@ export class IconLinksComponent implements OnInit {
     'pdf': {width: 20, height: 20},
     'youtube': {width: 21, height: 15},
   };
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 
   get iconWidth() {
     return this.iconSizes[this.icon].width;

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {Store} from '@ngrx/store';
 import {filter, take} from 'rxjs/operators';
 
 import {ContestService} from '../contest/contest.service';
@@ -21,7 +20,6 @@ export class WorkshopComponent implements OnInit {
 
   constructor(
     private workshopService: WorkshopService,
-    private store: Store<any>,
     private router: Router,
     private contestService: ContestService,
   ) { }
