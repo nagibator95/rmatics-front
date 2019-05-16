@@ -174,7 +174,7 @@ export class ContestService {
             ...this.store.getState(),
             statusCode: response.status_code,
             status: response.status,
-            contest: formatContest(response.data.contest.statement as StatementApi, courseId),
+            contest: formatContest(response.data!.contest.statement as StatementApi, courseId),
           };
         }),
         catchError(({ error }) => {
