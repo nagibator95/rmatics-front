@@ -10,7 +10,7 @@
     [currentTaskId]="currentTaskId"
   ></app-contest-menu>
 
-  <div class="task" *ngIf="!(isFetching | async); else loading">
+  <app-white-block [border]="true" class="task" *ngIf="!(isFetching | async); else loading">
     <app-contest-task
       #task
       *ngIf="(problem | async) as problem"
@@ -35,7 +35,7 @@
       [previous]="paginationItems[0]"
       [next]="paginationItems[1]"
     ></app-contest-pagination>
-  </div>
+  </app-white-block>
 
   <ng-template #loading>
     <app-loader class="loader"></app-loader>

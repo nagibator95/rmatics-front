@@ -15,7 +15,8 @@ import {
   PackageStatus,
   PackageStatusEnum,
   Problem,
-  ProblemApi, StatementApi,
+  ProblemApi,
+  StatementApi,
   Submission,
   SubmissionApi,
 } from './contest.types';
@@ -168,7 +169,7 @@ export class ContestService {
     const nextState = this.http.get<ApiResponse<ContestConnectionApi>>(environment.apiUrl + `/contest/${courseId}`)
       .pipe(
         map(response => {
-          console.log(response);
+          const { data: { contest: { statement = { problems: [] } } = {} } = {} } = response;
 
           return {
             ...this.store.getState(),
@@ -178,8 +179,6 @@ export class ContestService {
           };
         }),
         catchError(({ error }) => {
-          console.log(error);
-
           return of({
             ...this.store.getState(),
             statusCode: error.status_code,

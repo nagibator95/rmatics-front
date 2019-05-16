@@ -1,0 +1,18 @@
+<div *ngIf="!(isFetching | async); else loading" class="app-container">
+  <app-white-block>
+    <div class="workshop-title">
+      {{(workshop | async).name}}
+    </div>
+    <app-accordion [open]="true" titleMain="Общая информация">
+      <app-icon-links *ngFor="let contest of (workshop | async).contests" class="paragraph"
+                      icon="package"
+                      (click)="onContestClicked(contest.id)"
+      >{{contest.statement.name}}</app-icon-links>
+    </app-accordion>
+  </app-white-block>
+</div>
+<ng-template #loading>
+  <div class="loading">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

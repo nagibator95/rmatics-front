@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ControlsModule } from '../../ui/controls/controls.module';
 import { UiModule } from '../../ui/ui.module';
 
+import { AccordionDemoComponent } from './accordion/accordion-demo.component';
 import { ButtonDemoComponent } from './button/button-demo.component';
 import { CheckboxDemoComponent } from './checkbox/checkbox-demo.component';
 import { DemoComponent } from './demo.component';
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'select', component: SelectDemoComponent },
       { path: 'tabs', component: TabsDemoComponent },
       { path: 'radioGroup', component: RadioGroupDemoComponent },
+      { path: 'accordion', component: AccordionDemoComponent },
     ],
   },
 ];
@@ -47,6 +49,7 @@ const routes: Routes = [
     SelectDemoComponent,
     TabsDemoComponent,
     RadioGroupDemoComponent,
+    AccordionDemoComponent,
   ],
   exports: [
     DemoComponent,
@@ -57,6 +60,7 @@ const routes: Routes = [
     UploadDemoComponent,
     SelectDemoComponent,
     RadioGroupDemoComponent,
+    AccordionDemoComponent,
   ],
 })
 

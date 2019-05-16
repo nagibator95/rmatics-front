@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  line-height: 1;
+}
+
+.link {
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 1.29;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 32px);
+  color: var(--black);
+}
