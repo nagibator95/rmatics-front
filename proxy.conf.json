@@ -1,0 +1,8 @@
+{
+  "/api/*": {
+    "target": "http://rmatics.tcsbank.info:12343",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
