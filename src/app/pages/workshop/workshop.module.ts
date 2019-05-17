@@ -13,6 +13,10 @@ const routes: Routes = [
     path: '',
     component: WorkshopComponent,
   },
+  {
+    path: ':workshopId',
+    component: WorkshopComponent,
+  },
 ];
 
 @NgModule({

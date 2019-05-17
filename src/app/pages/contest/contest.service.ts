@@ -169,13 +169,11 @@ export class ContestService {
     const nextState = this.http.get<ApiResponse<ContestConnectionApi>>(environment.apiUrl + `/contest/${courseId}`)
       .pipe(
         map(response => {
-          const { data: { contest: { statement = { problems: [] } } = {} } = {} } = response;
-
           return {
             ...this.store.getState(),
             statusCode: response.status_code,
             status: response.status,
-            contest: formatContest(statement as StatementApi, courseId),
+            contest: formatContest(response.data!.contest.statement as StatementApi, courseId),
           };
         }),
         catchError(({ error }) => {

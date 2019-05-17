@@ -30,9 +30,9 @@ export class HeaderComponent implements OnDestroy {
     this.store$.dispatch(new AuthActions.Logout());
   }
 
-  navigate(route?: string) {
+  navigate(route?: string, id?: number) {
     this.store$.dispatch(route ? new RouterActions.Go({
-      path: [route],
+      path: id ? [route, id] : [route],
     }) : new RouterActions.Back());
   }
 }

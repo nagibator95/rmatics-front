@@ -1,16 +1,18 @@
-<div class="app-container">
+<div *ngIf="!(isFetching | async); else loading" class="app-container">
   <app-white-block>
+    <div class="workshop-title">
+      {{(workshop | async).name}}
+    </div>
     <app-accordion [open]="true" titleMain="Общая информация">
-      <app-icon-links class="paragraph" link="http://example.com" icon="package">Задача</app-icon-links>
-      <app-icon-links class="paragraph" link="http://example.com" icon="archive-2">Скачать архив</app-icon-links>
-      <app-icon-links class="paragraph" link="http://example.com" icon="external-link">Внутренняя ссылка</app-icon-links>
-      <app-icon-links class="paragraph" link="http://example.com" icon="external-link-2">Внешняя ссылка</app-icon-links>
-      <app-icon-links class="paragraph" link="http://example.com" icon="pdf">Скачать pdf файл</app-icon-links>
-      <app-icon-links class="paragraph" link="http://example.com" icon="github">Ссылка на github</app-icon-links>
-      <app-icon-links class="paragraph" link="http://example.com" icon="file">Ресурсы</app-icon-links>
-      <app-icon-links class="paragraph" link="http://example.com" icon="youtube">Youtube</app-icon-links>
-      <app-icon-links class="paragraph" link="http://example.com" icon="image">Изображение</app-icon-links>
-      <app-icon-links class="paragraph" link="http://example.com" icon="file-plus">Другое</app-icon-links>
+      <app-icon-links *ngFor="let contest of (workshop | async).contests" class="paragraph"
+                      icon="package"
+                      (click)="onContestClicked(contest.id)"
+      >{{contest.statement.name}}</app-icon-links>
     </app-accordion>
   </app-white-block>
 </div>
+<ng-template #loading>
+  <div class="loading">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

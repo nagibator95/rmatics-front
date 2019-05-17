@@ -1,20 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiResponse } from 'src/app/core/stores/auth/models/apiResponse.model';
 import { Store } from 'src/app/utils/Store';
 import { environment } from 'src/environments/environment';
 
-import { SubmissionApi } from '../contest/contest.types';
+import {WorkshopApi} from './workshop.types';
 
 interface WorkshopState {
   statusCode: number;
   status: string;
   error?: string;
   isFetching: boolean;
-  workshop?: {};
+  workshop?: WorkshopApi;
 }
 
 const initialState: WorkshopState = {
@@ -30,17 +29,15 @@ const initialState: WorkshopState = {
 export class WorkshopService {
   private store = new Store<WorkshopState>(initialState);
   workshop = this.store.state.pipe(map(state => state.workshop));
+  isFetching = this.store.state.pipe(map(state => state.isFetching));
 
   constructor(private http: HttpClient) {
   }
 
   getWorkshop(workshopId: number) {
-    this.store.setState(of({
-      ...this.store.getState(),
-      isFetching: true,
-    }));
+    this.setFetching(true);
 
-    const nextState = this.http.get<ApiResponse<SubmissionApi[]>>(environment.apiUrl
+    const nextState = this.http.get<ApiResponse<WorkshopApi>>(environment.apiUrl
       + `/workshop/${workshopId}`,
     ).pipe(
       map(response => ({
@@ -59,6 +56,12 @@ export class WorkshopService {
     );
 
     this.store.setState(nextState);
+  }
 
+  setFetching(isFetching: boolean) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      isFetching: isFetching,
+    }));
   }
 }
