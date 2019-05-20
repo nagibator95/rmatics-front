@@ -125,10 +125,6 @@ export class ContestComponent implements OnInit, OnDestroy {
 
       this.timer = (hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
       this.cd.markForCheck();
-      console.log(this.timer);
-      console.log(minutes);
-      console.log(seconds);
-      console.log(hours);
 
       if (timer - 1 < 0) {
         this.finishTimer(interval);
