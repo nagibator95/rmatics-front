@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {filter, take} from 'rxjs/operators';
 
 import {ContestService} from '../contest/contest.service';
-import {Contest} from '../contest/contest.types';
 
 import { WorkshopService } from './workshop.service';
 
@@ -29,16 +27,8 @@ export class WorkshopComponent implements OnInit {
     this.workshopService.workshop.subscribe(data => console.log(data));
   }
 
-  onContestClicked(contestId: number) {
+  onContestClicked(contestId: number, duration: number) {
     this.workshopService.setFetching(true);
-    this.contestService.getContest(contestId);
-    this.contest
-      .pipe(filter(Boolean), take(1))
-      .subscribe(contest => {
-        const problems = (contest as Contest).problems;
-        if (problems.length > 0) {
-          this.router.navigate(['contest', contestId, 'problem', problems[0].id]);
-        }
-      });
+    this.router.navigate(['contest', {id: contestId, duration}]);
   }
 }

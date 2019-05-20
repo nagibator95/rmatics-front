@@ -5,6 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 
 import {AuthActions, AuthSelectors} from '../core/stores/auth';
 import {RouterActions} from '../core/stores/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,9 @@ export class HeaderComponent implements OnDestroy {
   isLoggedIn$: Observable<boolean | null>;
   private destroy$ = new Subject();
 
-  constructor(private store$: Store<any>) {
+  constructor(
+    private store$: Store<any>,
+    private router: Router) {
     this.isLoggedIn$ = this.store$.pipe(select(AuthSelectors.getIsLoggedIn()), takeUntil(this.destroy$));
   }
 
@@ -31,8 +34,12 @@ export class HeaderComponent implements OnDestroy {
   }
 
   navigate(route?: string, id?: number) {
-    this.store$.dispatch(route ? new RouterActions.Go({
-      path: id ? [route, id] : [route],
-    }) : new RouterActions.Back());
+    if (route === 'contest') {
+      this.router.navigate(['contest', {id: id, duration: 300}]);
+    } else {
+      this.store$.dispatch(route ? new RouterActions.Go({
+        path: id ? [route, id] : [route],
+      }) : new RouterActions.Back());
+    }
   }
 }
