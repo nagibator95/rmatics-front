@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
@@ -26,7 +27,7 @@ export const defaultCourseId = 1;
 
 export class ContestComponent implements OnInit, OnDestroy {
   @ViewChild('task') task!: ContestTaskComponent;
-  @Input() courseId = defaultCourseId;
+  @Input() courseId = this.route.snapshot.paramMap.get('id');
   problem = this.contestService.problem;
   contest = this.contestService.contest;
   submissions = this.contestService.submissions;
@@ -50,6 +51,8 @@ export class ContestComponent implements OnInit, OnDestroy {
       return [undefined, undefined];
     }));
 
+  timer = '';
+  interval: any = null;
   currentTaskId = 0;
   routeChangeSubscription = this.route.url.subscribe(segments => {
     if (segments.length === 0) {
@@ -62,13 +65,40 @@ export class ContestComponent implements OnInit, OnDestroy {
       this.contestService.getSubmissions(taskNumber, 1, defaultCourseId);
       this.currentTaskId = taskNumber;
     }
+
+    this.interval = this.startTimer(Number(this.route.snapshot.paramMap.get('duration')));
   });
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private contestService: ContestService,
-    private submissionService: SubmissionService) {
+    private submissionService: SubmissionService,
+    private cd: ChangeDetectorRef) {
+  }
+
+  ngOnInit() {
+    console.log('onInit');
+    if (this.route.snapshot.paramMap.get('id')) {
+      this.contestService.getContest(Number(this.route.snapshot.paramMap.get('id')));
+    }
+    setTimeout(() => {
+      this.contest
+        .pipe(filter(Boolean), take(1))
+        .subscribe(contest => {
+          const problems = (contest as Contest).problems;
+          console.log(contest);
+          if (!this.currentTaskId && problems.length > 0) {
+            this.router.navigate(['contest', this.courseId, 'problem', problems[0].id, {duration: Number(this.route.snapshot.paramMap.get('duration'))}]);
+          }
+        });
+    }, 1000);
+  }
+
+  ngOnDestroy() {
+    this.routeChangeSubscription.unsubscribe();
+    this.uploadRemoveSubscription.unsubscribe();
+    this.finishTimer(this.interval);
   }
 
   addSubmission(data: { file: File, languageId: number }) {
@@ -87,20 +117,28 @@ export class ContestComponent implements OnInit, OnDestroy {
     this.contestService.clearFileError();
   }
 
-  ngOnInit() {
-    this.contestService.getContest(this.courseId);
-    this.contest
-      .pipe(filter(Boolean), take(1))
-      .subscribe(contest => {
-        const problems = (contest as Contest).problems;
-        if (!this.currentTaskId && problems.length > 0) {
-          this.router.navigate(['contest', this.courseId, 'problem', problems[0].id]);
-        }
-      });
+  startTimer(duration: number) {
+    let timer = duration;
+    const interval = setInterval(() => {
+      const minutes = parseInt(String((timer / 60) % 60), 10);
+      const seconds = parseInt(String(timer % 60), 10);
+      const hours = parseInt(String(timer / 3600), 10);
+
+      this.timer = (hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+      this.cd.markForCheck();
+
+      if (timer - 1 < 0) {
+        this.finishTimer(interval);
+      } else {
+        timer--;
+      }
+    }, 1000);
+
+    return interval;
   }
 
-  ngOnDestroy() {
-    this.routeChangeSubscription.unsubscribe();
-    this.uploadRemoveSubscription.unsubscribe();
+  finishTimer(interval: any) {
+    clearInterval(interval);
+    this.timer = '';
   }
 }

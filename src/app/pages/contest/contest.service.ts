@@ -166,11 +166,17 @@ export class ContestService {
   }
 
   getContest(courseId: number) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      isFetching: true,
+    }));
+
     const nextState = this.http.get<ApiResponse<ContestConnectionApi>>(environment.apiUrl + `/contest/${courseId}`)
       .pipe(
         map(response => {
           return {
             ...this.store.getState(),
+            isFetching: false,
             statusCode: response.status_code,
             status: response.status,
             contest: formatContest(response.data!.contest.statement as StatementApi, courseId),

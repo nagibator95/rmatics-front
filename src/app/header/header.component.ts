@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 
 import { Observable, Subject } from 'rxjs';
@@ -18,7 +19,9 @@ export class HeaderComponent implements OnDestroy {
   isLoggedIn$: Observable<boolean | null>;
   private destroy$ = new Subject();
 
-  constructor(private store$: Store<any>) {
+  constructor(
+    private store$: Store<any>,
+    private router: Router) {
     this.isLoggedIn$ = this.store$.pipe(select(AuthSelectors.getIsLoggedIn()), takeUntil(this.destroy$));
   }
 
@@ -32,6 +35,10 @@ export class HeaderComponent implements OnDestroy {
   }
 
   navigate(...path: Array<string | number>) {
-    this.store$.dispatch(path.length ? new RouterActions.Go({ path }) : new RouterActions.Back());
+    if (path[0] === 'contest') {
+      this.router.navigate(['contest', { id: path[1], duration: 300}]);
+    } else {
+      this.store$.dispatch(path.length ? new RouterActions.Go({ path }) : new RouterActions.Back());
+    }
   }
 }
