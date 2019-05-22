@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { filter, map, take } from 'rxjs/operators';
 
 import { ContestTaskComponent } from './contest-task/contest-task.component';

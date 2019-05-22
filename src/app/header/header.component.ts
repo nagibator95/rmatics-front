@@ -1,10 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 
-import {AuthActions, AuthSelectors} from '../core/stores/auth';
-import {RouterActions} from '../core/stores/router';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { AuthActions, AuthSelectors } from '../core/stores/auth';
+import { RouterActions } from '../core/stores/router';
 
 @Component({
   selector: 'app-header',
@@ -30,9 +31,7 @@ export class HeaderComponent implements OnDestroy {
     this.store$.dispatch(new AuthActions.Logout());
   }
 
-  navigate(route?: string, id?: number) {
-    this.store$.dispatch(route ? new RouterActions.Go({
-      path: id ? [route, id] : [route],
-    }) : new RouterActions.Back());
+  navigate(...path: Array<string | number>) {
+    this.store$.dispatch(path.length ? new RouterActions.Go({ path }) : new RouterActions.Back());
   }
 }

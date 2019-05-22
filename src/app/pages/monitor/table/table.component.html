@@ -1,61 +1,82 @@
 <div class="scrollable" (scrollLeft)="onScroll($event)">
   <table class="table">
-  
+
     <thead class="thead">
       <tr>
-        <th
-          *ngFor="let colHead of head"
-          class="col col_head"
-          [ngClass]="{
-            'col_sticky': isStickyCol(colHead),
-            'col_scrolled': isScrolled
-          }"
-          #col
-        >
-          <ng-container *ngIf="isSortable(colHead); else staticCell">
-            <button
-              class="cell cell_header cell_button"
-              (mouseenter)="showTooltip($event, colHead.detailed)"
-              (mouseleave)="hideTooltip()"
-            >
-              {{colHead.name}}
-              <span class="sort-icon">{{sorted ? '▴' : '▾'}}</span>
-            </button>
-          </ng-container>
-          <ng-template #staticCell>
-            <div class="cell cell_header">
-              {{colHead.name}}
-            </div>
-          </ng-template>
+        <th class="col col_head col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
+          <span class="cell cell_header">#</span>
+        </th>
+        <th class="col col_head col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
+          <button class="cell cell_header cell_button" (click)="sortTable('name')">
+            Участники
+            <span class="sort-icon">{{isReversed('name') ? '▴' : '▾'}}</span>
+          </button>
+        </th>
+        <th class="col col_head col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
+          <button class="cell cell_header cell_button" (click)="sortTable('totalScore')">
+            Всего
+            <span class="sort-icon">{{isReversed('totalScore') ? '▴' : '▾'}}</span>
+          </button>
+        </th>
+        <th *ngIf="type === 'ACM'" class="col col_head col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
+          <span class="cell cell_header">Штраф</span>
+        </th>
+        <th *ngFor="let problem of problems" class="col col_head" #col>
+          <button
+            class="cell cell_header cell_button"
+            (mouseenter)="showTooltip($event, problem.detailed)"
+            (mouseleave)="hideTooltip()"
+            (click)="sortTable(problem.id)"
+          >
+            {{problem.name}}
+            <span class="sort-icon">{{isReversed(problem.id) ? '▴' : '▾'}}</span>
+          </button>
         </th>
       </tr>
     </thead>
   
     <tbody class="tbody">
-      <tr *ngFor="let row of body">
+      <tr *ngFor="let user of users">
         <td class="col col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
           <div class="cell">
-            {{row.rating}}
+            {{user.rating}}
           </div>
         </td>
         <td class="col col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
           <div class="cell">
             <div class="participator">
-              <span class="participator-name">{{row.name}}</span>
-              <span class="secondary-text">{{row.from}}</span>
+              <span class="participator-name">{{user.lastname}} {{user.firstname}}</span>
+              <span class="secondary-text">Школа</span>
             </div>
           </div>
         </td>
         <td class="col col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
           <div class="cell cell_total">
-            {{row.total}}
+            {{user.totalScore}}
           </div>
         </td>
-        <td *ngFor="let colBody of iterableCols" #col>
-          <div class="participator">
-            <span>{{row[colBody].score}}</span>
-            <span>{{row[colBody].time}}</span>
+        <td *ngIf="type === 'ACM'" class="col col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
+          <div class="cell cell_total">
+            {{user.penalty | date:'mm:ss'}}
           </div>
+        </td>
+        <td *ngFor="let result of user.results" class="col" #col>
+          <ng-container *ngIf="result; else emptyCol">
+            <app-status
+              [onTesting]="result.onTesting"
+              [isIgnored]="result.isIgnored"
+              [isBestResult]="result.isBestResult"
+              [mark]="result.mark"
+              [time]="result.time"
+              [success]="result.success"
+              [wrongTries]="result.wrongTries"
+              [tableType]="type"
+            ></app-status>
+          </ng-container>
+          <ng-template #emptyCol>
+            <div class="cell cell_empty"></div>
+          </ng-template>
+          
         </td>
       </tr>
     </tbody>
@@ -71,12 +92,12 @@
 >
   <div class="tooltip-block">
     <span class="secondary-text tooltip-title">Контест</span>
-    {{tooltipData.contest}}
+    {{tooltipData.contestName}}
   </div>
   <div class="tooltip-block">
     <span class="secondary-text tooltip-title">Задача</span>
-    {{tooltipData.problem}}
+    {{tooltipData.fullname}}
   </div>
-  <p class="secondary-text secondary-text_default tooltip-block">{{tooltipData.description}}</p>
+  <p class="secondary-text secondary-text_default tooltip-block">{{tooltipData.summary}}</p>
 
 </div>

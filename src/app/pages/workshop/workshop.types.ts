@@ -1,4 +1,4 @@
-import { ContestApi } from '../contest/contest.types';
+import { ContestApi } from 'src/app/shared/types/contest.types';
 
 export interface WorkshopApi {
   id: number;

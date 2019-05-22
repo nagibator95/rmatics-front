@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {filter, take} from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {ContestService} from '../contest/contest.service';
-import {Contest} from '../contest/contest.types';
+import { filter, take } from 'rxjs/operators';
+
+import { ContestService } from '../contest/contest.service';
+import { Contest } from '../contest/contest.types';
 
 import { WorkshopService } from './workshop.service';
 
@@ -21,11 +22,13 @@ export class WorkshopComponent implements OnInit {
   constructor(
     private workshopService: WorkshopService,
     private router: Router,
+    private route: ActivatedRoute,
     private contestService: ContestService,
   ) { }
 
-  ngOnInit() {
-    this.workshopService.getWorkshop(1);
+   ngOnInit() {
+    const workshopId = Number(this.route.snapshot.paramMap.get('workshopId'));
+    this.workshopService.getWorkshop(workshopId);
     this.workshopService.workshop.subscribe(data => console.log(data));
   }
 

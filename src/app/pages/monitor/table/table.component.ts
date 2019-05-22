@@ -3,23 +3,19 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Input,
   OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 
-import { body, head } from './data';
-
-type HeadCol = {
-  name: string,
-  id: string,
-  sortable?: boolean,
-};
+import { TableProblem, TableType, TableUser } from '../monitor.types';
+import { nameCompare, problemCompare, totalScoreCompare } from '../table-sort';
 
 type TooltipData = {
-  contest: string,
-  problem: string,
-  description?: string,
+  contestName: string,
+  fullname: string,
+  summary: string,
 };
 
 type TooltipPosition = {
@@ -28,6 +24,11 @@ type TooltipPosition = {
   orientation: 'right' | 'left',
 };
 
+type SortState = {
+  fieldId: string | number,
+  reverse: boolean,
+}
+
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -35,9 +36,9 @@ type TooltipPosition = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements OnInit {
-  head: HeadCol[] = head;
-  body = body;
-  iterableCols = Object.keys(body[0]).filter(key => !['rating', 'name', 'from', 'total'].includes(key));
+  @Input() problems: TableProblem[] = [];
+  @Input() users: TableUser[] = [];
+  @Input() type: TableType = TableType.IOI;
 
   @ViewChildren('col') private cols: QueryList<ElementRef<HTMLTableCellElement>> = new QueryList();
 
@@ -45,6 +46,11 @@ export class TableComponent implements OnInit {
 
   tooltipData: TooltipData | null = null;
   tooltipPosition: TooltipPosition = {top: 0, left: 0, orientation: 'left'};
+
+  sortState: SortState = {
+    fieldId: 'totalScore',
+    reverse: false,
+  }
 
   constructor() { }
 
@@ -55,6 +61,7 @@ export class TableComponent implements OnInit {
     const colHover = $event.target ? ($event.target as HTMLElement).closest('td, th') as HTMLTableCellElement : null;
 
     this.cols.forEach(col => {
+      const status = col.nativeElement.querySelector('app-status');
       col.nativeElement.classList.remove('col_hover');
 
       if (
@@ -68,9 +75,11 @@ export class TableComponent implements OnInit {
           )
         )
       ) {
-        col.nativeElement.classList.add('col_highlited');
+        col.nativeElement.classList.add('col_highlighted');
+        if (status) status.classList.add('_highlighted');
       } else {
-        col.nativeElement.classList.remove('col_highlited', 'col_hover');
+        col.nativeElement.classList.remove('col_highlighted', 'col_hover');
+        if (status) status.classList.remove('_highlighted');
       }
     });
 
@@ -80,19 +89,15 @@ export class TableComponent implements OnInit {
   }
 
   @HostListener('mouseleave') onMouseLeave() {
-    this.cols.forEach(col => col.nativeElement.classList.remove('col_highlited', 'col_hover'))
+    this.cols.forEach(col => {
+      const status = col.nativeElement.querySelector('app-status');
+      col.nativeElement.classList.remove('col_highlighted', 'col_hover');
+      if (status) status.classList.remove('_highlighted');
+    })
   }
 
   onScroll(val: number) {
     this.isScrolled = Boolean(val);
-  }
-
-  isStickyCol(col: HeadCol) {
-    return col.id === 'total' || !this.iterableCols.includes(col.id);
-  }
-
-  isSortable(col: HeadCol) {
-    return col.id !== 'rating';
   }
 
   showTooltip(e: MouseEvent, data: TooltipData) {
@@ -121,6 +126,28 @@ export class TableComponent implements OnInit {
 
   hideTooltip() {
     this.tooltipData = null;
+  }
+
+  sortTable(id: string | number) {
+    const reverse = id === this.sortState.fieldId && !this.sortState.reverse;
+
+    switch (id) {
+      case 'name':
+        this.users.sort(nameCompare(reverse));
+      case 'totalScore':
+        this.users.sort(totalScoreCompare(this.type, reverse));
+      default:
+        this.users.sort(problemCompare(this.problems.findIndex(problem => problem.id === id), reverse));
+    }
+
+    this.sortState = {
+      fieldId: id,
+      reverse,
+    }
+  }
+
+  isReversed(id: string | number): boolean {
+    return this.sortState.fieldId === id && this.sortState.reverse;
   }
 
 }

@@ -1,0 +1,86 @@
+:host {
+  display: block;
+  max-width: 100%;
+
+  --t-color-status-success: #e8f5e9;
+  --t-color-status-success-hover: #c8e6c9;
+  --t-color-status-success-best: #c8e6c9;
+  --t-color-status-success-best-hover: #a5d6a7;
+  --t-color-status-warning: #fff3e0;
+  --t-color-status-warning-hover: #ffe0b2;
+  --t-color-status-failed: #fce4ec;
+  --t-color-status-failed-hover: #FFCDD2;
+  --t-color-status-testing: #e9f5fe;
+  --t-color-status-testing-hover: #c9e5fc;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  border-radius: 4px;
+  transition: background-color .2s ease-in-out;
+
+  &_status_ {
+    &best {
+      background-color: var(--t-color-status-success-best);
+
+      :host(._highlighted) & {
+        background-color: var(--t-color-status-success-best-hover);
+      }
+    }
+
+    &success {
+      background-color: var(--t-color-status-success);
+
+      :host(._highlighted) & {
+        background-color: var(--t-color-status-success-hover);
+      }
+    }
+
+    &warning {
+      background-color: var(--t-color-status-warning);
+
+      :host(._highlighted) & {
+        background-color: var(--t-color-status-warning-hover);
+      }
+    }
+
+    &failed {
+      background-color: var(--t-color-status-failed);
+
+      :host(._highlighted) & {
+        background-color: var(--t-color-status-failed-hover);
+      }
+    }
+
+    &testing {
+      background-color: var(--t-color-status-testing);
+
+      :host(._highlighted) & {
+        background-color: var(--t-color-status-testing-hover);
+      }
+    }
+  }
+}
+
+.score {
+  margin-bottom: 2px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.29;
+}
+
+.time {
+  font-size: 12px;
+  line-height: 1.33;
+}
+
+.ignored-icon {
+  position: relative;
+  z-index: 0;
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
