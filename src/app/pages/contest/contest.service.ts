@@ -98,6 +98,10 @@ export class ContestService {
   problem = this.store.state.pipe(map(state => state.problem));
   submissions = this.store.state.pipe(map(state => state.submissions));
   fileError = this.store.state.pipe(map(state => state.fileError));
+  createdAt: string;
+  timestop: string;
+  virtualDuration: number;
+  isVirtual: boolean;
 
   constructor(private http: HttpClient) {
   }
@@ -173,6 +177,12 @@ export class ContestService {
 
     const nextState = this.http.get<ApiResponse<ContestConnectionApi>>(environment.apiUrl + `/contest/${courseId}`)
       .pipe(
+        tap(response => {
+          this.virtualDuration = response.data.contest.virtual_duration;
+          this.timestop = response.data.contest.time_stop;
+          this.createdAt = response.data.created_at;
+          this.isVirtual = response.data.contest.is_virtual;
+        }),
         map(response => {
           return {
             ...this.store.getState(),

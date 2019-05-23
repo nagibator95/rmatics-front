@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {ContestService} from '../contest/contest.service';
+import {ContestApi} from '../contest/contest.types';
 
 import { WorkshopService } from './workshop.service';
 
@@ -14,12 +14,10 @@ import { WorkshopService } from './workshop.service';
 export class WorkshopComponent implements OnInit {
   workshop = this.workshopService.workshop;
   isFetching = this.workshopService.isFetching;
-  contest = this.contestService.contest;
 
   constructor(
     private workshopService: WorkshopService,
     private router: Router,
-    private contestService: ContestService,
   ) { }
 
   ngOnInit() {
@@ -27,8 +25,8 @@ export class WorkshopComponent implements OnInit {
     this.workshopService.workshop.subscribe(data => console.log(data));
   }
 
-  onContestClicked(contestId: number, duration: number) {
+  onContestClicked(contest: ContestApi) {
     this.workshopService.setFetching(true);
-    this.router.navigate(['contest', {id: contestId, duration}]);
+    this.router.navigate(['contest', {id: contest.id}]);
   }
 }

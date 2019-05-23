@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import moment from 'moment';
 import { filter, map, take } from 'rxjs/operators';
 
 import { ContestTaskComponent } from './contest-task/contest-task.component';
@@ -65,7 +66,17 @@ export class ContestComponent implements OnInit, OnDestroy {
       this.currentTaskId = taskNumber;
     }
 
-    this.interval = this.startTimer(Number(this.route.snapshot.paramMap.get('duration')));
+    let duration = 0;
+    if (this.contestService.isVirtual) {
+      if (!this.contestService.timestop) {
+        duration = Number(this.contestService.createdAt) + Number(this.contestService.virtualDuration);
+      } else {
+        duration = moment(new Date('2030-10-10')).diff((new Date())) / 1000;
+      }
+    } else {
+      duration = !this.contestService.timestop ? 0 : moment(new Date('2030-10-10')).diff((new Date())) / 1000;
+    }
+    this.interval = this.startTimer(duration);
   });
 
   constructor(
