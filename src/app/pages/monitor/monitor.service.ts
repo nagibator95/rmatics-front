@@ -1,16 +1,16 @@
-// import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, delay, map } from 'rxjs/operators';
-// import { ApiResponse } from 'src/app/core/stores/auth/models/apiResponse.model';
+import { catchError, map } from 'rxjs/operators';
+import { ApiResponse } from 'src/app/core/stores/auth/models/apiResponse.model';
 import { ContestApi } from 'src/app/shared/types/contest.types';
 import { Store } from 'src/app/utils/Store';
+import { environment } from 'src/environments/environment';
 
-// import { environment } from 'src/environments/environment';
-import { dataACM, dataIOI } from './data';
 import {
   MonitorApi,
+  MonitorResultsApi,
   TableMonitor,
   TableProblem,
   TableType,
@@ -40,12 +40,27 @@ const initialState: MonitorState = {
 
 const PENALTY_TIME = 1200000;
 
-const formatProblems = (contests: ContestApi[]): TableProblem[] => {
-  return contests.reduce((memo: TableProblem[], contest) => {
-    contest.statement.problems.forEach(problem => {
+const memoContest = () => {
+  let contests: { [id: number]: MonitorResultsApi } = {};
+  
+  return (results: MonitorResultsApi[], id: number) => {
+    if (id in contests) {
+      return contests[id].results;
+    }
+    const currentContest = results.find(contest => contest.contest_id === id);
+    if (!currentContest) return;
+    contests[id] = currentContest;
+    return currentContest.results;
+  }
+}
+
+const formatProblems = (contests: ContestApi[]): TableProblem[] =>
+  contests.reduce((memo: TableProblem[], contest) => {
+    contest.statement.problems.forEach((problem, index: number) => {
       memo.push({
+        contestId: contest.id,
         id: problem.id,
-        name: `${contest.statement.id}${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[problem.rank - 1]}`,
+        name: `${contest.position}${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[index]}`,
         detailed: {
           fullname: `Задача №${problem.id}. ${problem.name}`,
           contestName: contest.statement.name,
@@ -55,17 +70,19 @@ const formatProblems = (contests: ContestApi[]): TableProblem[] => {
     });
     return memo;
   }, []);
-};
 
 const formatUsers = ({ users, results, type }: MonitorApi, problems: TableProblem[]): TableUser[] => {
+  const getContestResults = memoContest();
+
   const bestResults: BestResults = problems.reduce((memo, problem) => {
     users.forEach(user => {
-      const userResult = results[user.id][problem.id];
-
+      const contestResults = getContestResults(results, problem.contestId);
+      if (!contestResults) return;
+      const { [user.id]: { [problem.id]: userResult } = {} } = contestResults;
       if (!userResult) return;
 
       const previousUser = memo[problem.id];
-      const previousUserResult = previousUser ? results[previousUser][problem.id] : null;
+      const previousUserResult = previousUser ? contestResults[previousUser][problem.id] : null;
       const isComplete = type === TableType.IOI ? Number(userResult.mark) === 100 && userResult.success : userResult.success;
 
       if (
@@ -89,10 +106,10 @@ const formatUsers = ({ users, results, type }: MonitorApi, problems: TableProble
       let penalty = 0;
 
       const userResults: Array<TableUserResult | null> = problems.map(problem => {
-        const result = results[user.id][problem.id];
-        if (!result) {
-          return null;
-        }
+        const contestResults = getContestResults(results, problem.contestId);
+        if (!contestResults) return null;
+        const { [user.id]: { [problem.id]: result } = {} } = contestResults;
+        if (!result) return null;
 
         totalScore = totalScore + Number(type === TableType.IOI ? result.mark : result.success);
         totalTime = totalTime + result.time;
@@ -144,23 +161,15 @@ export class MonitorService {
   monitor = this.store.state.pipe(map(state => state.monitor));
   isFetching = this.store.state.pipe(map(state => state.isFetching));
 
-  constructor(/*private http: HttpClient*/) {
+  constructor(private http: HttpClient) {
   }
 
   getMonitor(workshopId: number) {
     this.setFetching(true);
-    console.log(workshopId);
 
-    // const nextState = this.http.get<ApiResponse<MonitorApi>>(environment.apiUrl
-    //   + `/workshop/${workshopId}/monitor`,
-    // ).pipe(
-    const nextState = of({
-      status_code: 200,
-      status: 'OK',
-      data: dataIOI as MonitorApi,
-    })
-      .pipe(delay(1000))
-      .pipe(
+    const nextState = this.http.get<ApiResponse<MonitorApi>>(environment.apiUrl
+      + `/workshop/${workshopId}/monitor`,
+    ).pipe(
         map(response => ({
           ...this.store.getState(),
           isFetching: false,
@@ -168,12 +177,15 @@ export class MonitorService {
           status: response.status,
           monitor: response.data ? formatMonitor(response.data) : null,
         })),
-        catchError(({ error }) => of({
-          ...this.store.getState(),
-          statusCode: error.status_code,
-          status: error.status,
-          error: error.error,
-        })),
+        catchError((err) => {
+          const {error = {}} = err;
+          return of({
+            ...this.store.getState(),
+            statusCode: error.status_code,
+            status: error.status,
+            error: error.error,
+          })
+        }),
       );
 
     this.store.setState(nextState);

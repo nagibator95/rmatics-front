@@ -57,7 +57,7 @@
         </td>
         <td *ngIf="type === 'ACM'" class="col col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
           <div class="cell cell_total">
-            {{user.penalty | date:'mm:ss'}}
+            {{user.penalty | minuteSeconds}}
           </div>
         </td>
         <td *ngFor="let result of user.results" class="col" #col>

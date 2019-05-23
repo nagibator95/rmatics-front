@@ -22,8 +22,11 @@ interface MonitorResultApi {
 }
 
 export interface MonitorResultsApi {
-  [user_id: number]: {
-    [problem_id: number]: MonitorResultApi | null,
+  contest_id: number,
+  results: {
+    [user_id: number]: {
+      [problem_id: number]: MonitorResultApi | null,
+    }
   }
 }
 
@@ -31,10 +34,11 @@ export interface MonitorApi {
   type: TableType,
   contests: ContestApi[],
   users: MonitorUserApi[],
-  results: MonitorResultsApi,
+  results: MonitorResultsApi[],
 }
 
 export interface TableProblem {
+  contestId: number,
   id: number,
   name: string,
   detailed: {

@@ -5,10 +5,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UiModule } from 'src/app/ui/ui.module';
 
+import { MinuteSecondsPipe } from './minute-seconds.pipe';
 import { MonitorComponent } from './monitor.component';
+import { StatusComponent } from './status/status.component';
 import { ScrollableDirective } from './table/scrollable.directive';
 import { TableComponent } from './table/table.component';
-import { StatusComponent } from './status/status.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
     TableComponent,
     ScrollableDirective,
     StatusComponent,
+    MinuteSecondsPipe,
   ],
   imports: [
     CommonModule,
