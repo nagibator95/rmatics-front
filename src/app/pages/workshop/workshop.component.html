@@ -6,7 +6,7 @@
     <app-accordion [open]="true" titleMain="Общая информация">
       <app-icon-links *ngFor="let contest of (workshop | async).contests" class="paragraph"
                       icon="package"
-                      (click)="onContestClicked(contest.id, contest.virtual_duration)"
+                      (click)="onContestClicked(contest)"
       >{{contest.statement.name}}</app-icon-links>
     </app-accordion>
   </app-white-block>
