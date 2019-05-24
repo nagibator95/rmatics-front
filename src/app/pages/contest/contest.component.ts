@@ -70,12 +70,23 @@ export class ContestComponent implements OnInit, OnDestroy {
     let duration = 0;
     if (this.contestService.isVirtual) {
       if (!this.contestService.timestop) {
-        duration = Number(this.contestService.createdAt) + Number(this.contestService.virtualDuration);
+        const date = new Date(this.contestService.createdAt);
+        date.setSeconds(date.getSeconds() + this.contestService.virtualDuration);
+        duration = moment(date).diff((new Date())) / 1000;
+        console.log(duration);
       } else {
-        duration = moment(new Date('2030-10-10')).diff((new Date())) / 1000;
+        const timeStopDuration = moment(new Date(this.contestService.timestop)).diff((new Date())) / 1000;
+        console.log('timeStopDuration: ', timeStopDuration);
+        const date = new Date(this.contestService.createdAt);
+        date.setSeconds(date.getSeconds() + this.contestService.virtualDuration);
+        const virtualDuration = moment(date).diff((new Date())) / 1000;
+        console.log('virtualDuration: ', virtualDuration);
+        duration = timeStopDuration < virtualDuration ? timeStopDuration : virtualDuration;
+        console.log(duration);
       }
     } else {
-      duration = !this.contestService.timestop ? 0 : moment(new Date('2030-10-10')).diff((new Date())) / 1000;
+      duration = !this.contestService.timestop ? 0 : moment(new Date(this.contestService.timestop)).diff((new Date())) / 1000;
+      console.log(duration);
     }
     this.interval = this.startTimer(duration);
   });
