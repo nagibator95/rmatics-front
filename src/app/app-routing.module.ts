@@ -14,8 +14,13 @@ const routes: Routes = [
     canActivate: [ContestGuardService],
   },
   {
-    path: 'workshop',
+    path: 'workshop/:workshopId',
     loadChildren: './pages/workshop/workshop.module#WorkshopModule',
+    canActivate: [ContestGuardService],
+  },
+  {
+    path: 'workshop/:workshopId/monitor',
+    loadChildren: './pages/monitor/monitor.module#MonitorModule',
     canActivate: [ContestGuardService],
   },
   {

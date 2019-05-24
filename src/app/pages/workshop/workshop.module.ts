@@ -5,16 +5,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UiModule } from 'src/app/ui/ui.module';
 
-import { WorkshopComponent } from './workshop.component';
 import { IconLinksComponent } from './icon-links/icon-links.component';
+import { WorkshopComponent } from './workshop.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: WorkshopComponent,
-  },
-  {
-    path: ':workshopId',
     component: WorkshopComponent,
   },
 ];

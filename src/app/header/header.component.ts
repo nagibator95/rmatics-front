@@ -1,11 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 
-import {AuthActions, AuthSelectors} from '../core/stores/auth';
-import {RouterActions} from '../core/stores/router';
-import {Router} from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { AuthActions, AuthSelectors } from '../core/stores/auth';
+import { RouterActions } from '../core/stores/router';
 
 @Component({
   selector: 'app-header',
@@ -33,13 +34,11 @@ export class HeaderComponent implements OnDestroy {
     this.store$.dispatch(new AuthActions.Logout());
   }
 
-  navigate(route?: string, id?: number) {
-    if (route === 'contest') {
-      this.router.navigate(['contest', {id: id, duration: 300}]);
+  navigate(...path: Array<string | number>) {
+    if (path[0] === 'contest') {
+      this.router.navigate(['contest', { id: path[1], duration: 300}]);
     } else {
-      this.store$.dispatch(route ? new RouterActions.Go({
-        path: id ? [route, id] : [route],
-      }) : new RouterActions.Back());
+      this.store$.dispatch(path.length ? new RouterActions.Go({ path }) : new RouterActions.Back());
     }
   }
 }

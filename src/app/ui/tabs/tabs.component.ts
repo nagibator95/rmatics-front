@@ -1,16 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 export interface Tab {
   id: string;
   text: string;
   href?: string;
-  current: boolean;
+  current?: boolean;
 }
 
 @Component({

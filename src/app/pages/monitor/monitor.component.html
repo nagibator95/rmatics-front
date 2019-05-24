@@ -1,0 +1,28 @@
+<div class="app-container">
+  <app-white-block>
+    <h1 class="title">Летняя школа по компьтерным наукам</h1>
+    <app-tabs class="tabs" [tabs]="tabs" (tabClick)="onTabClick($event)">
+      <button><app-icon icon="fullscreen" width="20" height="20"></app-icon></button>
+    </app-tabs>
+    <ng-container [ngSwitch]="activeTab">
+
+      <section class="tab-content" *ngSwitchCase="'result'">
+        <app-table
+          *ngIf="(monitor | async) as monitor; else loader"
+          [ngClass]="'_type_' + monitor.type"
+          [problems]="monitor.problems"
+          [users]="monitor.users"
+          [type]="monitor.type"
+        ></app-table>
+      </section>
+
+    </ng-container>
+    
+  </app-white-block>
+</div>
+
+<ng-template #loader>
+  <div class="loader">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

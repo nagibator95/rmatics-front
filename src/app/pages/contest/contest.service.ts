@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { StatementApi } from 'src/app/shared/types/contest.types';
 
 import { environment } from '../../../environments/environment';
 import { languages } from '../../shared/constants';
@@ -16,7 +17,6 @@ import {
   PackageStatusEnum,
   Problem,
   ProblemApi,
-  StatementApi,
   Submission,
   SubmissionApi,
 } from './contest.types';
