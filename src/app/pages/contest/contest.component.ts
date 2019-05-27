@@ -62,33 +62,12 @@ export class ContestComponent implements OnInit, OnDestroy {
 
     const taskNumber = Number(segments[segments.length - 1].path);
     if (!isNaN(taskNumber) && Boolean(taskNumber)) {
-      this.contestService.getProblem(taskNumber, defaultCourseId);
-      this.contestService.getSubmissions(taskNumber, 1, defaultCourseId);
+      this.contestService.getProblem(taskNumber, Number(this.route.snapshot.paramMap.get('contestId')));
+      this.contestService.getSubmissions(taskNumber, 1, Number(this.route.snapshot.paramMap.get('contestId')));
       this.currentTaskId = taskNumber;
     }
 
-    let duration = 0;
-    if (this.contestService.isVirtual) {
-      if (!this.contestService.timestop) {
-        const date = new Date(this.contestService.createdAt);
-        date.setSeconds(date.getSeconds() + this.contestService.virtualDuration);
-        duration = moment(date).diff((new Date())) / 1000;
-        console.log(duration);
-      } else {
-        const timeStopDuration = moment(new Date(this.contestService.timestop)).diff((new Date())) / 1000;
-        console.log('timeStopDuration: ', timeStopDuration);
-        const date = new Date(this.contestService.createdAt);
-        date.setSeconds(date.getSeconds() + this.contestService.virtualDuration);
-        const virtualDuration = moment(date).diff((new Date())) / 1000;
-        console.log('virtualDuration: ', virtualDuration);
-        duration = timeStopDuration < virtualDuration ? timeStopDuration : virtualDuration;
-        console.log(duration);
-      }
-    } else {
-      duration = !this.contestService.timestop ? 0 : moment(new Date(this.contestService.timestop)).diff((new Date())) / 1000;
-      console.log(duration);
-    }
-    this.interval = this.startTimer(duration);
+    this.interval = this.startTimer(this.prepareDuration());
   });
 
   constructor(
@@ -100,7 +79,6 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('onInit');
     if (this.route.snapshot.paramMap.get('id')) {
       this.contestService.getContest(Number(this.route.snapshot.paramMap.get('id')));
     }
@@ -111,7 +89,7 @@ export class ContestComponent implements OnInit, OnDestroy {
           const problems = (contest as Contest).problems;
           console.log(contest);
           if (!this.currentTaskId && problems.length > 0) {
-            this.router.navigate(['contest', this.courseId, 'problem', problems[0].id, {duration: Number(this.route.snapshot.paramMap.get('duration'))}]);
+            this.router.navigate(['contest', this.courseId, 'problem', problems[0].id]);
           }
         });
     }, 1000);
@@ -141,13 +119,10 @@ export class ContestComponent implements OnInit, OnDestroy {
 
   startTimer(duration: number) {
     let timer = duration;
-    const interval = setInterval(() => {
-      const minutes = parseInt(String((timer / 60) % 60), 10);
-      const seconds = parseInt(String(timer % 60), 10);
-      const hours = parseInt(String(timer / 3600), 10);
+    this.tick(timer--);
 
-      this.timer = (hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
-      this.cd.markForCheck();
+    const interval = setInterval(() => {
+      this.tick(timer);
 
       if (timer - 1 < 0) {
         this.finishTimer(interval);
@@ -159,8 +134,33 @@ export class ContestComponent implements OnInit, OnDestroy {
     return interval;
   }
 
+  tick(duration: number) {
+    const minutes = parseInt(String((duration / 60) % 60), 10);
+    const seconds = parseInt(String(duration % 60), 10);
+    const hours = parseInt(String(duration / 3600), 10);
+
+    this.timer = (hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+    this.cd.markForCheck();
+  }
+
   finishTimer(interval: any) {
     clearInterval(interval);
     this.timer = '';
+  }
+
+  prepareDuration() {
+    if (this.contestService.isVirtual) {
+      const date = new Date(this.contestService.createdAt);
+      date.setSeconds(date.getSeconds() + this.contestService.virtualDuration);
+      if (!this.contestService.timestop) {
+        return moment(date).diff((new Date())) / 1000;
+      } else {
+        const timeStopDuration = moment(new Date(this.contestService.timestop)).diff((new Date())) / 1000;
+        const virtualDuration = moment(date).diff((new Date())) / 1000;
+        return timeStopDuration < virtualDuration ? timeStopDuration : virtualDuration;
+      }
+    } else {
+      return !this.contestService.timestop ? 0 : moment(new Date(this.contestService.timestop)).diff((new Date())) / 1000;
+    }
   }
 }

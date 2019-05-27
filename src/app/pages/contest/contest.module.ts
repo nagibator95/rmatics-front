@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes} from '@angular/router';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -9,6 +9,7 @@ import { ControlsModule } from '../../ui/controls/controls.module';
 import { UiModule } from '../../ui/ui.module';
 
 import { CodeBlockComponent } from './code-block/code-block.component';
+import {ContestGuardService} from './contest-guard.service';
 import { ContestMenuComponent } from './contest-menu/contest-menu.component';
 import { TaskItemComponent } from './contest-menu/task-item/task-item.component';
 import { ContestPaginationComponent } from './contest-pagination/contest-pagination.component';
@@ -26,7 +27,6 @@ import { SubmissionComponent } from './submission/submission.component';
 import { TestsParamPipe } from './submission/tests/tests-param.pipe';
 import { TestsComponent } from './submission/tests/tests.component';
 import { TaskSolutionComponent } from './task-solution/task-solution.component';
-import {ContestGuardService} from './contest-guard.service';
 
 const routes: Routes = [
   {

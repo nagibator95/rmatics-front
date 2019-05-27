@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import {Subscription} from 'rxjs';
 import { ContestApi } from 'src/app/shared/types/contest.types';
 
 import { WorkshopService } from './workshop.service';
@@ -11,9 +11,11 @@ import { WorkshopService } from './workshop.service';
   styleUrls: ['./workshop.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkshopComponent implements OnInit {
+export class WorkshopComponent implements OnInit, OnDestroy {
   workshop = this.workshopService.workshop;
   isFetching = this.workshopService.isFetching;
+
+  workshopSubscription: Subscription;
 
   constructor(
     private workshopService: WorkshopService,
@@ -24,7 +26,11 @@ export class WorkshopComponent implements OnInit {
    ngOnInit() {
     const workshopId = Number(this.route.snapshot.paramMap.get('workshopId'));
     this.workshopService.getWorkshop(workshopId);
-    this.workshopService.workshop.subscribe(data => console.log(data));
+    this.workshopSubscription = this.workshop.subscribe(data => console.log(data));
+  }
+
+  ngOnDestroy() {
+    this.workshopSubscription.unsubscribe();
   }
 
   onContestClicked(contest: ContestApi) {
