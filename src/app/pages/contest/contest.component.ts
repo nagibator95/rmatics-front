@@ -102,7 +102,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   addSubmission(data: { file: File, languageId: number }) {
-    this.contestService.addSubmission(this.currentTaskId, data.file, data.languageId, defaultCourseId);
+    this.contestService.addSubmission(this.currentTaskId, data.file, data.languageId, Number(this.route.snapshot.paramMap.get('contestId')));
   }
 
   openSubmission(id: number) {
@@ -110,7 +110,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   getSubmissions(page: number) {
-    this.contestService.getSubmissions(this.currentTaskId, page, defaultCourseId);
+    this.contestService.getSubmissions(this.currentTaskId, page, Number(this.route.snapshot.paramMap.get('contestId')));
   }
 
   selectFile() {

@@ -21,7 +21,6 @@ import {
   SubmissionApi,
 } from './contest.types';
 
-const defaultCourseId = 1;
 const defaultPageSize = 5;
 
 interface ContestState {
@@ -124,7 +123,7 @@ export class ContestService {
         statusCode: response.status_code,
         status: response.status,
       })),
-      tap(() => this.getSubmissions(problemId, 1, defaultCourseId)),
+      tap(() => this.getSubmissions(problemId, 1, contestId)),
       catchError(({ error }) => of({
         ...this.store.getState(),
         statusCode: error.status_code,
