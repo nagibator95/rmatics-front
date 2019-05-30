@@ -17,8 +17,6 @@ import { ContestService } from './contest.service';
 import { Contest, ContestProblem } from './contest.types';
 import { SubmissionService } from './submission.service';
 
-export const defaultCourseId = 1;
-
 @Component({
   selector: 'app-contest',
   templateUrl: './contest.component.html',
@@ -79,6 +77,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log(this.route.snapshot.data);
     if (this.route.snapshot.paramMap.get('id')) {
       this.contestService.getContest(Number(this.route.snapshot.paramMap.get('id')));
     }
