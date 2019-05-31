@@ -1,8 +1,16 @@
 import {languages} from '../../../../shared/constants';
 import {StatementApi} from '../../../../shared/types/contest.types';
-import {PackageStatus, PackageStatusEnum, ProblemApi, Submission, SubmissionApi} from '../types/contest.types';
+import {
+  Contest,
+  PackageStatus,
+  PackageStatusEnum,
+  Problem,
+  ProblemApi,
+  Submission,
+  SubmissionApi,
+} from '../types/contest.types';
 
-const formatSubmission = (submission: SubmissionApi, index: number) => {
+export const formatSubmission = (submission: SubmissionApi, index: number): Submission => {
   const lang = languages.find(language => language.id === submission.ejudge_language_id);
 
   return {
@@ -18,7 +26,7 @@ const formatSubmission = (submission: SubmissionApi, index: number) => {
   } as Submission;
 };
 
-const formatContest = (contest: StatementApi, courseId: number) => ({
+export const formatContest = (contest: StatementApi, courseId: number): Contest => ({
   id: contest.id,
   name: contest.name,
   summary: contest.summary,
@@ -31,7 +39,7 @@ const formatContest = (contest: StatementApi, courseId: number) => ({
   })),
 });
 
-const formatProblem = (problem: ProblemApi) => ({
+export const formatProblem = (problem: ProblemApi): Problem => ({
   id: problem.id,
   name: problem.name,
   content: problem.content,

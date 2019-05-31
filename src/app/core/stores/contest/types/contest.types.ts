@@ -116,6 +116,7 @@ export interface ContestProblem {
   name: string;
   id: number;
   rank: number;
+  href: string;
 }
 
 export interface Submission {

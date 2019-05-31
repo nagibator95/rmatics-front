@@ -33,6 +33,10 @@ const routes: Routes = [
   {
     path: '',
     component: ContestComponent,
+  },
+  {
+    path: ':contestId',
+    component: ContestComponent,
     resolve: { message: ContestResolverService},
   },
   {
