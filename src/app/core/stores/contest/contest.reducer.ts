@@ -1,5 +1,6 @@
 import * as StoreActions from './contest.actions';
 import {ContestState} from './models/models';
+import {SetSpecificSubmissionPart} from './contest.actions';
 
 export const initialState: ContestState = {
   contest: undefined,
@@ -12,6 +13,26 @@ export const initialState: ContestState = {
   isFetching: false,
   isSubmissionsFetching: false,
   contestData: undefined,
+  submissionState: {
+    protocol: {
+      statusCode: 200,
+      status: 'success',
+      error: '',
+      isFetching: false,
+    },
+    source: {
+      statusCode: 200,
+      status: 'success',
+      error: '',
+      isFetching: false,
+    },
+    comments: {
+      statusCode: 200,
+      status: 'success',
+      error: '',
+      isFetching: false,
+    },
+  },
 };
 
 export function contestReducer(state: ContestState = initialState, action: StoreActions.All): ContestState {
@@ -55,7 +76,7 @@ export function contestReducer(state: ContestState = initialState, action: Store
     case StoreActions.Types.SetIsSubmissionFetching:
       return {
         ...state,
-        isFetching: action.payload,
+        isSubmissionsFetching: action.payload,
       };
 
     case StoreActions.Types.SetProblem:
@@ -65,9 +86,36 @@ export function contestReducer(state: ContestState = initialState, action: Store
       };
 
     case StoreActions.Types.SetSubmissions:
+      return action.page === 1 ? {
+        ...state,
+        submissions: action.submissions,
+      } : {
+        ...state,
+        submissions: [
+          ...state.submissions,
+          ...action.submissions,
+        ],
+      };
+
+    case StoreActions.Types.SetFileError:
       return {
         ...state,
-        submissions: action.payload,
+        fileError: action.payload,
+      };
+
+    case StoreActions.Types.SetSpecificSubmissionFetching:
+      return {
+        ...state,
+        [action.specifity]: {
+          ...state[action.specifity],
+          isFetching: action.isFetching,
+        },
+      };
+
+    case StoreActions.Types.SetSpecificSubmissionPart:
+      return {
+        ...state,
+        [action.specifity]: action.part,
       };
 
     default:

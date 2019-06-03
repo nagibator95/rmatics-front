@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {of, Observable} from 'rxjs';
-import {delay, filter, take, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {filter, take, tap} from 'rxjs/operators';
 
 import {ContestActions, ContestSelectors} from '../../core/stores/contest';
 
@@ -16,7 +16,7 @@ export class ContestResolverService implements Resolve<Contest> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<Contest> {
     console.log(route.params.contestId);
-    this.store$.dispatch(new ContestActions.QueryContest(Number(route.params.contestId)));
+    this.store$.dispatch(new ContestActions.GetContest(Number(route.params.contestId)));
     return this.waitForContestToDownload();
   }
 

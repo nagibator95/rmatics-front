@@ -8,14 +8,19 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import {select, Store} from '@ngrx/store';
 import moment from 'moment';
-import { filter, map, take } from 'rxjs/operators';
+import {Observable, Subject, Subscription} from 'rxjs';
+import {filter, map, take, takeUntil} from 'rxjs/operators';
 
+import {ContestActions, ContestSelectors} from '../../core/stores/contest';
+
+import {Contest, Problem, Submission} from '../../core/stores/contest/types/contest.types';
 import { ContestTaskComponent } from './contest-task/contest-task.component';
 import { ContestService } from './contest.service';
-import { Contest, ContestProblem } from './contest.types';
+import {ContestProblem } from './contest.types';
 import { SubmissionService } from './submission.service';
+import {ContestData} from '../../core/stores/contest/models/models';
 
 @Component({
   selector: 'app-contest',
@@ -26,97 +31,85 @@ import { SubmissionService } from './submission.service';
 
 export class ContestComponent implements OnInit, OnDestroy {
   @ViewChild('task') task!: ContestTaskComponent;
-  @Input() courseId = this.route.snapshot.paramMap.get('id');
-  problem = this.contestService.problem;
-  contest = this.contestService.contest;
-  submissions = this.contestService.submissions;
-  isFetching = this.contestService.isFetching;
-  isSubmissionsFetching = this.contestService.isSubmissionsFetching;
-  fileError = this.contestService.fileError;
-  uploadRemoveSubscription = this.submissions.subscribe(submissions => {
-    console.log(submissions);
-
-    if (submissions.length === 0 && this.task !== undefined) {
-      this.task.upload.remove();
-    }
-  });
-  paginationItems = this.contestService.contest
-    .pipe(map(contest => {
-      if (contest !== undefined) {
-        const currentIndex = contest.problems.findIndex((item: ContestProblem) => item.id === this.currentTaskId);
-        return [contest.problems[currentIndex - 1], contest.problems[currentIndex + 1]];
-      }
-
-      return [undefined, undefined];
-    }));
+  @Input() courseId = Number(this.route.snapshot.paramMap.get('contestId'));
+  problem: Observable<Problem>;
+  contest: Observable<Contest>;
+  contestData: Observable<ContestData>;
+  submissions: Observable<Submission[]>;
+  isFetching: Observable<boolean>;
+  isSubmissionsFetching: Observable<boolean>;
+  fileError: Observable<string>;
+  routeChangeSubscription: Subscription;
+  uploadRemoveSubscription: Subscription;
 
   timer = '';
   interval: any = null;
   currentTaskId = 0;
-  routeChangeSubscription = this.route.url.subscribe(segments => {
-    if (segments.length === 0) {
-      return;
-    }
-
-    const taskNumber = Number(segments[segments.length - 1].path);
-    if (!isNaN(taskNumber) && Boolean(taskNumber)) {
-      this.contestService.getProblem(taskNumber, Number(this.route.snapshot.paramMap.get('contestId')));
-      this.contestService.getSubmissions(taskNumber, 1, Number(this.route.snapshot.paramMap.get('contestId')));
-      this.currentTaskId = taskNumber;
-    }
-
-    this.interval = this.startTimer(this.prepareDuration());
-  });
+  private readonly destroy$ = new Subject();
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private contestService: ContestService,
     private submissionService: SubmissionService,
-    private cd: ChangeDetectorRef) {
-  }
+    private cd: ChangeDetectorRef,
+    private store$: Store<any>) {}
 
   ngOnInit() {
-    console.log(this.route.snapshot.data);
-    if (this.route.snapshot.paramMap.get('id')) {
-      this.contestService.getContest(Number(this.route.snapshot.paramMap.get('id')));
-    }
-    setTimeout(() => {
-      this.contest
-        .pipe(filter(Boolean), take(1))
-        .subscribe(contest => {
-          const problems = (contest as Contest).problems;
-          console.log(contest);
-          if (!this.currentTaskId && problems.length > 0) {
-            this.router.navigate(['contest', this.courseId, 'problem', problems[0].id]);
-          }
-        });
-    }, 1000);
+    this.problem = this.store$.pipe(select(ContestSelectors.getProblem()), takeUntil(this.destroy$));
+    this.contest = this.store$.pipe(select(ContestSelectors.getContest()), takeUntil(this.destroy$));
+    this.contestData = this.store$.pipe(select(ContestSelectors.getContestData()), takeUntil(this.destroy$));
+    this.submissions = this.store$.pipe(select(ContestSelectors.getSubmissions()), takeUntil(this.destroy$));
+    this.isFetching = this.store$.pipe(select(ContestSelectors.getIsFetching()), takeUntil(this.destroy$));
+    this.isSubmissionsFetching = this.store$.pipe(select(ContestSelectors.getIsSubmissionFetching()), takeUntil(this.destroy$));
+    this.fileError = this.store$.pipe(select(ContestSelectors.getFileError()), takeUntil(this.destroy$));
+
+    this.routeChangeSubscription = this.route.url.subscribe(() => {
+      const taskId = Number(this.route.snapshot.paramMap.get('problemId'));
+
+      if (!isNaN(taskId) && Boolean(taskId)) {
+        this.store$.dispatch(new ContestActions.GetProblem(taskId, this.courseId));
+        this.store$.dispatch(new ContestActions.GetSubmissions(taskId, 1, this.courseId));
+        this.currentTaskId = taskId;
+      }
+    });
+
+    this.uploadRemoveSubscription = this.submissions.subscribe(submissions => {
+      if (submissions.length === 0 && this.task !== undefined) {
+        this.task.upload.remove();
+      }
+    });
+
+    this.contestData.subscribe(data => {
+      this.interval = this.startTimer(this.prepareDuration(data.isVirtual, data.createdAt, data.virtualDuration, data.timeStop));
+    });
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.routeChangeSubscription.unsubscribe();
-    this.uploadRemoveSubscription.unsubscribe();
     this.finishTimer(this.interval);
   }
 
   addSubmission(data: { file: File, languageId: number }) {
-    this.contestService.addSubmission(this.currentTaskId, data.file, data.languageId, Number(this.route.snapshot.paramMap.get('contestId')));
+    this.store$.dispatch(new ContestActions.AddSubmission(this.currentTaskId, data.file, data.languageId, this.courseId));
   }
 
   openSubmission(id: number) {
-    this.submissionService.showSubmission(id);
+    console.log('openSubmission');
+    this.store$.dispatch(new ContestActions.ShowSubmission(id));
   }
 
   getSubmissions(page: number) {
-    this.contestService.getSubmissions(this.currentTaskId, page, Number(this.route.snapshot.paramMap.get('contestId')));
+    this.store$.dispatch(new ContestActions.GetSubmissions(this.currentTaskId, page, this.courseId));
   }
 
   selectFile() {
     this.contestService.clearFileError();
   }
 
-  startTimer(duration: number) {
+  private startTimer(duration: number) {
     let timer = duration;
     this.tick(timer--);
 
@@ -133,7 +126,7 @@ export class ContestComponent implements OnInit, OnDestroy {
     return interval;
   }
 
-  tick(duration: number) {
+  private tick(duration: number) {
     const minutes = parseInt(String((duration / 60) % 60), 10);
     const seconds = parseInt(String(duration % 60), 10);
     const hours = parseInt(String(duration / 3600), 10);
@@ -142,24 +135,24 @@ export class ContestComponent implements OnInit, OnDestroy {
     this.cd.markForCheck();
   }
 
-  finishTimer(interval: any) {
+  private finishTimer(interval: any) {
     clearInterval(interval);
     this.timer = '';
   }
 
-  prepareDuration() {
-    if (this.contestService.isVirtual) {
-      const date = new Date(this.contestService.createdAt);
-      date.setSeconds(date.getSeconds() + this.contestService.virtualDuration);
+  private prepareDuration(isVirtual: boolean, createdAt: string, virtualDurationSeconds: number, timestop: string) {
+    if (isVirtual) {
+      const date = new Date(createdAt);
+      date.setSeconds(date.getSeconds() + virtualDurationSeconds);
       if (!this.contestService.timestop) {
         return moment(date).diff((new Date())) / 1000;
       } else {
-        const timeStopDuration = moment(new Date(this.contestService.timestop)).diff((new Date())) / 1000;
+        const timeStopDuration = moment(new Date(timestop)).diff((new Date())) / 1000;
         const virtualDuration = moment(date).diff((new Date())) / 1000;
         return timeStopDuration < virtualDuration ? timeStopDuration : virtualDuration;
       }
     } else {
-      return !this.contestService.timestop ? 0 : moment(new Date(this.contestService.timestop)).diff((new Date())) / 1000;
+      return !timestop ? 0 : moment(new Date(timestop)).diff((new Date())) / 1000;
     }
   }
 }

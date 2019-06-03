@@ -9,6 +9,14 @@ import {
   Submission,
   SubmissionApi,
 } from '../types/contest.types';
+import {
+  RunComment,
+  RunCommentApi,
+  RunProtocol,
+  RunProtocolApi,
+  RunSource,
+  RunSourceApi
+} from '../../../../pages/contest/contest.types';
 
 export const formatSubmission = (submission: SubmissionApi, index: number): Submission => {
   const lang = languages.find(language => language.id === submission.ejudge_language_id);
@@ -50,3 +58,39 @@ export const formatProblem = (problem: ProblemApi): Problem => ({
   correct: problem.sample_tests_json ? JSON.parse(problem.sample_tests_json.correct) : '',
   outputOnly: problem.output_only,
 });
+
+export const formatProtocol = (protocol: RunProtocolApi): RunProtocol => ({
+  compilerOutput: protocol.compiler_output,
+  host: protocol.host,
+  tests: Object.keys(protocol.tests).map(testId => {
+    const id = Number(testId);
+
+    return {
+      id,
+      status: protocol.tests[id].string_status,
+      time: protocol.tests[id].time,
+      realTime: protocol.tests[id].real_time,
+      memory: protocol.tests[id].max_memory_used,
+    };
+  }),
+});
+
+export const formatSource = (source: RunSourceApi): RunSource => ({
+  code: source.source,
+  language: languages.find(language => language.id === source.language_id) || languages[0],
+});
+
+export const formatComment = (comment: RunCommentApi): RunComment => ({
+    author: {
+      firstname: comment.author_user.firstname,
+      id: comment.author_user.id,
+      lastname: comment.author_user.lastname,
+      username: comment.author_user.username,
+    },
+    comment: comment.comment,
+    date: comment.date,
+    id: comment.id,
+    runId: comment.run_id,
+    userId: comment.user_id,
+  }
+);

@@ -1,7 +1,7 @@
 import {Action} from '@ngrx/store';
 
-import {ContestData} from './models/models';
-import {Contest, Problem, Submission} from './types/contest.types';
+import {ContestData, SpecificSubmissionState} from './models/models';
+import {Contest, Problem, RunComment, RunProtocol, RunSource, Submission} from './types/contest.types';
 
 export enum Types {
   SetFetching = '[Contest] SetFetching',
@@ -12,7 +12,7 @@ export enum Types {
   SetStatusCode = '[Contest] SetStatusCode',
   SetError = '[Contest] SetError',
   SetContest = '[Contest] SetContest',
-  CatchContestError = '[Contest] catchContestError',
+  CatchContestError = '[Contest] CatchContestError',
   GetProblem = '[Contest] GetProblem',
   QueryProblem = '[Contest] QueryProblem',
   SetProblem = '[Contest] SetProblem',
@@ -20,6 +20,20 @@ export enum Types {
   GetSubmissions = 'Contest] GetSubmissions',
   QuerySubmissions = '[Contest] QuerySubmissions',
   SetSubmissions = '[Contest] SetSubmissions',
+  AddSubmission = '[Contest] AddSubmission',
+  QueryAddSubmission = '[Contest] QueryAddSubmission',
+  CatchAddSubmissionError = '[Contest] CatchAddSubmissionError',
+  SetFileError = '[Contest] SetFileError',
+  GetSubmissionProtocol = '[Contest] GetSubmissionProtocol',
+  QuerySubmissionProtocol = '[Contest] QuerySubmissionProtocol',
+  GetSubmissionSource = '[Contest] GetSubmissionSource',
+  QuerySubmissionSource = '[Contest] QuerySubmissionSource',
+  GetSubmissionComments = '[Contest] GetSubmissionComments',
+  QuerySubmissionComments = '[Contest] QuerySubmissionComments',
+  SetSpecificSubmissionFetching = '[Contest] SetSpecificSubmissionFetching',
+  SetSpecificSubmissionPart = '[Contest] SetSpecificSubmissionPart',
+  ShowSubmission = '[Contest] ShowSubmission',
+  ShowModal = '[Contest] ShowModal',
 }
 
 export class SetFetching implements Action {
@@ -113,11 +127,95 @@ export class QuerySubmissions implements Action {
 }
 
 export class SetSubmissions implements Action {
-  readonly type = Types.QuerySubmissions;
+  readonly type = Types.SetSubmissions;
 
-  constructor(public payload: Submission[]) {}
+  constructor(public submissions: Submission[], public page: number) {}
+}
+
+export class AddSubmission implements Action {
+  readonly type = Types.AddSubmission;
+
+  constructor(public problemId: number, public file: File, public languageId: number, public contestId: number) {}
+}
+
+export class QueryAddSubmission implements Action {
+  readonly type = Types.QueryAddSubmission;
+
+  constructor(public problemId: number, public file: File, public languageId: number, public contestId: number) {}
+}
+
+export class CatchAddSubmissionError implements Action {
+  readonly type = Types.CatchAddSubmissionError;
+
+  constructor(public payload: {error: string, status: string, status_code: number}) {}
+}
+
+export class SetFileError implements Action {
+  readonly type = Types.SetFileError;
+
+  constructor(public payload: string | undefined) {}
+}
+
+export class GetSubmissionProtocol implements Action {
+  readonly type = Types.GetSubmissionProtocol;
+
+  constructor(public payload: number) {}
+}
+
+export class QuerySubmissionProtocol implements Action {
+  readonly type = Types.QuerySubmissionProtocol;
+
+  constructor(public payload: number) {}
+}
+
+export class GetSubmissionSource implements Action {
+  readonly type = Types.GetSubmissionSource;
+
+  constructor(public payload: number) {}
+}
+
+export class QuerySubmissionSource implements Action {
+  readonly type = Types.QuerySubmissionSource;
+
+  constructor(public payload: number) {}
+}
+
+export class GetSubmissionComments implements Action {
+  readonly type = Types.GetSubmissionComments;
+
+  constructor(public payload: number) {}
+}
+
+export class QuerySubmissionComments implements Action {
+  readonly type = Types.QuerySubmissionComments;
+
+  constructor(public payload: number) {}
+}
+
+export class SetSpecificSubmissionFetching implements Action {
+  readonly type = Types.SetSpecificSubmissionFetching;
+
+  constructor(public specifity: string, public isFetching: boolean) {}
+}
+
+export class SetSpecificSubmissionPart implements Action {
+  readonly type = Types.SetSpecificSubmissionPart;
+
+  constructor(public specifity: string, public part: SpecificSubmissionState<RunProtocol | RunSource | RunComment[]>) {}
+}
+
+export class ShowSubmission implements Action {
+  readonly type = Types.ShowSubmission;
+
+  constructor(public payload: number) {}
+}
+
+export class ShowModal implements Action {
+  readonly type = Types.ShowModal;
 }
 
 export type All = SetFetching | GetContest | QueryContest | SetContestData | SetStatus | SetStatusCode | SetError
   | SetContest | CatchContestError | GetProblem | QueryProblem | SetProblem | SetIsSubmissionFetching | GetSubmissions
-  | QuerySubmissions | SetSubmissions;
+  | QuerySubmissions | SetSubmissions | AddSubmission | QueryAddSubmission | CatchAddSubmissionError | SetFileError
+  | GetSubmissionProtocol | QuerySubmissionProtocol | GetSubmissionSource | QuerySubmissionSource | GetSubmissionComments
+  | QuerySubmissionComments | SetSpecificSubmissionFetching | SetSpecificSubmissionPart | ShowSubmission | ShowModal;
