@@ -11,15 +11,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import moment from 'moment';
 import {Observable, Subject, Subscription} from 'rxjs';
-import {filter, map, take, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 
 import {ContestActions, ContestSelectors} from '../../core/stores/contest';
 
 import {Contest, Problem, Submission} from '../../core/stores/contest/types/contest.types';
 import { ContestTaskComponent } from './contest-task/contest-task.component';
 import { ContestService } from './contest.service';
-import {ContestProblem } from './contest.types';
-import { SubmissionService } from './submission.service';
 import {ContestData} from '../../core/stores/contest/models/models';
 
 @Component({
@@ -51,7 +49,6 @@ export class ContestComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private contestService: ContestService,
-    private submissionService: SubmissionService,
     private cd: ChangeDetectorRef,
     private store$: Store<any>) {}
 
@@ -144,7 +141,7 @@ export class ContestComponent implements OnInit, OnDestroy {
     if (isVirtual) {
       const date = new Date(createdAt);
       date.setSeconds(date.getSeconds() + virtualDurationSeconds);
-      if (!this.contestService.timestop) {
+      if (!timestop) {
         return moment(date).diff((new Date())) / 1000;
       } else {
         const timeStopDuration = moment(new Date(timestop)).diff((new Date())) / 1000;

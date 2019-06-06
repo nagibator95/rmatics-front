@@ -250,7 +250,7 @@ export class ContestEffects {
       new ContestActions.GetSubmissionProtocol(action.payload),
       new ContestActions.GetSubmissionSource(action.payload),
       new ContestActions.GetSubmissionComments(action.payload),
-      new ContestActions.ShowModal(),
+      // new ContestActions.ShowModal(),
     ]),
   );
 
