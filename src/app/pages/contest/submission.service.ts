@@ -5,14 +5,13 @@ import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
-import { ModalService } from '../../modal/modal.service';
+// import { ModalService } from '../../modal/modal.service';
 import { languages } from '../../shared/constants';
 import { ApiResponse } from '../../utils/types';
 import { Store } from '../../utils/Store';
 
 import { ContestService } from './contest.service';
 import {RunComment, RunCommentApi, RunProtocol, RunProtocolApi, RunSource, RunSourceApi} from './contest.types';
-import { SubmissionComponent } from './submission/submission.component';
 
 interface SubmissionState {
   protocol: {
@@ -113,7 +112,7 @@ export class SubmissionService {
 
   constructor(
     private contestService: ContestService,
-    private modalService: ModalService,
+    // private modalService: ModalService,
     private http: HttpClient,
   ) {
   }
@@ -124,10 +123,10 @@ export class SubmissionService {
     this.getSubmissionSource(submissionId);
     this.getSubmissionComments(submissionId);
 
-    this.modalService.open({
-      component: SubmissionComponent,
-      data: { submissionService: this },
-    });
+    // this.modalService.open({
+    //   component: SubmissionComponent,
+    //   data: { submissionService: this },
+    // });
   }
 
   getSubmissionProtocol(submissionId: number) {

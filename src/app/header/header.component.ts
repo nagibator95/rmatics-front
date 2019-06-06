@@ -36,7 +36,7 @@ export class HeaderComponent implements OnDestroy {
 
   navigate(...path: Array<string | number>) {
     if (path[0] === 'contest') {
-      this.router.navigate(['contest', { id: path[1]}]);
+      this.router.navigate(['contest', path[1]]);
     } else {
       this.store$.dispatch(path.length ? new RouterActions.Go({ path }) : new RouterActions.Back());
     }
