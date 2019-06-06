@@ -37,8 +37,6 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.modalService.subscribe(value => {
-      console.log('subscribeModal: ', value);
-
       if (!value) {
         this.open = false;
         return;

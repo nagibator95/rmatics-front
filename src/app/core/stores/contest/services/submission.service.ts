@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import {Injectable, Type} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -8,16 +8,12 @@ import { SubmissionComponent} from '../../../../pages/contest/submission/submiss
 import { ApiResponse } from '../../../../utils/types';
 import { RunCommentApi, RunProtocolApi, RunSourceApi } from '../types/contest.types';
 
-import { ContestService } from './contest.service';
-
 @Injectable()
 export class SubmissionService {
   constructor(
-    private contestService: ContestService,
     private modalService: ModalService,
     private http: HttpClient,
-  ) {
-  }
+  ) {}
 
   showSubmission() {
     this.modalService.open({

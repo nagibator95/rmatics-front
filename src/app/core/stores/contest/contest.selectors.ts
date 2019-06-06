@@ -85,20 +85,27 @@ export function getAreCommentsFetching() {
 export function getProtocol() {
   return createSelector(
     featureSelector,
-    state => state.submissionState.protocol || null,
+    state => state.submissionState.protocol.data || null,
   );
 }
 
 export function getSource() {
   return createSelector(
     featureSelector,
-    state => state.submissionState.source || null,
+    state => state.submissionState.source.data || null,
   );
 }
 
 export function getComments() {
   return createSelector(
     featureSelector,
-    state => state.submissionState.comments || null,
+    state => state.submissionState.comments.data || null,
+  );
+}
+
+export function getSubmissionPreview() {
+  return createSelector(
+    featureSelector,
+    state => state.submissionPreview || null,
   );
 }

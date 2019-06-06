@@ -34,6 +34,8 @@ export enum Types {
   SetSpecificSubmissionPart = '[Contest] SetSpecificSubmissionPart',
   ShowSubmission = '[Contest] ShowSubmission',
   ShowModal = '[Contest] ShowModal',
+  SetSubmissionPreview = '[Contest] SetSubmissionPreview',
+  ClearFileError = '[Contest] ClearFileError',
 }
 
 export class SetFetching implements Action {
@@ -214,8 +216,19 @@ export class ShowModal implements Action {
   readonly type = Types.ShowModal;
 }
 
+export class SetSubmissionPreview implements Action {
+  readonly type = Types.SetSubmissionPreview;
+
+  constructor(public payload: number) {}
+}
+
+export class ClearFileError implements Action {
+  readonly type = Types.ClearFileError;
+}
+
 export type All = SetFetching | GetContest | QueryContest | SetContestData | SetStatus | SetStatusCode | SetError
   | SetContest | CatchContestError | GetProblem | QueryProblem | SetProblem | SetIsSubmissionFetching | GetSubmissions
   | QuerySubmissions | SetSubmissions | AddSubmission | QueryAddSubmission | CatchAddSubmissionError | SetFileError
   | GetSubmissionProtocol | QuerySubmissionProtocol | GetSubmissionSource | QuerySubmissionSource | GetSubmissionComments
-  | QuerySubmissionComments | SetSpecificSubmissionFetching | SetSpecificSubmissionPart | ShowSubmission | ShowModal;
+  | QuerySubmissionComments | SetSpecificSubmissionFetching | SetSpecificSubmissionPart | ShowSubmission | ShowModal
+  | SetSubmissionPreview | ClearFileError;

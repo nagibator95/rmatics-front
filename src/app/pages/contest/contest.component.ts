@@ -7,18 +7,17 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import moment from 'moment';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 import {ContestActions, ContestSelectors} from '../../core/stores/contest';
-
-import {Contest, Problem, Submission} from '../../core/stores/contest/types/contest.types';
-import { ContestTaskComponent } from './contest-task/contest-task.component';
-import { ContestService } from './contest.service';
 import {ContestData} from '../../core/stores/contest/models/models';
+import {Contest, Problem, Submission} from '../../core/stores/contest/types/contest.types';
+
+import { ContestTaskComponent } from './contest-task/contest-task.component';
 
 @Component({
   selector: 'app-contest',
@@ -46,11 +45,25 @@ export class ContestComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
-    private contestService: ContestService,
     private cd: ChangeDetectorRef,
     private store$: Store<any>) {}
+
+  private static prepareDuration(isVirtual: boolean, createdAt: string, virtualDurationSeconds: number, timestop: string) {
+    if (isVirtual) {
+      const date = new Date(createdAt);
+      date.setSeconds(date.getSeconds() + virtualDurationSeconds);
+      if (!timestop) {
+        return moment(date).diff((new Date())) / 1000;
+      } else {
+        const timeStopDuration = moment(new Date(timestop)).diff((new Date())) / 1000;
+        const virtualDuration = moment(date).diff((new Date())) / 1000;
+        return timeStopDuration < virtualDuration ? timeStopDuration : virtualDuration;
+      }
+    } else {
+      return !timestop ? 0 : moment(new Date(timestop)).diff((new Date())) / 1000;
+    }
+  }
 
   ngOnInit() {
     this.problem = this.store$.pipe(select(ContestSelectors.getProblem()), takeUntil(this.destroy$));
@@ -78,7 +91,7 @@ export class ContestComponent implements OnInit, OnDestroy {
     });
 
     this.contestData.subscribe(data => {
-      this.interval = this.startTimer(this.prepareDuration(data.isVirtual, data.createdAt, data.virtualDuration, data.timeStop));
+      this.interval = this.startTimer(ContestComponent.prepareDuration(data.isVirtual, data.createdAt, data.virtualDuration, data.timeStop));
     });
   }
 
@@ -86,6 +99,7 @@ export class ContestComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
     this.routeChangeSubscription.unsubscribe();
+    this.store$.dispatch(new ContestActions.SetContest(null));
     this.finishTimer(this.interval);
   }
 
@@ -94,7 +108,6 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   openSubmission(id: number) {
-    console.log('openSubmission');
     this.store$.dispatch(new ContestActions.ShowSubmission(id));
   }
 
@@ -103,7 +116,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   selectFile() {
-    this.contestService.clearFileError();
+    this.store$.dispatch(new ContestActions.ClearFileError());
   }
 
   private startTimer(duration: number) {
@@ -135,21 +148,5 @@ export class ContestComponent implements OnInit, OnDestroy {
   private finishTimer(interval: any) {
     clearInterval(interval);
     this.timer = '';
-  }
-
-  private prepareDuration(isVirtual: boolean, createdAt: string, virtualDurationSeconds: number, timestop: string) {
-    if (isVirtual) {
-      const date = new Date(createdAt);
-      date.setSeconds(date.getSeconds() + virtualDurationSeconds);
-      if (!timestop) {
-        return moment(date).diff((new Date())) / 1000;
-      } else {
-        const timeStopDuration = moment(new Date(timestop)).diff((new Date())) / 1000;
-        const virtualDuration = moment(date).diff((new Date())) / 1000;
-        return timeStopDuration < virtualDuration ? timeStopDuration : virtualDuration;
-      }
-    } else {
-      return !timestop ? 0 : moment(new Date(timestop)).diff((new Date())) / 1000;
-    }
   }
 }

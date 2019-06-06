@@ -5,6 +5,7 @@ export interface ContestState {
   contest?: Contest;
   problem?: Problem;
   submissions: Submission[];
+  submissionPreview: Submission;
   statusCode: number;
   status: string;
   fileError?: string;
@@ -26,6 +27,7 @@ export interface SubmissionState {
   protocol: SpecificSubmissionState<RunProtocol>;
   source: SpecificSubmissionState<RunSource>;
   comments: SpecificSubmissionState<RunComment[]>;
+  [key: string]: any;
 }
 
 export interface SpecificSubmissionState<T> {

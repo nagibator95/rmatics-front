@@ -1,11 +1,11 @@
 import * as StoreActions from './contest.actions';
 import {ContestState} from './models/models';
-import {SetSpecificSubmissionPart} from './contest.actions';
 
 export const initialState: ContestState = {
   contest: undefined,
   problem: undefined,
   submissions: [],
+  submissionPreview: undefined,
   statusCode: 200,
   status: 'success',
   fileError: '',
@@ -106,16 +106,34 @@ export function contestReducer(state: ContestState = initialState, action: Store
     case StoreActions.Types.SetSpecificSubmissionFetching:
       return {
         ...state,
-        [action.specifity]: {
-          ...state[action.specifity],
-          isFetching: action.isFetching,
+        submissionState: {
+          ...state.submissionState,
+          [action.specifity]: {
+            ...state.submissionState[action.specifity],
+            isFetching: action.isFetching,
+          },
         },
       };
 
     case StoreActions.Types.SetSpecificSubmissionPart:
       return {
         ...state,
-        [action.specifity]: action.part,
+        submissionState: {
+          ...state.submissionState,
+          [action.specifity]: action.part,
+        },
+      };
+
+    case StoreActions.Types.SetSubmissionPreview:
+      return {
+        ...state,
+        submissionPreview: state.submissions.find(val => val.id === action.payload),
+      };
+
+    case StoreActions.Types.ClearFileError:
+      return {
+        ...state,
+        fileError: '',
       };
 
     default:
