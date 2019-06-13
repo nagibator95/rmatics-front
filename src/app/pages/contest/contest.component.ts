@@ -66,6 +66,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    localStorage.setItem('code', JSON.stringify({}));
     this.problem = this.store$.pipe(select(ContestSelectors.getProblem()), takeUntil(this.destroy$));
     this.contest = this.store$.pipe(select(ContestSelectors.getContest()), takeUntil(this.destroy$));
     this.contestData = this.store$.pipe(select(ContestSelectors.getContestData()), takeUntil(this.destroy$));
@@ -100,6 +101,7 @@ export class ContestComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
     this.routeChangeSubscription.unsubscribe();
     this.store$.dispatch(new ContestActions.SetContest(null));
+    localStorage.removeItem('code');
     this.finishTimer(this.interval);
   }
 

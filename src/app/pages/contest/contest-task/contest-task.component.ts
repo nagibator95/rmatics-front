@@ -1,5 +1,15 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 
+import {Problem} from '../../../core/stores/contest/types/contest.types';
 import { languages, Language } from '../../../shared/constants';
 import { UploadComponent } from '../../../ui/controls/upload/upload.component';
 import { Submission } from '../contest.types';
@@ -11,9 +21,10 @@ import { Submission } from '../contest.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ContestTaskComponent {
+export class ContestTaskComponent implements OnInit, OnDestroy {
   @ViewChild('upload') upload!: UploadComponent;
 
+  @Input() problem: Problem = null;
   @Input() fileError = '';
   @Input() name = '';
   @Input() timeLimit = 0;
@@ -50,7 +61,20 @@ export class ContestTaskComponent {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit() {
+    const obj = JSON.parse(localStorage.getItem('code'));
+    if (obj !== null && obj[this.problem.id]) {
+      this.code = obj[this.problem.id];
+    }
+  }
+
+  ngOnDestroy() {
+    const obj = JSON.parse(localStorage.getItem('code'));
+    obj[this.problem.id] = this.code;
+
+    localStorage.setItem('code', JSON.stringify(obj));
   }
 
   get minDataLines() {
