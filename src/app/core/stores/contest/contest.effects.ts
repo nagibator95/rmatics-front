@@ -3,18 +3,18 @@ import {ofType, Actions, Effect} from '@ngrx/effects';
 import {of} from 'rxjs';
 import {catchError, flatMap, map, switchMap, tap} from 'rxjs/operators';
 
+import {StatementApi} from '../../../shared/types/contest.types';
+
+import * as ContestActions from './contest.actions';
+import {ContestService} from './services/contest.service';
+import {SubmissionService} from './services/submission.service';
 import {
   ProblemApi,
   RunCommentApi,
   RunProtocolApi,
   RunSourceApi,
   SubmissionApi,
-} from '../../../pages/contest/contest.types';
-import {StatementApi} from '../../../shared/types/contest.types';
-
-import * as ContestActions from './contest.actions';
-import {ContestService} from './services/contest.service';
-import {SubmissionService} from './services/submission.service';
+} from './types/contest.types';
 import {formatComment, formatContest, formatProblem, formatProtocol, formatSource, formatSubmission} from './util/util';
 
 @Injectable()

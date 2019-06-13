@@ -17,7 +17,7 @@ export enum Types {
   QueryProblem = '[Contest] QueryProblem',
   SetProblem = '[Contest] SetProblem',
   SetIsSubmissionFetching = '[Contest] SetIsSubmissionFetching',
-  GetSubmissions = 'Contest] GetSubmissions',
+  GetSubmissions = '[Contest] GetSubmissions',
   QuerySubmissions = '[Contest] QuerySubmissions',
   SetSubmissions = '[Contest] SetSubmissions',
   AddSubmission = '[Contest] AddSubmission',
