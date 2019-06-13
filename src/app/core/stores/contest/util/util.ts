@@ -1,3 +1,11 @@
+import {
+  RunComment,
+  RunCommentApi,
+  RunProtocol,
+  RunProtocolApi,
+  RunSource,
+  RunSourceApi,
+} from '../../../../pages/contest/contest.types';
 import {languages} from '../../../../shared/constants';
 import {StatementApi} from '../../../../shared/types/contest.types';
 import {
@@ -9,14 +17,6 @@ import {
   Submission,
   SubmissionApi,
 } from '../types/contest.types';
-import {
-  RunComment,
-  RunCommentApi,
-  RunProtocol,
-  RunProtocolApi,
-  RunSource,
-  RunSourceApi
-} from '../../../../pages/contest/contest.types';
 
 export const formatSubmission = (submission: SubmissionApi, index: number): Submission => {
   const lang = languages.find(language => language.id === submission.ejudge_language_id);
@@ -54,8 +54,8 @@ export const formatProblem = (problem: ProblemApi): Problem => ({
   timeLimit: problem.timelimit,
   memoryLimit: problem.memorylimit,
   description: problem.description,
-  input: problem.sample_tests_json ? JSON.parse(problem.sample_tests_json.input) : '',
-  correct: problem.sample_tests_json ? JSON.parse(problem.sample_tests_json.correct) : '',
+  input: problem.sample_tests_json ? Object.values(problem.sample_tests_json).map(value => value.input) : [],
+  correct: problem.sample_tests_json ? Object.values(problem.sample_tests_json).map(value => value.correct) : [],
   outputOnly: problem.output_only,
 });
 

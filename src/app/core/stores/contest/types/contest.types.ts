@@ -175,7 +175,9 @@ export interface ProblemApi {
   timelimit: number;
   memorylimit: number;
   description: string;
-  sample_tests_json: SampleTestApi;
+  sample_tests_json: {
+    [key: string]: SampleTestApi,
+  };
   output_only: boolean;
 }
 
