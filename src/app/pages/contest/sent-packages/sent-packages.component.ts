@@ -29,6 +29,7 @@ export class SentPackagesComponent {
 
   @Input('submissions')
   set submissions(value: Submission[] ) {
+    this.isSubmissionsListFull = value.length % 5 !== 0;
     this._submisions = value.sort(this.compare(this.lastSorted.field, this.lastSorted.reverse));
   }
   @Input() isFetching = false;
@@ -39,6 +40,7 @@ export class SentPackagesComponent {
   getDate = getDate;
   lastSorted: LastSorted = { field: 'date', reverse: false };
   page = 1;
+  isSubmissionsListFull = false;
 
   constructor() {}
 
@@ -66,6 +68,11 @@ export class SentPackagesComponent {
 
   update() {
     this.updateSubmissions.emit(this.page);
+  }
+
+  checkForUpdates() {
+    this.updateSubmissions.emit(1);
+    this.page = 1;
   }
 
   changePageSize() {
