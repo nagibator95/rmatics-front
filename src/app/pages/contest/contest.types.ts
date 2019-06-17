@@ -1,3 +1,5 @@
+import { ContestApi } from 'src/app/shared/types/contest.types';
+
 import { Language } from '../../shared/constants';
 
 export type PackageStatus =
@@ -47,31 +49,6 @@ export interface ContestConnectionApi {
   id: number;
   created_at: string;
   contest: ContestApi;
-}
-
-export interface ContestApi {
-  id: number;
-  workshop_id: number;
-  position: number;
-  time_start: string;
-  time_stop: string;
-  is_virtual: boolean;
-  virtual_duration: number;
-  statement: StatementApi;
-}
-
-export interface StatementApi {
-  id: number;
-  name: string;
-  summary: string;
-  problems: ContestProblemApi[];
-}
-
-export interface Contest {
-  id: number;
-  name: string;
-  summary: string;
-  problems: ContestProblem[];
 }
 
 export interface SubmissionApi {
@@ -127,6 +104,20 @@ export interface RunCommentApi {
   user_id: number;
 }
 
+export interface Contest {
+  id: number;
+  name: string;
+  summary: string;
+  problems: ContestProblem[];
+}
+
+export interface ContestProblem {
+  letter: string;
+  name: string;
+  id: number;
+  rank: number;
+}
+
 export interface Submission {
   id: number;
   index: number;
@@ -171,19 +162,6 @@ export interface RunComment {
   userId: number;
 }
 
-export interface ContestProblemApi {
-  id: number;
-  name: string;
-  rank: number;
-}
-
-export interface ContestProblem {
-  letter: string;
-  name: string;
-  id: number;
-  rank: number;
-}
-
 export interface SampleTestApi {
   input: string;
   correct: string;
@@ -196,7 +174,9 @@ export interface ProblemApi {
   timelimit: number;
   memorylimit: number;
   description: string;
-  sample_tests_json: SampleTestApi;
+  sample_tests_json: {
+    [key: string]: SampleTestApi,
+  };
   output_only: boolean;
 }
 

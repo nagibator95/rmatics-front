@@ -1,5 +1,15 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 
+import {Problem} from '../../../core/stores/contest/types/contest.types';
 import { languages, Language } from '../../../shared/constants';
 import { UploadComponent } from '../../../ui/controls/upload/upload.component';
 import { Submission } from '../contest.types';
@@ -11,9 +21,10 @@ import { Submission } from '../contest.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ContestTaskComponent {
+export class ContestTaskComponent implements OnInit, OnDestroy {
   @ViewChild('upload') upload!: UploadComponent;
 
+  @Input() problem: Problem = null;
   @Input() fileError = '';
   @Input() name = '';
   @Input() timeLimit = 0;
@@ -36,7 +47,34 @@ export class ContestTaskComponent {
   selectedLanguage: Language = { ...languages[0] } as Language;
   selectedFile?: File;
 
-  constructor() {
+  public formatBytes(bytes: number = this.memoryLimit, decimals = 2): string {
+    if (bytes === 0) {
+      return '0 B';
+    }
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+
+  constructor() {}
+
+  ngOnInit() {
+    const obj = JSON.parse(localStorage.getItem('code'));
+    if (obj !== null && obj[this.problem.id]) {
+      this.code = obj[this.problem.id];
+    }
+  }
+
+  ngOnDestroy() {
+    const obj = JSON.parse(localStorage.getItem('code'));
+    obj[this.problem.id] = this.code;
+
+    localStorage.setItem('code', JSON.stringify(obj));
   }
 
   get minDataLines() {

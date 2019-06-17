@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { StatementApi } from 'src/app/shared/types/contest.types';
 
 import { environment } from '../../../environments/environment';
 import { languages } from '../../shared/constants';
@@ -15,12 +16,11 @@ import {
   PackageStatus,
   PackageStatusEnum,
   Problem,
-  ProblemApi, StatementApi,
+  ProblemApi,
   Submission,
   SubmissionApi,
 } from './contest.types';
 
-const defaultCourseId = 1;
 const defaultPageSize = 5;
 
 interface ContestState {
@@ -83,8 +83,8 @@ const formatProblem = (problem: ProblemApi) => ({
   timeLimit: problem.timelimit,
   memoryLimit: problem.memorylimit,
   description: problem.description,
-  input: problem.sample_tests_json ? JSON.parse(problem.sample_tests_json.input) : '',
-  correct: problem.sample_tests_json ? JSON.parse(problem.sample_tests_json.correct) : '',
+  input: problem.sample_tests_json ? Object.values(problem.sample_tests_json).map(value => value.input) : [],
+  correct: problem.sample_tests_json ? Object.values(problem.sample_tests_json).map(value => value.correct) : [],
   outputOnly: problem.output_only,
 });
 
@@ -97,6 +97,10 @@ export class ContestService {
   problem = this.store.state.pipe(map(state => state.problem));
   submissions = this.store.state.pipe(map(state => state.submissions));
   fileError = this.store.state.pipe(map(state => state.fileError));
+  createdAt: string;
+  timestop: string;
+  virtualDuration: number;
+  isVirtual: boolean;
 
   constructor(private http: HttpClient) {
   }
@@ -119,7 +123,7 @@ export class ContestService {
         statusCode: response.status_code,
         status: response.status,
       })),
-      tap(() => this.getSubmissions(problemId, 1, defaultCourseId)),
+      tap(() => this.getSubmissions(problemId, 1, contestId)),
       catchError(({ error }) => of({
         ...this.store.getState(),
         statusCode: error.status_code,
@@ -165,21 +169,29 @@ export class ContestService {
   }
 
   getContest(courseId: number) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      isFetching: true,
+    }));
+
     const nextState = this.http.get<ApiResponse<ContestConnectionApi>>(environment.apiUrl + `/contest/${courseId}`)
       .pipe(
+        tap(response => {
+          this.virtualDuration = response.data.contest.virtual_duration;
+          this.timestop = response.data.contest.time_stop;
+          this.createdAt = response.data.created_at;
+          this.isVirtual = response.data.contest.is_virtual;
+        }),
         map(response => {
-          console.log(response);
-
           return {
             ...this.store.getState(),
+            isFetching: false,
             statusCode: response.status_code,
             status: response.status,
             contest: formatContest(response.data!.contest.statement as StatementApi, courseId),
           };
         }),
         catchError(({ error }) => {
-          console.log(error);
-
           return of({
             ...this.store.getState(),
             statusCode: error.status_code,

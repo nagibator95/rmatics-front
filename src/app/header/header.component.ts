@@ -1,10 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 
-import {AuthActions, AuthSelectors} from '../core/stores/auth';
-import {RouterActions} from '../core/stores/router';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { AuthActions, AuthSelectors } from '../core/stores/auth';
+import { RouterActions } from '../core/stores/router';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +19,9 @@ export class HeaderComponent implements OnDestroy {
   isLoggedIn$: Observable<boolean | null>;
   private destroy$ = new Subject();
 
-  constructor(private store$: Store<any>) {
+  constructor(
+    private store$: Store<any>,
+    private router: Router) {
     this.isLoggedIn$ = this.store$.pipe(select(AuthSelectors.getIsLoggedIn()), takeUntil(this.destroy$));
   }
 
@@ -30,9 +34,11 @@ export class HeaderComponent implements OnDestroy {
     this.store$.dispatch(new AuthActions.Logout());
   }
 
-  navigate(route?: string) {
-    this.store$.dispatch(route ? new RouterActions.Go({
-      path: [route],
-    }) : new RouterActions.Back());
+  navigate(...path: Array<string | number>) {
+    if (path[0] === 'contest') {
+      this.router.navigate(['contest', path[1]]);
+    } else {
+      this.store$.dispatch(path.length ? new RouterActions.Go({ path }) : new RouterActions.Back());
+    }
   }
 }

@@ -4,13 +4,13 @@
     class="task-menu"
     [meetingText]="contest.summary"
     meetingLink=""
-    timer="3:59:59"
+    [timer]="timer"
     [contest]="contest.name"
     [tasks]="contest.problems"
     [currentTaskId]="currentTaskId"
   ></app-contest-menu>
 
-  <div class="task" *ngIf="!(isFetching | async); else loading">
+  <app-white-block [border]="true" class="task" *ngIf="!(isFetching | async); else loading">
     <app-contest-task
       #task
       *ngIf="(problem | async) as problem"
@@ -22,6 +22,7 @@
       [input]="problem.input"
       [name]="problem.name"
       [submissions]="submissions | async"
+      [problem]="problem"
       (selectFile)="selectFile()"
       (getSubmissions)="getSubmissions($event)"
       (addSubmission)="addSubmission($event)"
@@ -35,7 +36,7 @@
       [previous]="paginationItems[0]"
       [next]="paginationItems[1]"
     ></app-contest-pagination>
-  </div>
+  </app-white-block>
 
   <ng-template #loading>
     <app-loader class="loader"></app-loader>

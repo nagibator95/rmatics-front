@@ -5,8 +5,8 @@
     </th>
     <th class="app-table__col col">
       <button class="sort app-table__head-text" (click)="handleSort('date')">
-        Дата 
-        {{sortedDate ? '▴' : '▾'}}
+        Дата
+        <span class="sort-icon">{{sortedDate ? '▴' : '▾'}}</span>
       </button>
     </th>
     <th class="app-table__col col">
@@ -17,12 +17,12 @@
     </th>
     <th class="app-table__col col">
       <button class="sort app-table__head-text" (click)="handleSort('score')">
-        Баллы 
-        {{sortedScore ? '▴' : '▾'}}
+        Баллы
+        <span class="sort-icon">{{sortedScore ? '▴' : '▾'}}</span>
       </button>
     </th>
     <th class="app-table__col col">
-      <button class="sync" (click)="update()" [disabled]="isFetching | async">
+      <button class="sync" (click)="checkForUpdates()" [disabled]="isFetching | async">
         <app-icon icon="sync" width="24px" height="24px"></app-icon>
       </button>
     </th>
@@ -46,6 +46,7 @@
 
 <button
   class="app-link_icon-down"
+  *ngIf="!isSubmissionsListFull"
   (click)="changePageSize()"
 >
   Показать еще 5
