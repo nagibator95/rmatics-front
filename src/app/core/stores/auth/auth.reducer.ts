@@ -1,5 +1,6 @@
 import * as StoreActions from './auth.actions';
 import {AuthState} from './models/authState.model';
+import {cookieNames, getCookie} from './util/util';
 
 export const initialState: AuthState = {
   isLoggedIn: false,
@@ -33,7 +34,24 @@ export function authReducer(state: AuthState = initialState, action: StoreAction
       };
 
     case StoreActions.Types.SetState:
-      return {
+      return action.isRefresh ? {
+        ...state,
+        state: action.isInitial ? {
+          refreshToken: getCookie(cookieNames.refreshToken),
+          login: action.payload.login,
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+          email: action.payload.email,
+          token: action.payload.token,
+        } : {
+          ...state.state,
+          login: action.payload.login,
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+          email: action.payload.email,
+          token: action.payload.token,
+        },
+      } : {
         ...state,
         state: action.payload,
       };

@@ -1,3 +1,4 @@
+import {Params} from '@angular/router';
 import {Action} from '@ngrx/store';
 
 import {AuthData} from './models/authData.model';
@@ -5,7 +6,6 @@ import {AuthState} from './models/authState.model';
 import {Cookies} from './models/cookies.model';
 import {LoginPayload} from './models/loginPayload.model';
 import {RestorePasswordPayload} from './models/restorePasswordPayload.model';
-import {Params} from '@angular/router';
 
 export enum Types {
   SetFetching = '[Auth] SetFetching',
@@ -90,7 +90,7 @@ export class SetIsLoggedIn implements Action {
 export class SetState implements Action {
   readonly type = Types.SetState;
 
-  constructor(public payload: AuthData | undefined) {}
+  constructor(public payload: AuthData | undefined, public isRefresh?: boolean, public isInitial?: boolean) {}
 }
 
 export class SetError implements Action {

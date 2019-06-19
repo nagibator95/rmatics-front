@@ -46,3 +46,10 @@ export function getIsPasswordChangeFinished() {
     state => state.isPasswordChangeFinished || null,
   );
 }
+
+export function getRefreshToken() {
+  return createSelector(
+    featureSelector,
+    state => state.state ? state.state.refreshToken : null,
+  );
+}
