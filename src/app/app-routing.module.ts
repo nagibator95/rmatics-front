@@ -1,9 +1,12 @@
 import { NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import { ContestGuardService } from './pages/contest/contest-guard.service';
-
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'demo',
+    pathMatch: 'full',
+  },
   {
     path: 'demo',
     loadChildren: './pages/demo/demo.module#DemoModule',
@@ -11,17 +14,17 @@ const routes: Routes = [
   {
     path: 'contest',
     loadChildren: './pages/contest/contest.module#ContestModule',
-    canActivate: [ContestGuardService],
+    // canActivate: [ContestGuardService],
   },
   {
     path: 'workshop/:workshopId',
     loadChildren: './pages/workshop/workshop.module#WorkshopModule',
-    canActivate: [ContestGuardService],
+    // canActivate: [ContestGuardService],
   },
   {
     path: 'workshop/:workshopId/monitor',
     loadChildren: './pages/monitor/monitor.module#MonitorModule',
-    canActivate: [ContestGuardService],
+    // canActivate: [ContestGuardService],
   },
   {
     path: 'auth',

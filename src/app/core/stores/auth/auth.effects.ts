@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ofType, Actions, Effect} from '@ngrx/effects';
+import {select, Store} from '@ngrx/store';
 import {of} from 'rxjs';
-import {catchError, flatMap, map, switchMap, tap} from 'rxjs/operators';
+import {catchError, flatMap, map, switchMap, take, tap} from 'rxjs/operators';
 
 import {RouterActions} from '../router';
 import {Routes} from '../router/enum/routes.enum';
@@ -9,6 +10,7 @@ import {Routes} from '../router/enum/routes.enum';
 import * as AuthActions from './auth.actions';
 import {initialState} from './auth.reducer';
 import {ProvideHeadersActions} from './enum/provideHeadersActions.enum';
+import {AuthSelectors} from './index';
 import {notAuthenticatedCookies} from './models/cookies.model';
 import {FormattedApiResponse} from './models/formattedApiResponse.model';
 import {AuthService} from './services/auth.service';
@@ -105,7 +107,7 @@ export class AuthEffects {
     flatMap((action: AuthActions.InitializeState) => [
       new AuthActions.SetState(action.payload),
       new AuthActions.SetIsLoggedIn(true),
-      new RouterActions.Go({path: [Routes.DefaultRoute]}),
+      // new RouterActions.Go({path: [Routes.DefaultRoute]}),
     ]),
   );
 
@@ -117,15 +119,19 @@ export class AuthEffects {
         map(formatData),
         catchError(response => of(formatData(response.error))),
         flatMap((formattedData: FormattedApiResponse) => [
-          new AuthActions.SetState(formattedData.state),
+          new AuthActions.SetState(formattedData.state, true, true),
           new AuthActions.SetError(formattedData.error),
           new AuthActions.SetFetching(false),
           new AuthActions.SetIsLoggedIn(formattedData.statusCode === 200),
           new AuthActions.SetStatus(formattedData.status),
           new AuthActions.SetStatusCode(formattedData.statusCode),
-          new AuthActions.SetTokenResponseToCookies({item: formattedData.state}),
-          // TODO: убрать условие когда появятся гарды
-          new RouterActions.Go({path: [formattedData.statusCode === 200 ? Routes.DefaultRoute : Routes.AuthRoute]}),
+          new AuthActions.SetTokenResponseToCookies({item:
+              { ...formattedData.state,
+                refreshToken: this.getRefreshTokenFromStore(this.store$),
+              },
+            rememberMe: true}),
+          // Интерсептор вроде перехватит
+          // new RouterActions.Go({path: [formattedData.statusCode === 200 ? Routes.DefaultRoute : Routes.AuthRoute]}),
         ]),
       ),
     ),
@@ -242,5 +248,19 @@ export class AuthEffects {
   );
 
   constructor(private actions$: Actions,
+              private store$: Store<any>,
               private authService: AuthService) {}
+
+  getRefreshTokenFromStore(store: Store<any>) {
+    let refreshToken: string;
+
+    store
+      .pipe(
+        take(1),
+        select(AuthSelectors.getRefreshToken()),
+      )
+      .subscribe(token => refreshToken = token);
+
+    return refreshToken;
+  }
 }
