@@ -10,6 +10,7 @@ import {Store} from '@ngrx/store';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import {cookieNames, getCookie} from '../core/stores/auth/util/util';
 import {RouterActions} from '../core/stores/router';
 import {Routes} from '../core/stores/router/enum/routes.enum';
 
@@ -22,7 +23,9 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((response: any) => {
         if (response instanceof HttpErrorResponse && response.status === 401) {
           console.log(response);
-          this.store$.dispatch(new RouterActions.Go({path: [Routes.AuthRoute]}));
+          if (!getCookie(cookieNames.refreshToken)) {
+            this.store$.dispatch(new RouterActions.Go({path: [Routes.AuthRoute]}));
+          }
         }
         // TODO: разобраться - переводить на форму авторизации или слать повторный запрос на обновление refresh-токена
         return throwError(response);
