@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import dayjs from 'dayjs';
 import { getDate } from 'src/app/utils/getDate';
 
-import { Submission } from '../contest.types';
+import { Submission } from '../../../core/stores/contest/types/contest.types';
 
 type sortFields = 'date' | 'score';
 

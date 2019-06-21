@@ -21,7 +21,8 @@ export type PackageStatus =
   'SE' |
   'RU' |
   'CG' |
-  'AW';
+  'AW' |
+  'RE';
 
 export enum PackageStatusEnum {
   'OK' = 0,
@@ -43,6 +44,7 @@ export enum PackageStatusEnum {
   'RU' = 96,
   'CG' = 98,
   'AW' = 377,
+  'RE' = 502,
 }
 
 export interface ContestConnectionApi {

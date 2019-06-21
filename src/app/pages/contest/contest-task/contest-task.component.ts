@@ -6,13 +6,12 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {Problem} from '../../../core/stores/contest/types/contest.types';
+import { Problem, Submission } from '../../../core/stores/contest/types/contest.types';
 import { languages, Language } from '../../../shared/constants';
 import { UploadComponent } from '../../../ui/controls/upload/upload.component';
-import { Submission } from '../contest.types';
 
 @Component({
   selector: 'app-contest-task',
