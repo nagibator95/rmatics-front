@@ -1,0 +1,12 @@
+<app-table
+  *ngIf="(monitor | async) as monitor; else loader"
+  [ngClass]="'_type_' + monitor.type"
+  [problems]="monitor.problems"
+  [users]="monitor.users"
+  [type]="monitor.type"
+></app-table>
+<ng-template #loader>
+  <div class="loader">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

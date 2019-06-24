@@ -1,4 +1,4 @@
-import { ContestApi } from 'src/app/shared/types/contest.types';
+import { ContestApi} from '../../../shared/types/contest.types';
 
 export enum TableType {
   LightACM = 'LightACM',
