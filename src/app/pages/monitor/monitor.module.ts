@@ -5,26 +5,34 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UiModule } from 'src/app/ui/ui.module';
 
-import { MinuteSecondsPipe } from './minute-seconds.pipe';
 import { MonitorComponent } from './monitor.component';
-import { StatusComponent } from './status/status.component';
-import { ScrollableDirective } from './table/scrollable.directive';
-import { TableComponent } from './table/table.component';
 
 const routes: Routes = [
   {
     path: '',
     component: MonitorComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'results',
+      },
+      {
+      path: 'content',
+      loadChildren: './workshop/workshop.module#WorkshopModule',
+      // canActivate: [ContestGuardService],
+      },
+      {
+        path: 'results',
+        loadChildren: './monitor-container/monitor-container.module#MonitorContainerModule',
+        // canActivate: [ContestGuardService],
+      },
+    ],
   },
 ];
 
 @NgModule({
   declarations: [
     MonitorComponent,
-    TableComponent,
-    ScrollableDirective,
-    StatusComponent,
-    MinuteSecondsPipe,
   ],
   imports: [
     CommonModule,
@@ -34,6 +42,6 @@ const routes: Routes = [
   ],
   exports: [
     MonitorComponent,
-  ]
+  ],
 })
 export class MonitorModule { }

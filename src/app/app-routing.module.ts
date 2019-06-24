@@ -18,11 +18,6 @@ const routes: Routes = [
   },
   {
     path: 'workshop/:workshopId',
-    loadChildren: './pages/workshop/workshop.module#WorkshopModule',
-    // canActivate: [ContestGuardService],
-  },
-  {
-    path: 'workshop/:workshopId/monitor',
     loadChildren: './pages/monitor/monitor.module#MonitorModule',
     // canActivate: [ContestGuardService],
   },

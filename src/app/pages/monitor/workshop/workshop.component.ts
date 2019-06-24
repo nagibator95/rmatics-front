@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import {Subscription} from 'rxjs';
+import { Router } from '@angular/router';
+import { Subscription} from 'rxjs';
 import { ContestApi } from 'src/app/shared/types/contest.types';
 
 import { WorkshopService } from './workshop.service';
@@ -20,11 +20,10 @@ export class WorkshopComponent implements OnInit, OnDestroy {
   constructor(
     private workshopService: WorkshopService,
     private router: Router,
-    private route: ActivatedRoute,
-  ) { }
+  ) {}
 
    ngOnInit() {
-    const workshopId = Number(this.route.snapshot.paramMap.get('workshopId'));
+    const workshopId = Number(this.router.routerState.snapshot.root.children[0].paramMap.get('workshopId'));
     this.workshopService.getWorkshop(workshopId);
     this.workshopSubscription = this.workshop.subscribe(data => console.log(data));
   }
