@@ -16,10 +16,10 @@
 
   <ng-container *ngFor="let field of statisticsFields">
     <tr class="app-table__body-row">
-      <td class="app-table__col col">{{field.name}}</td>
-      <td class="app-table__col col">{{field.condition | statisticsParam}}</td>
-      <td class="app-table__col col">{{field.value | statisticsParam}}</td>
-      <td class="app-table__col col">{{field.testId | statisticsParam}}</td>
+      <td class="app-table__col col">{{statistics[field].name}}</td>
+      <td class="app-table__col col">{{statistics[field].condition | statisticsParam : true : field}}</td>
+      <td class="app-table__col col">{{statistics[field].value | statisticsParam : false : field}}</td>
+      <td class="app-table__col col">{{statistics[field].testId | statisticsParam}}</td>
     </tr>
   </ng-container>
   

@@ -47,10 +47,12 @@
       <ng-container *ngIf="!protocol.compilerOutput; else noTests">
         <h3 class="title-small">Статистика</h3>
         <app-statistics
+          *ngIf="protocol.tests.length !== 0"
           class="statistics"
           [tests]="protocol.tests"
           [timeLimit]="(problem | async).timeLimit"
           [memoryLimit]="(problem | async).memoryLimit"
+          [content]="(problem | async).content"
         ></app-statistics>
   
         <h3 class="title-small">Результаты тестирования</h3>
