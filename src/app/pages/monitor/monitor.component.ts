@@ -1,20 +1,19 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Store} from '@ngrx/store';
 import { Tab } from 'src/app/ui/tabs/tabs.component';
 
-import { MonitorService } from './monitor.service';
+import {RouterActions} from '../../core/stores/router';
 
 @Component({
   selector: 'app-monitor',
   templateUrl: './monitor.component.html',
   styleUrls: ['./monitor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonitorComponent implements OnInit {
-  monitor = this.monitorService.monitor;
-
-  activeTab = 'result';
+  workshopId: number;
+  activeTab = 'results';
   tabs: Tab[] = [
     {
       text: 'Содержание',
@@ -22,23 +21,19 @@ export class MonitorComponent implements OnInit {
     },
     {
       text: 'Результаты',
-      id: 'result',
+      id: 'results',
       current: true,
     },
   ];
 
-  constructor(
-    private monitorService: MonitorService,
-    private route: ActivatedRoute,
-  ) { }
+  constructor(private route: ActivatedRoute, private store$: Store<any>) {}
 
   ngOnInit() {
-    const workshopId = Number(this.route.snapshot.paramMap.get('workshopId'));
-    this.monitorService.getMonitor(workshopId);
+    this.workshopId = Number(this.route.snapshot.paramMap.get('workshopId'));
   }
 
   onTabClick(id: string) {
     this.activeTab = id;
+    this.store$.dispatch(new RouterActions.Go({path: [`workshop/${this.workshopId}/${id}`]}));
   }
-
 }

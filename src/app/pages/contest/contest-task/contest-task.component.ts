@@ -6,13 +6,13 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {Problem} from '../../../core/stores/contest/types/contest.types';
+import { Problem, Submission } from '../../../core/stores/contest/types/contest.types';
 import { languages, Language } from '../../../shared/constants';
 import { UploadComponent } from '../../../ui/controls/upload/upload.component';
-import { Submission } from '../contest.types';
+import {formatBytes} from '../../../utils/formatBytes';
 
 @Component({
   selector: 'app-contest-task',
@@ -46,20 +46,7 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
   showFileLoader = true;
   selectedLanguage: Language = { ...languages[0] } as Language;
   selectedFile?: File;
-
-  public formatBytes(bytes: number = this.memoryLimit, decimals = 2): string {
-    if (bytes === 0) {
-      return '0 B';
-    }
-
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-  }
+  formatBytes = formatBytes;
 
   constructor() {}
 
