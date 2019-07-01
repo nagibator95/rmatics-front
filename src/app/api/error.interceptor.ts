@@ -1,13 +1,12 @@
 import {
   HttpErrorResponse,
-  HttpEvent,
   HttpHandler, HttpHeaderResponse,
   HttpInterceptor, HttpProgressEvent,
   HttpRequest, HttpResponse, HttpSentEvent, HttpUserEvent,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Store} from '@ngrx/store';
-import {throwError, Observable, BehaviorSubject, of} from 'rxjs';
+import {throwError, Observable, BehaviorSubject} from 'rxjs';
 import {catchError, filter, flatMap, map, switchMap, take} from 'rxjs/operators';
 
 import {AuthService} from '../core/stores/auth/services/auth.service';
@@ -58,6 +57,8 @@ export class ErrorInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService, private store$: Store<any>) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<AnyHttpEvent> {
+    console.log('intercept');
+
     request = request.clone({ setHeaders: <AuthHeaders>constructHeaders({
         accessToken: getCookie(cookieNames.accessToken),
       }) });
@@ -90,10 +91,13 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   private refreshTokenExpired() {
+    console.log('refreshTokenExpired');
+
     this.store$.dispatch(new RouterActions.Go({path: [Routes.DefaultRoute]}));
   }
 
   private refreshAndRetry(request: HttpRequest<any>, next: HttpHandler) {
+    console.log('refreshAndRetry');
     this.refreshTokenInProgress = true;
     this.refreshTokenSubject.next(true);
     return this.authService.refreshToken()

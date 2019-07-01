@@ -5,6 +5,7 @@ import {StoreModule} from '@ngrx/store';
 import {AuthEffects} from './auth.effects';
 import {authReducer} from './auth.reducer';
 import {AuthService} from './services/auth.service';
+import {NewAuthService} from './services/new-auth.service';
 
 export const AUTH_STORE = 'AUTH_STORE';
 
