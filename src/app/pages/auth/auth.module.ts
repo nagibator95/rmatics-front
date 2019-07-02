@@ -10,6 +10,7 @@ import {UiModule} from '../../ui/ui.module';
 import { AuthComponent } from './auth.component';
 import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import {LoginGuardService} from './login-form/login-guard.service';
 import { RestorePasswordFormComponent } from './restore-password-form/restore-password-form.component';
 import { AuthFooterComponent } from './shared/auth-footer/auth-footer.component';
 
@@ -19,7 +20,7 @@ const routes: Routes = [
     component: AuthComponent,
     children: [
       { path: '', redirectTo: 'login' },
-      { path: 'login', component: LoginFormComponent },
+      { path: 'login', canActivate: [LoginGuardService], component: LoginFormComponent },
       { path: 'restore-password', component: RestorePasswordFormComponent },
       { path: 'change-password', component: ChangePasswordFormComponent },
     ],
