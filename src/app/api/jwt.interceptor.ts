@@ -7,7 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import {Store} from '@ngrx/store';
 import {throwError, BehaviorSubject, Observable} from 'rxjs';
-import {catchError, filter, map, switchMap, take} from 'rxjs/operators';
+import {catchError, filter, switchMap, take} from 'rxjs/operators';
 
 import {environment} from '../../environments/environment';
 import {NewAuthService} from '../core/stores/auth/services/new-auth.service';

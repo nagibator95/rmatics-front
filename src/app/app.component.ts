@@ -1,6 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {Subject} from 'rxjs';
 import {filter} from 'rxjs/operators';
 
 import {NewAuthService} from './core/stores/auth/services/new-auth.service';

@@ -5,8 +5,10 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AuthActions, AuthSelectors } from '../core/stores/auth';
+import { AuthSelectors } from '../core/stores/auth';
+import {NewAuthService} from '../core/stores/auth/services/new-auth.service';
 import { RouterActions } from '../core/stores/router';
+import {Routes} from '../core/stores/router/enum/routes.enum';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +23,8 @@ export class HeaderComponent implements OnDestroy {
 
   constructor(
     private store$: Store<any>,
-    private router: Router) {
+    private router: Router,
+    private auth: NewAuthService) {
     this.isLoggedIn$ = this.store$.pipe(select(AuthSelectors.getIsLoggedIn()), takeUntil(this.destroy$));
   }
 
@@ -31,10 +34,10 @@ export class HeaderComponent implements OnDestroy {
   }
 
   logout() {
-    this.store$.dispatch(new AuthActions.Logout());
+    this.auth.logout().subscribe(() => this.store$.dispatch(new RouterActions.Go({path: [Routes.AuthRoute]})));
   }
 
-  navigate(...path: Array<string | number>) {
+  navigate(...path: (string | number)[]) {
     if (path[0] === 'contest') {
       this.router.navigate(['contest', path[1]]);
     } else {
