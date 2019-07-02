@@ -1,13 +1,16 @@
 import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Store} from '@ngrx/store';
-import {AuthActions} from '../index';
-import {ApiResponse} from '../models/apiResponse.model';
-import {ApiAuth} from '../models/apiAuth.model';
-import {environment} from '../../../../../environments/environment';
-import {LoginAuthData} from '../models/loginPayload.model';
+import {of, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+
+import {environment} from '../../../../../environments/environment';
+import {AuthActions} from '../index';
+import {ApiAuth} from '../models/apiAuth.model';
+import {ApiResponse} from '../models/apiResponse.model';
+import {LoginAuthData} from '../models/loginPayload.model';
+import {RestorePasswordPayload} from '../models/restorePasswordPayload.model';
+import {Params} from '@angular/router';
 
 export interface User {
   firstname: string;
@@ -20,17 +23,14 @@ export interface User {
   providedIn: 'root',
 })
 export class NewAuthService {
-  private readonly signInUrl = `/api/v1/user/signin`;
-  private readonly refreshUrl = `/api/v1/user/refresh`;
+  private readonly signInUrl = environment.apiUrl + '/auth/signin/';
+  private readonly refreshUrl = environment.apiUrl + '/auth/refresh/';
+  private readonly restorePasswordUrl = environment.apiUrl + '/auth/reset/';
+  private readonly changePasswordUrl = environment.apiUrl + '/auth/change-password';
   private readonly accessTokenKey = 'token';
   private readonly refreshTokenKey = 'refresh_token';
   readonly firstnameKey = 'firstname';
   readonly lastnameKey = 'lastname';
-
-  readonly teacherUrl = '/publications';
-  readonly studentUrl = '/my-courses';
-  readonly mentorUrl = '/supervision';
-
   user: User;
 
   constructor(private http: HttpClient,
@@ -106,13 +106,13 @@ export class NewAuthService {
   }
 
   login(authData: LoginAuthData): Observable<User> {
-    return this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/signin/', authData)
+    return this.http.post<ApiResponse<ApiAuth>>(this.signInUrl, authData)
       .pipe(
         map((response: ApiResponse<ApiAuth>) => {
           this.saveUserTokens(response.data.token, response.data.refresh_token);
           this.saveUserName(response.data.firstname, response.data.lastname);
           this.user = this.decodeUser(response.data.token);
-          this.store$.dispatch(new AuthActions.SetIsLoggedIn(this.isLoggedIn));
+          this.initUser();
           return this.user;
         }),
       );
@@ -121,25 +121,35 @@ export class NewAuthService {
   logout(): Observable<boolean> {
     this.deleteUserTokens();
     this.deleteUserName();
-    this.store.dispatch(new LogoutAction());
-    this.store.dispatch(new CoursesCleaned());
-    this.store.dispatch(new CleanUnits());
+    this.store$.dispatch(new AuthActions.SetIsLoggedIn(false));
     return of(true);
   }
 
-  performTokenRefresh(): Observable<IAuthUser> {
+  tokenRefresh(): Observable<ApiAuth> {
     const refreshToken = this.refreshToken;
     const data = { refresh_token: refreshToken };
     this.deleteUserTokens();
-    return this.http.post(this.refreshUrl, data)
+    this.deleteUserName();
+    return this.http.post<ApiResponse<ApiAuth>>(this.refreshUrl, data)
       .pipe(
-        map((authResponse: IAuthResponse) => {
-          const user = authResponse.data as IAuthUser;
+        map((authResponse: ApiResponse<ApiAuth>) => {
+          const user = authResponse.data as ApiAuth;
           // Note that RefreshAPI doesn't return refresh
           // token as well and we have to preserve existing one
           this.saveUserTokens(user.token, refreshToken);
+          this.saveUserName(user.firstname, user.lastname);
           return user;
         }),
       );
+  }
+
+  restorePassword(data: RestorePasswordPayload): Observable<any> {
+    return this.http.post(this.restorePasswordUrl, data);
+  }
+
+  changePassword(data: {password: string}, params: Params): Observable<any> {
+    return this.http.post(this.changePasswordUrl, data, {
+      params: params,
+    });
   }
 }

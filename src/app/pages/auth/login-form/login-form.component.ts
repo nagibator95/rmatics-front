@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Store} from '@ngrx/store';
+import { Subject} from 'rxjs';
+import {catchError, finalize, takeUntil} from 'rxjs/operators';
 
-import {AuthActions, AuthSelectors} from '../../../core/stores/auth';
+import {NewAuthService} from '../../../core/stores/auth/services/new-auth.service';
 import {RouterActions} from '../../../core/stores/router';
 import {Routes} from '../../../core/stores/router/enum/routes.enum';
 
@@ -17,21 +17,12 @@ import {Routes} from '../../../core/stores/router/enum/routes.enum';
 
 export class LoginFormComponent implements OnInit, OnDestroy {
   loginForm = new FormGroup({});
-  error$: Observable<string | null>;
-  isFetching$: Observable<boolean | null>;
   rememberMe = true;
   private readonly destroy$ = new Subject();
+  error = '';
+  isFetching = false;
 
-  constructor(private fb: FormBuilder, private store$: Store<any>) {
-    this.isFetching$ = this.store$.pipe(
-      select(AuthSelectors.getFetching()),
-      takeUntil(this.destroy$));
-
-    this.error$ = this.store$.pipe(
-      select(AuthSelectors.getError()),
-      takeUntil(this.destroy$),
-    );
-  }
+  constructor(private fb: FormBuilder, private store$: Store<any>, private auth: NewAuthService) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group(
@@ -60,7 +51,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   handleInputChange() {
-    this.store$.dispatch(new AuthActions.SetError(''));
+    this.error = '';
   }
 
   onChangePasswordClick() {
@@ -71,10 +62,19 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.store$.dispatch(new AuthActions.Login({
-        authData: {username: this.login.value, password: this.password.value},
-        rememberMe: this.rememberMe,
-      }));
+      this.isFetching = true;
+
+      this.auth.login({username: this.login.value, password: this.password.value})
+        .pipe(
+          finalize(() => this.isFetching = false),
+          takeUntil(this.destroy$),
+          catchError(response => this.error = response.error.error),
+        )
+        .subscribe(() => {
+          this.store$.dispatch(new RouterActions.Go({
+            path: [this.error ? Routes.AuthRoute : Routes.DefaultRoute],
+          }));
+        });
     }
   }
 }

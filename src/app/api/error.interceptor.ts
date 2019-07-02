@@ -6,8 +6,8 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Store} from '@ngrx/store';
-import {throwError, Observable, BehaviorSubject} from 'rxjs';
-import {catchError, filter, flatMap, map, switchMap, take} from 'rxjs/operators';
+import {throwError, BehaviorSubject, Observable} from 'rxjs';
+import {catchError, filter, map, switchMap, take} from 'rxjs/operators';
 
 import {AuthService} from '../core/stores/auth/services/auth.service';
 import {

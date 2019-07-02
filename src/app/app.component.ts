@@ -1,20 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {Store} from '@ngrx/store';
 import {Subject} from 'rxjs';
 import {filter} from 'rxjs/operators';
 
-import { AuthActions } from './core/stores/auth';
+import {NewAuthService} from './core/stores/auth/services/new-auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   isInitialLoading = true;
-  private readonly destroy$ = new Subject();
 
-  constructor(private store$: Store<any>, private router: Router) {}
+  constructor(private router: Router, private auth: NewAuthService) {}
 
   ngOnInit() {
     this.router.events
@@ -23,14 +21,9 @@ export class AppComponent implements OnInit, OnDestroy {
       )
       .subscribe( navEnd => {
         if ((navEnd as NavigationEnd).urlAfterRedirects.substring(0, 21) !== '/auth/change-password' && this.isInitialLoading) {
-          this.store$.dispatch(new AuthActions.Initialize());
+          this.auth.initUser();
           this.isInitialLoading = false;
         }
       });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
