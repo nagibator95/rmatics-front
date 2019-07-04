@@ -1,6 +1,6 @@
 <div *ngIf="!(isFetching | async); else loading">
   <app-accordion [open]="true" titleMain="Общая информация">
-    <app-icon-links *ngFor="let contest of (workshop | async).contests" class="paragraph"
+    <app-icon-links *ngFor="let contest of sortContests((workshop | async).contests)" class="paragraph"
                     icon="package"
                     (click)="onContestClicked(contest)"
     >{{contest.statement.name}}</app-icon-links>
