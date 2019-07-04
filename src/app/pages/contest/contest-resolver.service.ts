@@ -4,9 +4,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {filter, take, tap} from 'rxjs/operators';
 
-import {ContestActions, ContestSelectors} from '../../core/stores/contest';
-
+import {AuthSelectors} from '../../core/stores/auth';
 import {Contest} from '../../core/stores/contest/types/contest.types';
+import {RouterActions} from '../../core/stores/router';
+import {Routes} from '../../core/stores/router/enum/routes.enum';
 
 @Injectable()
 export class ContestResolverService implements Resolve<Contest> {
@@ -14,19 +15,15 @@ export class ContestResolverService implements Resolve<Contest> {
               private store$: Store<any>) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Contest> {
-    this.store$.dispatch(new ContestActions.GetContest(Number(route.params.contestId)));
-    return this.waitForContestToDownload();
+    return this.waitForLogin();
   }
 
-  waitForContestToDownload(): Observable<Contest> {
-    return this.store$.pipe(select(ContestSelectors.getContest()))
+  waitForLogin(): Observable<Contest> {
+    return this.store$.pipe(select(AuthSelectors.getIsLoggedIn()))
       .pipe(
-        filter(contest => !!contest),
+        filter(value => !(value == null)),
         take(1),
-        tap(contest => {
-          const problems = contest.problems;
-          this.router.navigate([problems[0].href]);
-        }),
+        tap(auth => !auth ? this.store$.dispatch(new RouterActions.Go({path: [Routes.AuthRoute]})) : null),
       );
   }
 }
