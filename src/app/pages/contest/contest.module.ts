@@ -13,6 +13,7 @@ import {ContestGuardService} from './contest-guard.service';
 import { ContestMenuComponent } from './contest-menu/contest-menu.component';
 import { TaskItemComponent } from './contest-menu/task-item/task-item.component';
 import { ContestPaginationComponent } from './contest-pagination/contest-pagination.component';
+import {ContestResolverService} from './contest-resolver.service';
 import { ContentComponent } from './contest-task/content/content.component';
 import { ContestTaskComponent } from './contest-task/contest-task.component';
 import { IconLabelComponent } from './contest-task/icon-label/icon-label.component';
@@ -36,6 +37,7 @@ const routes: Routes = [
   {
     path: ':contestId',
     component: ContestComponent,
+    resolve: { message: ContestResolverService},
   },
   {
     path: ':contestId/problem/:problemId',
@@ -82,6 +84,7 @@ const routes: Routes = [
     ContestService,
     SubmissionService,
     ContestGuardService,
+    ContestResolverService,
   ],
 })
 
