@@ -10,6 +10,8 @@ export interface MonitorUserApi {
   id: 0,
   firstname: string,
   lastname: string,
+  school?: string,
+  city?: string,
 }
 
 interface MonitorResultApi {
@@ -68,6 +70,8 @@ export interface TableUser {
   totalTries: number,
   penalty: number,
   rating?: number,
+  school?: string,
+  city?: string,
 }
 
 export interface TableMonitor {

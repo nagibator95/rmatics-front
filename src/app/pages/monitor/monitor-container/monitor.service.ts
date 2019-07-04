@@ -139,6 +139,8 @@ const formatUsers = ({ users, results, type }: MonitorApi, problems: TableProble
         totalTime,
         totalTries,
         penalty,
+        school: user.school,
+        city: user.city,
       }
     })
     .sort(totalScoreCompare(type))
