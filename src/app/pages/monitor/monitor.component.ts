@@ -5,6 +5,8 @@ import { Tab } from 'src/app/ui/tabs/tabs.component';
 
 import {RouterActions} from '../../core/stores/router';
 
+import {WorkshopService} from './workshop/workshop.service';
+
 @Component({
   selector: 'app-monitor',
   templateUrl: './monitor.component.html',
@@ -18,18 +20,20 @@ export class MonitorComponent implements OnInit {
     {
       text: 'Содержание',
       id: 'content',
+      current: true,
     },
     {
       text: 'Результаты',
       id: 'results',
-      current: true,
     },
   ];
+  workshop = this.workshopService.workshop;
 
-  constructor(private route: ActivatedRoute, private store$: Store<any>) {}
+  constructor(private route: ActivatedRoute, private store$: Store<any>, private workshopService: WorkshopService) {}
 
   ngOnInit() {
     this.workshopId = Number(this.route.snapshot.paramMap.get('workshopId'));
+    this.workshop.subscribe(value => console.log(value));
   }
 
   onTabClick(id: string) {

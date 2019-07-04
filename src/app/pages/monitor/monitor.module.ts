@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'results',
+        redirectTo: 'content',
       },
       {
         path: 'content',

@@ -22,7 +22,7 @@ export class WorkshopComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {}
 
-   ngOnInit() {
+  ngOnInit() {
     const workshopId = Number(this.router.routerState.snapshot.root.children[0].paramMap.get('workshopId'));
     this.workshopService.getWorkshop(workshopId);
     this.workshopSubscription = this.workshop.subscribe(data => console.log(data));

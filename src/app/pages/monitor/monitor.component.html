@@ -1,6 +1,6 @@
 <div class="app-container">
   <app-white-block>
-    <h1 class="title">Летняя школа по компьтерным наукам</h1>
+    <h1 *ngIf="(workshop | async)" class="title">{{(workshop | async).name}}</h1>
     <app-tabs class="tabs" [tabs]="tabs" (tabClick)="onTabClick($event)">
       <button><app-icon icon="fullscreen" width="20" height="20"></app-icon></button>
     </app-tabs>
