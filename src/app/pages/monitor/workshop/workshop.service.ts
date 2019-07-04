@@ -24,7 +24,7 @@ const initialState: WorkshopState = {
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WorkshopService {
   private store = new Store<WorkshopState>(initialState);
@@ -35,6 +35,7 @@ export class WorkshopService {
   }
 
   getWorkshop(workshopId: number) {
+    this.clearWorkShop();
     this.setFetching(true);
 
     const nextState = this.http.get<ApiResponse<WorkshopApi>>(environment.apiUrl
@@ -62,6 +63,13 @@ export class WorkshopService {
     this.store.setState(of({
       ...this.store.getState(),
       isFetching: isFetching,
+    }));
+  }
+
+  clearWorkShop() {
+    this.store.setState(of({
+      ...this.store.getState(),
+      workshop: null,
     }));
   }
 }
