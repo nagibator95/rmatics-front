@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UiModule } from 'src/app/ui/ui.module';
 
@@ -17,14 +16,12 @@ const routes: Routes = [
         redirectTo: 'results',
       },
       {
-      path: 'content',
-      loadChildren: './workshop/workshop.module#WorkshopModule',
-      // canActivate: [ContestGuardService],
+        path: 'content',
+        loadChildren: './workshop/workshop.module#WorkshopModule',
       },
       {
         path: 'results',
         loadChildren: './monitor-container/monitor-container.module#MonitorContainerModule',
-        // canActivate: [ContestGuardService],
       },
     ],
   },

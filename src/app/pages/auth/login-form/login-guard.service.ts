@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {map, tap} from 'rxjs/operators';
+import { Store} from '@ngrx/store';
 
-import {AuthSelectors} from '../../../core/stores/auth';
+import {NewAuthService} from '../../../core/stores/auth/services/new-auth.service';
 import {RouterActions} from '../../../core/stores/router';
 import {Routes} from '../../../core/stores/router/enum/routes.enum';
 
@@ -10,14 +9,14 @@ import {Routes} from '../../../core/stores/router/enum/routes.enum';
   providedIn: 'root',
 })
 export class LoginGuardService {
-  constructor(private store$: Store<any>) {
-  }
+  constructor(private store$: Store<any>, private auth: NewAuthService) {}
 
   canActivate() {
-    return this.store$.pipe(
-      select(AuthSelectors.getIsLoggedIn()),
-      map(value => !value),
-      tap(auth => !!auth ? null : this.store$.dispatch(new RouterActions.Go({path: [Routes.DefaultRoute]}))),
-    );
+    if (this.auth.isLoggedIn) {
+      this.store$.dispatch(new RouterActions.Go({path: [Routes.DefaultRoute]}));
+      return false;
+    }
+
+    return true;
   }
 }
