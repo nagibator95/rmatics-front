@@ -36,4 +36,8 @@ export class WorkshopComponent implements OnInit, OnDestroy {
     this.workshopService.setFetching(true);
     this.router.navigate(['contest', contest.id]);
   }
+
+  sortContests(contests: ContestApi[]): ContestApi[] {
+    return contests.sort((contest1, contest2) => contest1.position - contest2.position);
+  }
 }
