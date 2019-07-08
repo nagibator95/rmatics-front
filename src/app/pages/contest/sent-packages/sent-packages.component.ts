@@ -29,7 +29,7 @@ export class SentPackagesComponent {
 
   @Input('submissions')
   set submissions(value: Submission[] ) {
-    this.isSubmissionsListFull = value.length % 5 !== 0;
+    this.isSubmissionsListFull = value.length === 0 || value.length % 5 !== 0;
     this._submisions = value.sort(this.compare(this.lastSorted.field, this.lastSorted.reverse));
   }
   @Input() isFetching = false;
@@ -76,7 +76,7 @@ export class SentPackagesComponent {
   }
 
   changePageSize() {
-    this.page = this.page + 1;
+    this.page += 1;
     this.update();
   }
 
