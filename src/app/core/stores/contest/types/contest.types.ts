@@ -203,3 +203,9 @@ export interface Test {
   realTime: number;
   memory: number;
 }
+
+export interface IShowSubmission {
+  contestId: number;
+  problemId: number;
+  runId: number;
+}

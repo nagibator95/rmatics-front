@@ -247,10 +247,10 @@ export class ContestEffects {
   showSubmission$ = this.actions$.pipe(
     ofType(ContestActions.Types.ShowSubmission),
     flatMap((action: ContestActions.ShowSubmission) => [
-      new ContestActions.SetSubmissionPreview(action.payload),
+      new ContestActions.SetSubmissionPreview(action.payload.runId),
       new ContestActions.GetSubmissionProtocol(action.payload),
-      new ContestActions.GetSubmissionSource(action.payload),
-      new ContestActions.GetSubmissionComments(action.payload),
+      new ContestActions.GetSubmissionSource(action.payload.runId),
+      new ContestActions.GetSubmissionComments(action.payload.runId),
       new ContestActions.ShowModal(),
     ]),
   );

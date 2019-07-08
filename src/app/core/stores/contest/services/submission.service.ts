@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ModalService } from '../../../../modal/modal.service';
 import { SubmissionComponent} from '../../../../pages/contest/submission/submission.component';
 import { ApiResponse } from '../../../../utils/types';
-import { RunCommentApi, RunProtocolApi, RunSourceApi } from '../types/contest.types';
+import {IShowSubmission, RunCommentApi, RunProtocolApi, RunSourceApi} from '../types/contest.types';
 
 @Injectable()
 export class SubmissionService {
@@ -22,8 +22,8 @@ export class SubmissionService {
     });
   }
 
-  getSubmissionProtocol(submissionId: number): Observable<ApiResponse<RunProtocolApi>> {
-    return this.http.get<ApiResponse<RunProtocolApi>>(environment.apiUrl + `/run/${submissionId}/protocol`);
+  getSubmissionProtocol(value: IShowSubmission): Observable<ApiResponse<RunProtocolApi>> {
+    return this.http.get<ApiResponse<RunProtocolApi>>(environment.apiUrl + `/contest/${value.contestId}/problem/${value.problemId}/run/${value.runId}/protocol`);
   }
 
   getSubmissionSource(submissionId: number): Observable<ApiResponse<RunSourceApi>> {

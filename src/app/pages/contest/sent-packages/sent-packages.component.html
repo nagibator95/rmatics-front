@@ -36,7 +36,7 @@
       <td class="app-table__col col">{{package.tests}}</td>
       <td class="app-table__col col"><b class="score">{{package.score}}</b></td>
       <td class="app-table__col col">
-        <button class="app-link" (click)="openSubmission.emit(package.id)">Посылка</button>
+        <button class="app-link" (click)="showSubmission(package.id)">Посылка</button>
         <app-package-status class="status" [status]="package.status"></app-package-status>
       </td>
     </tr>

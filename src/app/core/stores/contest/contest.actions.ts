@@ -1,7 +1,7 @@
 import {Action} from '@ngrx/store';
 
 import {ContestData, SpecificSubmissionState} from './models/models';
-import {Contest, Problem, RunComment, RunProtocol, RunSource, Submission} from './types/contest.types';
+import {Contest, IShowSubmission, Problem, RunComment, RunProtocol, RunSource, Submission} from './types/contest.types';
 
 export enum Types {
   SetFetching = '[Contest] SetFetching',
@@ -161,13 +161,13 @@ export class SetFileError implements Action {
 export class GetSubmissionProtocol implements Action {
   readonly type = Types.GetSubmissionProtocol;
 
-  constructor(public payload: number) {}
+  constructor(public payload: IShowSubmission) {}
 }
 
 export class QuerySubmissionProtocol implements Action {
   readonly type = Types.QuerySubmissionProtocol;
 
-  constructor(public payload: number) {}
+  constructor(public payload: IShowSubmission) {}
 }
 
 export class GetSubmissionSource implements Action {
@@ -209,7 +209,7 @@ export class SetSpecificSubmissionPart implements Action {
 export class ShowSubmission implements Action {
   readonly type = Types.ShowSubmission;
 
-  constructor(public payload: number) {}
+  constructor(public payload: IShowSubmission) {}
 }
 
 export class ShowModal implements Action {

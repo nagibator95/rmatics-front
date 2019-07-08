@@ -15,7 +15,7 @@ import {takeUntil} from 'rxjs/operators';
 
 import {ContestActions, ContestSelectors} from '../../core/stores/contest';
 import {ContestData} from '../../core/stores/contest/models/models';
-import {Contest, Problem, Submission} from '../../core/stores/contest/types/contest.types';
+import {Contest, IShowSubmission, Problem, Submission} from '../../core/stores/contest/types/contest.types';
 
 import { ContestTaskComponent } from './contest-task/contest-task.component';
 
@@ -109,8 +109,8 @@ export class ContestComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new ContestActions.AddSubmission(this.currentTaskId, data.file, data.languageId, this.courseId));
   }
 
-  openSubmission(id: number) {
-    this.store$.dispatch(new ContestActions.ShowSubmission(id));
+  openSubmission(value: IShowSubmission) {
+    this.store$.dispatch(new ContestActions.ShowSubmission(value));
   }
 
   getSubmissions(page: number) {
