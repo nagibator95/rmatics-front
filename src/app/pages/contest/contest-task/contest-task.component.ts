@@ -82,5 +82,7 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
         : new File([new Blob([this.code])], 'solution.code'),
       languageId: this.selectedLanguage.id,
     });
+
+    this.code = '';
   }
 }
