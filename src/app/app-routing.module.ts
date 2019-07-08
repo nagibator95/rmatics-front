@@ -6,13 +6,13 @@ import {ContestGuardService} from './pages/contest/contest-guard.service';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'demo',
+    redirectTo: 'workshop/1',
     pathMatch: 'full',
   },
-  {
-    path: 'demo',
-    loadChildren: './pages/demo/demo.module#DemoModule',
-  },
+  // {
+  //   path: 'demo',
+  //   loadChildren: './pages/demo/demo.module#DemoModule',
+  // },
   {
     path: 'contest',
     loadChildren: './pages/contest/contest.module#ContestModule',

@@ -47,7 +47,7 @@ export const formatContest = (contest: StatementApi, courseId: number): Contest 
   })),
 });
 
-function formatLetter(index: Number): string {
+function formatLetter(index: number): string {
   const letters = 'abcdefghijklmnopqrstuvwxyz';
   const lettersNum = letters.length;
 
