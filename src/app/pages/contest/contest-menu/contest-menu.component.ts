@@ -29,5 +29,4 @@ export class ContestMenuComponent {
   @Input() currentTaskId = 1;
 
   toggleMenu = () => this.collapsed = !this.collapsed;
-
 }

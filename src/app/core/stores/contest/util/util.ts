@@ -39,13 +39,20 @@ export const formatContest = (contest: StatementApi, courseId: number): Contest 
   name: contest.name,
   summary: contest.summary,
   problems: contest.problems.map(item => ({
-    letter: 'abcdefghijklmnopqrstuvwxyz'[item.rank - 1],
+    letter: formatLetter(item.rank - 1),
     name: item.name,
     id: item.id,
     rank: item.rank,
     href: `/contest/${courseId}/problem/${item.id}`,
   })),
 });
+
+function formatLetter(index: Number): string {
+  const letters = 'abcdefghijklmnopqrstuvwxyz';
+  const lettersNum = letters.length;
+
+  return index < lettersNum ? letters[index] : letters[Math.trunc(index / lettersNum)] + letters[index % lettersNum];
+}
 
 export const formatProblem = (problem: ProblemApi): Problem => ({
   id: problem.id,
