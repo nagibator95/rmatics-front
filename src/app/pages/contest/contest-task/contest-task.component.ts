@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { Problem, Submission } from '../../../core/stores/contest/types/contest.types';
+import { Problem, Submission} from '../../../core/stores/contest/types/contest.types';
 import { languages, Language } from '../../../shared/constants';
 import { UploadComponent } from '../../../ui/controls/upload/upload.component';
 import {formatBytes} from '../../../utils/formatBytes';
@@ -25,6 +25,7 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
   @ViewChild('upload') upload!: UploadComponent;
 
   @Input() problem: Problem = null;
+  @Input() contestId: number = null;
   @Input() fileError = '';
   @Input() name = '';
   @Input() timeLimit = 0;

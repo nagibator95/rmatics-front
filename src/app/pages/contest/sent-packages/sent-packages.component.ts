@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import dayjs from 'dayjs';
 import { getDate } from 'src/app/utils/getDate';
 
-import { Submission } from '../../../core/stores/contest/types/contest.types';
+import {IShowSubmission, Submission} from '../../../core/stores/contest/types/contest.types';
 
 type sortFields = 'date' | 'score';
 
@@ -34,8 +34,9 @@ export class SentPackagesComponent {
   }
   @Input() isFetching = false;
   @Input() problemId!: number;
+  @Input() contestId: number;
   @Output() updateSubmissions = new EventEmitter<number>();
-  @Output() openSubmission = new EventEmitter<number>();
+  @Output() openSubmission = new EventEmitter<IShowSubmission>();
 
   getDate = getDate;
   lastSorted: LastSorted = { field: 'date', reverse: false };
@@ -84,5 +85,9 @@ export class SentPackagesComponent {
     const reverse = this.lastSorted.field === field ? !this.lastSorted.reverse : false;
     this.lastSorted = { field, reverse };
     this.submissions = this.submissions.sort(this.compare(field, reverse));
+  }
+
+  showSubmission(runId: number) {
+    this.openSubmission.emit({contestId: this.contestId, problemId: this.problemId, runId});
   }
 }

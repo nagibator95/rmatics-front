@@ -89,6 +89,8 @@
   <h2 class="title-2">Отправленные посылки</h2>
   <app-sent-packages
     [submissions]="submissions"
+    [contestId]="contestId"
+    [problemId]="problem.id"
     (updateSubmissions)="getSubmissions.emit($event)"
     (openSubmission)="openSubmission.emit($event)"
     [isFetching]="isSubmissionsFetching"

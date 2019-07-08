@@ -23,6 +23,7 @@
       [name]="problem.name"
       [submissions]="submissions | async"
       [problem]="problem"
+      [contestId]="courseId"
       (selectFile)="selectFile()"
       (getSubmissions)="getSubmissions($event)"
       (addSubmission)="addSubmission($event)"
