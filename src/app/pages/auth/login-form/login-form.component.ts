@@ -71,9 +71,11 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           catchError(response => this.error = response.error.error),
         )
         .subscribe(() => {
-          this.store$.dispatch(new RouterActions.Go({
-            path: [this.error ? Routes.AuthRoute : Routes.DefaultRoute],
-          }));
+          if (this.auth.redirectUrl) {
+            this.store$.dispatch(new RouterActions.Go({
+              path: [this.auth.redirectUrl],
+            }));
+          }
         });
     }
   }

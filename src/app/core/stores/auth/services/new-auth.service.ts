@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {Params} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {of, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -10,7 +11,6 @@ import {ApiAuth} from '../models/apiAuth.model';
 import {ApiResponse} from '../models/apiResponse.model';
 import {LoginAuthData} from '../models/loginPayload.model';
 import {RestorePasswordPayload} from '../models/restorePasswordPayload.model';
-import {Params} from '@angular/router';
 
 export interface User {
   firstname: string;
@@ -32,6 +32,7 @@ export class NewAuthService {
   readonly firstnameKey = 'firstname';
   readonly lastnameKey = 'lastname';
   user: User;
+  public redirectUrl: string;
 
   constructor(private http: HttpClient,
               private store$: Store<any>) {
