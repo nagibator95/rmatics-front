@@ -199,4 +199,11 @@ export class MonitorService {
       isFetching: isFetching,
     }));
   }
+
+  setMonitor(monitor: TableMonitor | null) {
+    this.store.setState(of({
+      ...this.store.getState(),
+      monitor: monitor,
+    }));
+  }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
 
 import {MonitorService} from './monitor.service';
@@ -18,6 +18,7 @@ export class MonitorContainerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.monitorService.setMonitor(null);
     const workshopId = Number(this.router.routerState.snapshot.root.children[0].paramMap.get('workshopId'));
     this.monitorService.getMonitor(workshopId);
   }
