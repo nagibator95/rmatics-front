@@ -10,17 +10,17 @@ import {Contest} from '../../core/stores/contest/types/contest.types';
 import {MessageResolverService} from './message-resolver.service';
 
 @Injectable()
-export class ContestResolverService implements Resolve<Contest> {
+export class AnotherContestResolverService implements Resolve<Contest> {
   constructor(private router: Router,
               private store$: Store<any>,
               private message: MessageResolverService) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Contest> {
     this.store$.dispatch(new ContestActions.GetContest(Number(route.params.contestId)));
-    return this.waitForContestToDownload();
+    return this.waitForContestToDownload(Number(route.params.problemId));
   }
 
-  waitForContestToDownload(): Observable<Contest> {
+  waitForContestToDownload(problemId: number): Observable<Contest> {
     return this.store$.pipe(select(ContestSelectors.getContest()))
       .pipe(
         filter(contest => !!contest),
@@ -28,7 +28,7 @@ export class ContestResolverService implements Resolve<Contest> {
         tap(contest => {
           const problems = contest.problems;
           if (!this.message.isNavigated) {
-            this.router.navigate([problems[0].href]).then(() => this.message.isNavigated = true);
+            this.router.navigate([problems.filter(problem => problem.id === problemId)[0].href]).then(() => this.message.isNavigated = true);
           }
         }),
       );
