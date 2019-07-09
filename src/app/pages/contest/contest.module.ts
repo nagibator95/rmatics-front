@@ -8,6 +8,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { ControlsModule } from '../../ui/controls/controls.module';
 import { UiModule } from '../../ui/ui.module';
 
+import {AnotherContestResolverService} from './another-contest-resolver.service';
 import { CodeBlockComponent } from './code-block/code-block.component';
 import {ContestGuardService} from './contest-guard.service';
 import { ContestMenuComponent } from './contest-menu/contest-menu.component';
@@ -42,6 +43,7 @@ const routes: Routes = [
   {
     path: ':contestId/problem/:problemId',
     component: ContestComponent,
+    resolve: { newMessage: AnotherContestResolverService},
   },
 ];
 
@@ -84,6 +86,7 @@ const routes: Routes = [
     ContestService,
     SubmissionService,
     ContestGuardService,
+    AnotherContestResolverService,
     ContestResolverService,
   ],
 })
