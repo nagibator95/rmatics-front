@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -50,7 +50,7 @@ export class SubmissionComponent extends ModalContent<SubmissionComponentInput> 
   ];
   private readonly destroy$ = new Subject();
 
-  constructor(private store$: Store<any>) {
+  constructor(private store$: Store<any>, private cd: ChangeDetectorRef) {
     super();
   }
 
@@ -79,6 +79,8 @@ export class SubmissionComponent extends ModalContent<SubmissionComponentInput> 
             current: false,
           },
         ];
+
+        this.cd.markForCheck();
       }
     });
   }
