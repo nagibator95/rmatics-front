@@ -39,6 +39,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   routeChangeSubscription: Subscription;
   uploadRemoveSubscription: Subscription;
 
+  isTimerInitiated = false;
   timer = '';
   interval: any = null;
   currentTaskId = 0;
@@ -92,7 +93,10 @@ export class ContestComponent implements OnInit, OnDestroy {
     });
 
     this.contestData.subscribe(data => {
-      this.interval = this.startTimer(ContestComponent.prepareDuration(data.isVirtual, data.createdAt, data.virtualDuration, data.timeStop));
+      if (data && !this.isTimerInitiated) {
+        this.isTimerInitiated = true;
+        this.interval = this.startTimer(ContestComponent.prepareDuration(data.isVirtual, data.createdAt, data.virtualDuration, data.timeStop));
+      }
     });
   }
 
@@ -125,7 +129,7 @@ export class ContestComponent implements OnInit, OnDestroy {
     let timer = duration;
     this.tick(timer--);
 
-    const interval = setInterval(() => {
+    const run = () => {
       this.tick(timer);
 
       if (timer - 1 < 0) {
@@ -133,7 +137,11 @@ export class ContestComponent implements OnInit, OnDestroy {
       } else {
         timer--;
       }
-    }, 1000);
+
+      setTimeout(run, 1000);
+    };
+
+    const interval = setTimeout(run, 1000);
 
     return interval;
   }
@@ -148,7 +156,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   private finishTimer(interval: any) {
-    clearInterval(interval);
+    clearTimeout(interval);
     this.timer = '';
   }
 }
