@@ -6,7 +6,7 @@
     meetingLink=""
     [timer]="timer"
     [contest]="contest.name"
-    [tasks]="contest.problems"
+    [tasks]="contest.problems.sort(this.compare)"
     [currentTaskId]="currentTaskId"
   ></app-contest-menu>
 
