@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import { Tab } from 'src/app/ui/tabs/tabs.component';
 
@@ -20,7 +20,6 @@ export class MonitorComponent implements OnInit {
     {
       text: 'Содержание',
       id: 'content',
-      current: true,
     },
     {
       text: 'Результаты',
@@ -29,15 +28,22 @@ export class MonitorComponent implements OnInit {
   ];
   workshop = this.workshopService.workshop;
 
-  constructor(private route: ActivatedRoute, private store$: Store<any>, private workshopService: WorkshopService) {}
+  constructor(private route: ActivatedRoute, private store$: Store<any>, private workshopService: WorkshopService, private router: Router) {}
 
   ngOnInit() {
     this.workshopId = Number(this.route.snapshot.paramMap.get('workshopId'));
+    this.activeTab = this.router.url.includes('content') ? 'content' : 'results';
+    this.initTabs();
     this.workshop.subscribe(value => console.log(value));
   }
 
   onTabClick(id: string) {
     this.activeTab = id;
     this.store$.dispatch(new RouterActions.Go({path: [`workshop/${this.workshopId}/${id}`]}));
+  }
+
+  initTabs() {
+    this.tabs[0].current = this.activeTab === 'content';
+    this.tabs[1].current = this.activeTab === 'results';
   }
 }
