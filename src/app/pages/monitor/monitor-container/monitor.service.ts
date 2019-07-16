@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiResponse } from 'src/app/core/stores/auth/models/apiResponse.model';
 import { ContestApi } from 'src/app/shared/types/contest.types';
 import { Store } from 'src/app/utils/Store';
 import { environment } from 'src/environments/environment';
+
+import {formatLetter} from '../../../core/stores/contest/util/util';
 
 import {
   MonitorApi,
@@ -55,18 +56,18 @@ const memoContest = () => {
 }
 
 const formatProblems = (contests: ContestApi[]): TableProblem[] =>
-  contests.reduce((memo: TableProblem[], contest) => {
+  contests.sort((contest1, contest2) => contest1.position - contest2.position).reduce((memo: TableProblem[], contest) => {
     contest.statement.problems.forEach((problem, index: number) => {
       memo.push({
         contestId: contest.id,
         id: problem.id,
-        name: `${contest.position}${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[index]}`,
+        name: `${contest.position + 1}${formatLetter(index)}`,
         detailed: {
           fullname: `Задача №${problem.id}. ${problem.name}`,
           contestName: contest.statement.name,
           summary: contest.statement.summary,
         },
-      })
+      });
     });
     return memo;
   }, []);
