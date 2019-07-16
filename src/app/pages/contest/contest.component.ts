@@ -131,7 +131,7 @@ export class ContestComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new ContestActions.ClearFileError());
   }
 
-  compare(problem1: ContestProblem, problem2: ContestProblem): boolean {
+  compare(problem1: ContestProblem, problem2: ContestProblem) {
     return problem1.rank - problem2.rank;
   }
 
