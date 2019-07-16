@@ -74,7 +74,7 @@ export const formatProtocol = (protocol: RunProtocolApi): RunProtocol => ({
 
     return {
       id,
-      status: protocol.tests[id].string_status,
+      status: protocol.tests[id].status,
       time: protocol.tests[id].time,
       realTime: protocol.tests[id].real_time,
       memory: protocol.tests[id].max_memory_used,
