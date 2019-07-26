@@ -49,7 +49,9 @@
             "styles": [
               "src/styles/main.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/app/shared/jsMath/easy/load.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {

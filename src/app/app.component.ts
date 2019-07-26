@@ -21,10 +21,6 @@ export class AppComponent implements OnInit {
       .subscribe( navEnd => {
         if ((navEnd as NavigationEnd).urlAfterRedirects.substring(0, 21) !== '/auth/change-password' && this.isInitialLoading) {
           this.auth.initUser();
-          const newScript = document.createElement('script');
-          newScript.setAttribute('src', './app/shared/jsMath/easy/load.js');
-
-          document.head.appendChild(newScript);
           this.isInitialLoading = false;
         }
       });
