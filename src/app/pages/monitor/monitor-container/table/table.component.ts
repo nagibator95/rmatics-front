@@ -4,6 +4,7 @@ import {
   ElementRef,
   HostListener,
   Input,
+  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
@@ -11,6 +12,7 @@ import {
 
 import { TableProblem, TableType, TableUser } from '../monitor.types';
 import { nameCompare, problemCompare, totalScoreCompare } from '../table-sort';
+import {TableSortService} from '../table-sort.service';
 
 type TooltipData = {
   contestName: string,
@@ -35,7 +37,7 @@ type SortState = {
   styleUrls: ['./table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnDestroy {
   @Input() problems: TableProblem[] = [];
   @Input() users: TableUser[] = [];
   @Input() type: TableType = TableType.IOI;
@@ -52,9 +54,23 @@ export class TableComponent implements OnInit {
     reverse: false,
   }
 
-  constructor() { }
+  constructor(private sortTableService: TableSortService) {}
 
   ngOnInit() {
+    if (this.sortTableService.isSortSaved && this.getSortState()) {
+      console.log('sortSaved');
+      const state = this.getSortState();
+      this.sortState = {
+        fieldId: state.fieldId,
+        reverse: !state.reverse,
+      };
+
+      this.sortTable(this.sortState.fieldId);
+    }
+  }
+
+  ngOnDestroy() {
+    this.sortTableService.isSortSaved = false;
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove($event: MouseEvent) {
@@ -143,11 +159,20 @@ export class TableComponent implements OnInit {
     this.sortState = {
       fieldId: id,
       reverse,
-    }
+    };
+
+    this.setSortState(this.sortState);
   }
 
   isReversed(id: string | number): boolean {
     return this.sortState.fieldId === id && this.sortState.reverse;
   }
 
+  private setSortState(state: SortState) {
+    localStorage.setItem('sortState', JSON.stringify(state));
+  }
+
+  private getSortState(): SortState {
+    return JSON.parse(localStorage.getItem('sortState')) as SortState;
+  }
 }
