@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiResponse } from 'src/app/core/stores/auth/models/apiResponse.model';
 import { Store } from 'src/app/utils/Store';
@@ -30,9 +30,9 @@ export class WorkshopService {
   private store = new Store<WorkshopState>(initialState);
   workshop = this.store.state.pipe(map(state => state.workshop));
   isFetching = this.store.state.pipe(map(state => state.isFetching));
+  joinMessage = new BehaviorSubject<string>('');
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getWorkshop(workshopId: number) {
     this.clearWorkShop();

@@ -1,9 +1,18 @@
 <div class="app-container">
-  <app-white-block>
-    <h1 *ngIf="(workshop | async)" class="title">{{(workshop | async).name}}</h1>
-    <app-tabs class="tabs" [tabs]="tabs" (tabClick)="onTabClick($event)">
-      <button><app-icon icon="fullscreen" width="20" height="20"></app-icon></button>
-    </app-tabs>
-    <router-outlet></router-outlet>
-  </app-white-block>
+  <div *ngIf="!(joinMessage | async); else message">
+    <app-white-block>
+      <h1 *ngIf="(workshop | async)" class="title">{{(workshop | async).name}}</h1>
+      <app-tabs class="tabs" [tabs]="tabs" (tabClick)="onTabClick($event)">
+        <button><app-icon icon="fullscreen" width="20" height="20"></app-icon></button>
+      </app-tabs>
+      <router-outlet></router-outlet>
+    </app-white-block>
+  </div>
 </div>
+<ng-template #message>
+  <div class="join-message">
+    <div class="message-cont">
+      {{joinMessage | async}}
+    </div>
+  </div>
+</ng-template>

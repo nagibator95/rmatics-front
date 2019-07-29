@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UiModule } from 'src/app/ui/ui.module';
 
+import { JoinComponent } from './join/join.component';
 import { MonitorComponent } from './monitor.component';
 
 const routes: Routes = [
@@ -25,11 +26,16 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'join',
+    component: JoinComponent,
+  },
 ];
 
 @NgModule({
   declarations: [
     MonitorComponent,
+    JoinComponent,
   ],
   imports: [
     CommonModule,
