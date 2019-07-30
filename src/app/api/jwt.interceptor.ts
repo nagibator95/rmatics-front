@@ -63,7 +63,7 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   private isHeaderRequired(request: HttpRequest<any>) {
-    return (request.url.includes(environment.apiUrl) || request.url.includes('http://85.93.88.189:12343/api/v1')) && authPaths.every(path => !request.url.includes(path));
+    return request.url.includes(environment.apiUrl) && authPaths.every(path => !request.url.includes(path));
   }
 
   private refreshTokenExpired() {
