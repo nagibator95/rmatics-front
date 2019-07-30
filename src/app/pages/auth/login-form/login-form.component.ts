@@ -90,7 +90,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     const queryParams = link.split('?')[1];
     const params = queryParams.split('&');
     let pair = null;
-    const data = {};
+    const data = {} as any;
     params.forEach(d => {
       pair = d.split('=');
       data[`${pair[0]}`] = pair[1];
