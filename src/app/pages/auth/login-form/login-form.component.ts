@@ -72,11 +72,29 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         )
         .subscribe(() => {
           if (this.auth.redirectUrl) {
+            let queryParams = {};
+            if (this.auth.redirectUrl.split('?').length > 1) {
+              queryParams = this.sortParams(this.auth.redirectUrl);
+            }
+
             this.store$.dispatch(new RouterActions.Go({
-              path: [this.auth.redirectUrl],
+              path: [this.auth.redirectUrl.split('?')[0]],
+              queryParams,
             }));
           }
         });
     }
+  }
+
+  private sortParams(link: string): any {
+    const queryParams = link.split('?')[1];
+    const params = queryParams.split('&');
+    let pair = null;
+    const data = {} as any;
+    params.forEach(d => {
+      pair = d.split('=');
+      data[`${pair[0]}`] = pair[1];
+    });
+    return data;
   }
 }
