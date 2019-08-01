@@ -14,28 +14,28 @@ import { TableProblem, TableType, TableUser } from '../monitor.types';
 import { nameCompare, problemCompare, totalScoreCompare } from '../table-sort';
 import {TableSortService} from '../table-sort.service';
 
-type TooltipData = {
-  contestName: string,
-  fullname: string,
-  summary: string,
-};
+interface TooltipData {
+  contestName: string;
+  fullname: string;
+  summary: string;
+}
 
-type TooltipPosition = {
-  top: number,
-  left: number,
-  orientation: 'right' | 'left',
-};
+interface TooltipPosition {
+  top: number;
+  left: number;
+  orientation: 'right' | 'left';
+}
 
-type SortState = {
-  fieldId: string | number,
-  reverse: boolean,
+interface SortState {
+  fieldId: string | number;
+  reverse: boolean;
 }
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent implements OnInit, OnDestroy {
   @Input() problems: TableProblem[] = [];
@@ -52,7 +52,7 @@ export class TableComponent implements OnInit, OnDestroy {
   sortState: SortState = {
     fieldId: 'totalScore',
     reverse: false,
-  }
+  };
 
   constructor(private sortTableService: TableSortService) {}
 
@@ -92,10 +92,10 @@ export class TableComponent implements OnInit, OnDestroy {
         )
       ) {
         col.nativeElement.classList.add('col_highlighted');
-        if (status) status.classList.add('_highlighted');
+        if (status) { status.classList.add('_highlighted'); }
       } else {
         col.nativeElement.classList.remove('col_highlighted', 'col_hover');
-        if (status) status.classList.remove('_highlighted');
+        if (status) { status.classList.remove('_highlighted'); }
       }
     });
 
@@ -108,8 +108,8 @@ export class TableComponent implements OnInit, OnDestroy {
     this.cols.forEach(col => {
       const status = col.nativeElement.querySelector('app-status');
       col.nativeElement.classList.remove('col_highlighted', 'col_hover');
-      if (status) status.classList.remove('_highlighted');
-    })
+      if (status) { status.classList.remove('_highlighted'); }
+    });
   }
 
   onScroll(val: number) {
@@ -133,9 +133,9 @@ export class TableComponent implements OnInit, OnDestroy {
     const finalPosition: TooltipPosition = {
       top: top + button.offsetHeight - 8,
       left: toRight ? left + button.offsetWidth - tooltipOffset - tooltipWidth : offsetLeft,
-      orientation: toRight ? 'right' : 'left'
-    }
-  
+      orientation: toRight ? 'right' : 'left',
+    };
+
     this.tooltipPosition = finalPosition;
     this.tooltipData = data;
   }
@@ -166,6 +166,18 @@ export class TableComponent implements OnInit, OnDestroy {
 
   isReversed(id: string | number): boolean {
     return this.sortState.fieldId === id && this.sortState.reverse;
+  }
+
+  formatUserInfo(user: TableUser): string {
+    if (!user) {
+      return '';
+    }
+
+    if (user.school === 'school' || !user.school) {
+      return user.city;
+    }
+
+    return [user.school, user.city].join(', ');
   }
 
   private setSortState(state: SortState) {
