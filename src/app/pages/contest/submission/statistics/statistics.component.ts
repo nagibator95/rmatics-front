@@ -47,7 +47,7 @@ const reduceStatistics = (conditions: StatisticsConditions) => (memo: Statistics
   return { realTime, memory, firstFailedTest: { ...memo.firstFailedTest, testId: index }};
 };
 
-const handleSuccess = (statistics: Statistics, tests: Test[], conditions: StatisticsConditions): Statistics => {
+const handleSuccess = (statistics: Statistics, tests: Test[]): Statistics => {
   for (let i = 0; i < tests.length; i++) {
     if (tests[i].status !== 'OK') {
       statistics.firstFailedTest = {
@@ -91,6 +91,6 @@ export class StatisticsComponent implements OnInit {
     };
 
     this.statistics = this.tests.reduce(reduceStatistics(this.conditions), statisticsDefault);
-    this.statistics = handleSuccess(this.statistics, this.tests, this.conditions);
+    this.statistics = handleSuccess(this.statistics, this.tests);
   }
 }
