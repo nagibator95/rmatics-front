@@ -52,7 +52,7 @@ const handleSuccess = (statistics: Statistics, tests: Test[], conditions: Statis
     if (tests[i].status !== 'OK') {
       statistics.firstFailedTest = {
         ...statistics.firstFailedTest,
-        condition: conditions.content,
+        condition: '-',
         value: tests[i].status,
         testId: tests[i].id,
       };
