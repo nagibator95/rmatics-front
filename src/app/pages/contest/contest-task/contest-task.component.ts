@@ -8,6 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { ActivatedRoute} from '@angular/router';
 
 import { Problem, Submission} from '../../../core/stores/contest/types/contest.types';
 import { languages, Language } from '../../../shared/constants';
@@ -48,21 +49,23 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
   selectedLanguage: Language = { ...languages[0] } as Language;
   selectedFile?: File;
   formatBytes = formatBytes;
+  problemId: number;
+  contestId: number;
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.problemId = Number(this.route.snapshot.paramMap.get('problemId'));
+    this.contestId = Number(this.route.snapshot.paramMap.get('contestId'));
+
     const obj = JSON.parse(localStorage.getItem('code'));
-    if (obj !== null && obj[this.problem.id]) {
-      this.code = obj[this.problem.id];
+    if (obj !== null && obj[this.contestId] && obj[this.contestId][this.problemId]) {
+      this.code = obj[this.contestId][this.problemId];
     }
   }
 
   ngOnDestroy() {
-    const obj = JSON.parse(localStorage.getItem('code'));
-    obj[this.problem.id] = this.code;
-
-    localStorage.setItem('code', JSON.stringify(obj));
+    this.assertCode();
   }
 
   get minDataLines() {
@@ -85,5 +88,15 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
     });
 
     this.code = '';
+    this.assertCode();
+  }
+
+  private assertCode() {
+    let obj = JSON.parse(localStorage.getItem('code'));
+    obj = obj || {};
+    obj[this.contestId] = obj[this.contestId] || {};
+    obj[this.contestId][this.problemId] = this.code;
+
+    localStorage.setItem('code', JSON.stringify(obj));
   }
 }
