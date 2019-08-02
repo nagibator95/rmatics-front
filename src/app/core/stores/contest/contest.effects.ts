@@ -40,6 +40,7 @@ export class ContestEffects {
             timeStop: response.data.contest.time_stop,
             virtualDuration: response.data.contest.virtual_duration,
             isVirtual: response.data.contest.is_virtual,
+            workshopId: response.data.contest.workshop_id,
           }),
           new ContestActions.SetStatusCode(response.status_code),
           new ContestActions.SetStatus(response.status),

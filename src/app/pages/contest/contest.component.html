@@ -1,14 +1,16 @@
 <div class="app-container wrapper">
-  <app-contest-menu
-    *ngIf="(contest | async) as contest"
-    class="task-menu"
-    [meetingText]="contest.summary"
-    meetingLink=""
-    [timer]="timer"
-    [contest]="contest.name"
-    [tasks]="contest.problems.sort(this.compare)"
-    [currentTaskId]="currentTaskId"
-  ></app-contest-menu>
+  <ng-container *ngIf="workshop | async">
+    <app-contest-menu
+      *ngIf="(contest | async) as contest"
+      class="task-menu"
+      [meetingText]="contest.summary"
+      meetingLink=""
+      [timer]="timer"
+      [contest]="contest.name"
+      [tasks]="contest.problems.sort(this.compare)"
+      [currentTaskId]="currentTaskId"
+    ></app-contest-menu>
+  </ng-container>
 
   <app-white-block [border]="true" class="task" *ngIf="!(isFetching | async); else loading">
     <app-contest-task

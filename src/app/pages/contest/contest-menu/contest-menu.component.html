@@ -2,8 +2,9 @@
   <app-icon icon="collapse"></app-icon>
 </button>
 
-<ng-container *ngIf="!collapsed">
+<ng-container *ngIf="!collapsed && workshop | async">
   <span class="caption">Сборы</span>
+  <h3 class="title">{{(workshop | async).name}}</h3>
 
   <h3 class="title">
     <a class="app-link">{{meetingText}}</a>

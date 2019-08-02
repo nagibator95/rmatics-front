@@ -50,7 +50,6 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
   selectedFile?: File;
   formatBytes = formatBytes;
   problemId: number;
-  contestId: number;
 
   constructor(private route: ActivatedRoute) {}
 

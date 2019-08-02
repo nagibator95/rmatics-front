@@ -21,6 +21,7 @@ export interface ContestData {
   timeStop: string;
   virtualDuration: number;
   isVirtual: boolean;
+  workshopId: number;
 }
 
 export interface SubmissionState {

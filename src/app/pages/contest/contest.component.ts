@@ -22,6 +22,7 @@ import {
   Problem,
   Submission,
 } from '../../core/stores/contest/types/contest.types';
+import {WorkshopService} from '../monitor/workshop/workshop.service';
 
 import { ContestTaskComponent } from './contest-task/contest-task.component';
 
@@ -45,6 +46,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   routeChangeSubscription: Subscription;
   uploadRemoveSubscription: Subscription;
 
+  workshop = this.workshopService.workshop;
   isTimerInitiated = false;
   timer = '';
   interval: any = null;
@@ -54,7 +56,9 @@ export class ContestComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private store$: Store<any>) {}
+    private store$: Store<any>,
+    private workshopService: WorkshopService,
+    ) {}
 
   private static prepareDuration(isVirtual: boolean, createdAt: string, virtualDurationSeconds: number, timestop: string) {
     if (isVirtual) {
@@ -99,6 +103,7 @@ export class ContestComponent implements OnInit, OnDestroy {
 
     this.contestData.subscribe(data => {
       if (data && !this.isTimerInitiated) {
+        this.workshopService.getWorkshop(data.workshopId);
         this.isTimerInitiated = true;
         this.interval = this.startTimer(ContestComponent.prepareDuration(data.isVirtual, data.createdAt, data.virtualDuration, data.timeStop));
       }

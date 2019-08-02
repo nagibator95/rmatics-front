@@ -5,6 +5,8 @@ import {
   Input,
 } from '@angular/core';
 
+import {WorkshopService} from '../../monitor/workshop/workshop.service';
+
 interface Task {
   letter: string;
   text: string;
@@ -27,6 +29,9 @@ export class ContestMenuComponent {
   @Input() timer!: string;
   @Input() tasks!: Task[];
   @Input() currentTaskId = 1;
+  workshop = this.workshopService.workshop;
+
+  constructor(private workshopService: WorkshopService) {}
 
   toggleMenu = () => this.collapsed = !this.collapsed;
 }
