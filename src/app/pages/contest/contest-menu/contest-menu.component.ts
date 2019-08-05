@@ -38,6 +38,14 @@ export class ContestMenuComponent {
   toggleMenu = () => this.collapsed = !this.collapsed;
 
   onWorkshopTitleClicked(workshopId: number) {
-    this.store$.dispatch(new RouterActions.Go({path: [`workshop/${workshopId}`]}));
+    this.navigate(workshopId, 'content');
+  }
+
+  onResultsClicked(workshopId: number) {
+    this.navigate(workshopId, 'results');
+  }
+
+  private navigate(workshopId: number, tabName: string) {
+    this.store$.dispatch(new RouterActions.Go({path: [`workshop/${workshopId}/${tabName}`]}));
   }
 }
