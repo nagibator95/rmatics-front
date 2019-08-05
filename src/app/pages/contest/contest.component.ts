@@ -141,6 +141,11 @@ export class ContestComponent implements OnInit, OnDestroy {
 
   private startTimer(duration: number) {
     let timer = duration;
+    if (timer <= 0) {
+      this.finishTimer(null);
+      return null;
+    }
+
     this.tick(timer--);
 
     const run = () => {
@@ -171,6 +176,6 @@ export class ContestComponent implements OnInit, OnDestroy {
 
   private finishTimer(interval: any) {
     clearTimeout(interval);
-    this.timer = '';
+    this.timer = 'Контест завершен';
   }
 }
