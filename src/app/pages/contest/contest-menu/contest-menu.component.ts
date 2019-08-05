@@ -4,7 +4,9 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
+import {Store} from '@ngrx/store';
 
+import {RouterActions} from '../../../core/stores/router';
 import {WorkshopService} from '../../monitor/workshop/workshop.service';
 
 interface Task {
@@ -31,7 +33,11 @@ export class ContestMenuComponent {
   @Input() currentTaskId = 1;
   workshop = this.workshopService.workshop;
 
-  constructor(private workshopService: WorkshopService) {}
+  constructor(private workshopService: WorkshopService, private store$: Store<any>) {}
 
   toggleMenu = () => this.collapsed = !this.collapsed;
+
+  onWorkshopTitleClicked(workshopId: number) {
+    this.store$.dispatch(new RouterActions.Go({path: [`workshop/${workshopId}`]}));
+  }
 }

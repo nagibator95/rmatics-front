@@ -2,17 +2,19 @@
   <app-icon icon="collapse"></app-icon>
 </button>
 
-<ng-container *ngIf="!collapsed && workshop | async">
-  <span class="caption">Сборы</span>
-  <h3 class="title">{{(workshop | async).name}}</h3>
+<ng-container *ngIf="!collapsed">
+  <ng-container *ngIf="(workshop | async) as Workshop">
+    <span class="caption">Сборы</span>
+    <button class="title app-link" (click)="onWorkshopTitleClicked(Workshop.id)">{{Workshop.name}}</button>
 
-  <h3 class="title">
-    <a class="app-link">{{meetingText}}</a>
-  </h3>
+    <h3 class="title">
+      <a class="app-link">{{meetingText}}</a>
+    </h3>
 
-  <span class="caption">Контест закончится через:</span>
+    <span class="caption">Контест закончится через:</span>
 
-  <span class="timer">{{timer}}</span>
+    <span class="timer">{{timer}}</span>
+  </ng-container>
 </ng-container>
 
 <div class="tasks" [ngClass]="{'tasks_collapsed': collapsed}">
