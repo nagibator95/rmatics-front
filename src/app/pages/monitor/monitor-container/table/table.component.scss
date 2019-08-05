@@ -64,6 +64,7 @@
   &_sticky {
     position: sticky;
     background-color: white;
+    z-index: 1;
 
     &:first-child {
       left: 0;
