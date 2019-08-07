@@ -25,6 +25,7 @@ import {
 import {WorkshopService} from '../monitor/workshop/workshop.service';
 
 import { ContestTaskComponent } from './contest-task/contest-task.component';
+import {MessageResolverService} from './message-resolver.service';
 
 @Component({
   selector: 'app-contest',
@@ -58,6 +59,7 @@ export class ContestComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private store$: Store<any>,
     private workshopService: WorkshopService,
+    private message: MessageResolverService,
     ) {}
 
   private static prepareDuration(isVirtual: boolean, createdAt: string, virtualDurationSeconds: number, timestop: string) {
@@ -117,6 +119,7 @@ export class ContestComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new ContestActions.SetContest(null));
     localStorage.removeItem('code');
     this.finishTimer(this.interval);
+    this.message.isNavigated = false;
   }
 
   addSubmission(data: { file: File, languageId: number }) {
