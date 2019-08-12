@@ -1,0 +1,79 @@
+.show-label {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 18px;
+  /* identical to box height, or 129% */
+
+
+  color: #788195;
+  margin-bottom: 4px;
+}
+
+.select-container {
+  position: absolute;
+  width: 165px;
+  height: 404px;
+
+  background: #FFFFFF;
+
+  border: 1px solid #E7E8EA;
+  box-sizing: border-box;
+
+  box-shadow: 0px 8px 16px rgba(51, 51, 51, 0.2);
+  border-radius: 4px;
+  z-index: 100;
+}
+
+.inner-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.line {
+  height: 1px;
+  background: #E7E8EA;
+}
+
+.select-item {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  width: 163px;
+}
+
+.checkbox-select {
+  margin-left: 16px;
+}
+
+.select-all {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.apply-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  width: 165px;
+}
+
+.checkbox-zone {
+  flex-direction: column;
+  height: 340px;
+  width: 165px;
+  border-bottom: 1px solid #E7E8EA;
+  padding-bottom: 8px;
+  overflow-x: auto;
+}
+
+.apply-button {
+  width: 133px;
+  height: 40px;
+}
+
+.checkbox-item:hover {
+  background: rgba(243, 245, 247, 0.8);
+}

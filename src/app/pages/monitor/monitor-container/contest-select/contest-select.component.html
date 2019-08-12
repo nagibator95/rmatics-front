@@ -1,0 +1,12 @@
+<div class="show-label">Показать: </div>
+<div class="select-container">
+  <div class="inner-container">
+    <div class="checkbox-zone">
+      <div class="select-item select-all"><div class="checkbox-select"><app-checkbox>Все контесты</app-checkbox></div></div>
+      <div class="line"></div>
+
+      <div *ngFor="let index of contestIndexes" class="select-item checkbox-item"><div class="checkbox-select"><app-checkbox>{{index}}</app-checkbox></div></div>
+    </div>
+    <div class="apply-footer"><button class="app-button_primary apply-button">Применить</button></div>
+  </div>
+</div>
