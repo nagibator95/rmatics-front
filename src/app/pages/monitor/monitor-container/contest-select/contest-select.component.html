@@ -1,0 +1,46 @@
+<div class="main-container">
+  <div class="label-block">
+    <div class="show-label">Показать:</div>
+    <button
+      class="{{isDropDownShown ? 'app-link_icon-up' : 'app-link_icon-down'}}"
+      (click)="onDropDownButtonClicked()">{{isResetFilterNeeded ? contestCheckedNum() : 'Все контесты'}}
+    </button>
+    <button *ngIf="isResetFilterNeeded"
+      class="app-link reset-filter"
+      (click)="onResetButtonClicked()">Сбросить фильтр
+    </button>
+  </div>
+  <div *ngIf="isDropDownShown && contestIndexes.length" class="select-container">
+    <div class="inner-container">
+      <div class="checkbox-zone">
+        <div class="select-item select-all">
+          <div class="checkbox-select">
+            <app-checkbox
+              [checked]="isAllContestsChecked"
+              (change)="onAllContestsChange($event)">
+              Все контесты
+            </app-checkbox>
+          </div>
+        </div>
+        <div class="line"></div>
+        <div *ngFor="let index of contestIndexes"
+             class="select-item checkbox-item">
+          <div class="checkbox-select">
+            <app-checkbox
+              [checked]="state[index]"
+              (change)="onContestTickChange($event, index)">
+              {{nameMap[index]}}
+            </app-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="apply-footer">
+        <button
+          class="app-button_primary apply-button"
+          (click)="onApplyButtonClicked()">
+          Применить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
