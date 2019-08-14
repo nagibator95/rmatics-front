@@ -1,11 +1,18 @@
-<app-contest-select></app-contest-select>
-<app-table
-  *ngIf="(monitor | async) as monitor; else loader"
-  [ngClass]="'_type_' + monitor.type"
-  [problems]="monitor.problems"
-  [users]="monitor.users"
-  [type]="monitor.type"
-></app-table>
+<ng-container *ngIf="(monitor | async) as monitor; else loader">
+  <app-contest-select
+    *ngIf="contestIndexes.length"
+    [contestIndexes]="contestIndexes"
+    [problems]="monitor.problems"
+    (change)="onContestStateChanged($event)">
+  </app-contest-select>
+  <app-table
+    [ngClass]="'_type_' + monitor.type"
+    [problems]="monitor.problems"
+    [users]="monitor.users"
+    [type]="monitor.type"
+    [contestsState]="contestsState"
+  ></app-table>
+</ng-container>
 <ng-template #loader>
   <div class="loader">
     <app-loader></app-loader>

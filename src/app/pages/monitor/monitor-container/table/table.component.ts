@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -10,7 +11,8 @@ import {
   ViewChildren,
 } from '@angular/core';
 
-import { TableProblem, TableType, TableUser } from '../monitor.types';
+import {IContestsState} from '../contest-select/contest-select.component';
+import {TableProblem, TableType, TableUser} from '../monitor.types';
 import { nameCompare, problemCompare, totalScoreCompare } from '../table-sort';
 import {TableSortService} from '../table-sort.service';
 
@@ -38,8 +40,23 @@ interface SortState {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent implements OnInit, OnDestroy {
-  @Input() problems: TableProblem[] = [];
-  @Input() users: TableUser[] = [];
+  currentProblems: TableProblem[];
+  currentUsers: TableUser[];
+  isUpdating = false;
+
+  @Input() problems: TableProblem[];
+  @Input() users: TableUser[];
+
+  @Input()
+  set contestsState(state: IContestsState) {
+    if (!!state) {
+      this.isUpdating = true;
+      setTimeout(() => {
+        this.recalculateContests(state);
+      }, 100);
+    }
+  }
+
   @Input() type: TableType = TableType.IOI;
 
   @ViewChildren('col') private cols: QueryList<ElementRef<HTMLTableCellElement>> = new QueryList();
@@ -54,9 +71,12 @@ export class TableComponent implements OnInit, OnDestroy {
     reverse: false,
   };
 
-  constructor(private sortTableService: TableSortService) {}
+  constructor(private sortTableService: TableSortService, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
+    this.currentProblems = this.makeDeepCopyOf(this.problems);
+    this.currentUsers = this.makeDeepCopyOf(this.users);
+
     if (this.sortTableService.isSortSaved && this.getSortState()) {
       console.log('sortSaved');
       const state = this.getSortState();
@@ -149,11 +169,11 @@ export class TableComponent implements OnInit, OnDestroy {
 
     switch (id) {
       case 'name':
-        this.users.sort(nameCompare(reverse));
+        this.currentUsers.sort(nameCompare(reverse));
       case 'totalScore':
-        this.users.sort(totalScoreCompare(this.type, reverse));
+        this.currentUsers.sort(totalScoreCompare(this.type, reverse));
       default:
-        this.users.sort(problemCompare(this.problems.findIndex(problem => problem.id === id), reverse));
+        this.currentUsers.sort(problemCompare(this.currentProblems.findIndex(problem => problem.id === id), reverse));
     }
 
     this.sortState = {
@@ -186,5 +206,32 @@ export class TableComponent implements OnInit, OnDestroy {
 
   private getSortState(): SortState {
     return JSON.parse(localStorage.getItem('sortState')) as SortState;
+  }
+
+  private makeDeepCopyOf(entity: any): any {
+    return JSON.parse(JSON.stringify(entity));
+  }
+
+  private recalculateContests(state: IContestsState) {
+    const chosenContests = Object.keys(state).filter(id => !!state[id]).map(id => +id);
+
+    const indexes: number[] = [];
+
+    this.currentProblems = this.makeDeepCopyOf(this.problems.filter((problem, index) => {
+      const res = chosenContests.includes(problem.contestId);
+      if (res) {
+        indexes.push(index);
+      }
+
+      return res;
+    }));
+
+    this.currentUsers = this.makeDeepCopyOf(this.users);
+
+    this.users.forEach((user, index) => {
+      this.currentUsers[index].results = this.makeDeepCopyOf(user.results.filter((_, idx) => indexes.includes(idx)));
+    });
+    this.isUpdating = false;
+    this.cd.markForCheck();
   }
 }

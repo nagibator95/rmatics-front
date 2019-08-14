@@ -1,3 +1,16 @@
+.main-container{
+  margin-bottom: 16px;
+}
+
+.label-block{
+  display: flex;
+  flex-direction: row;
+}
+
+.reset-filter {
+  margin-left: 26px;
+}
+
 .show-label {
   font-family: Roboto;
   font-style: normal;
@@ -9,10 +22,12 @@
 
   color: #788195;
   margin-bottom: 4px;
+  margin-right: 4px;
 }
 
 .select-container {
-  position: absolute;
+  margin-left: 70px;
+  position: fixed;
   width: 165px;
   height: 404px;
 
