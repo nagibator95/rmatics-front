@@ -31,7 +31,6 @@
     "gulp-svg-sprite": "^1.4.0",
     "gulp-svgmin": "^1.2.4",
     "moment": "^2.24.0",
-    "pluralize-ru": "^1.0.1",
     "run-sequence": "^2.2.1",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",

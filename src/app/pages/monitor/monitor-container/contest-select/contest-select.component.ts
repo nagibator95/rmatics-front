@@ -29,8 +29,6 @@ export class ContestSelectComponent implements OnInit {
   state: IContestsState = {};
   currentState: IContestsState = {};
   isResetFilterNeeded = false;
-  // @ts-ignore
-  pluralize = require('pluralize-ru');
   nameMap: {[position: string]: number} = {};
 
   constructor() { }
@@ -92,7 +90,24 @@ export class ContestSelectComponent implements OnInit {
   contestCheckedNum(): string {
     const num: number = Object.values(this.currentState).filter(isChecked => isChecked).length;
 
-    return this.pluralize(num, '%d контестов', '%d контест', '%d контеста', '%d контестов');
+    return num + this.pluralize(num, [' контест', ' контеста', ' контестов']);
+  }
+
+  pluralize(value: number, [one, few, many]: string[]): string {
+    const ten = value % 10;
+    const hundred = value % 100;
+
+    // 1, 21, 101, 121, но не 11, 111, 211...
+    if (ten === 1 && hundred !== 11) {
+      return one;
+    }
+
+    // 2, 3, 4, 22, 33, 44, 152, 163, 174, но не 12, 13, 14, 112, 213, 314...
+    if (ten >= 2 && ten <= 4 && (hundred < 10 || hundred >= 20)) {
+      return few;
+    }
+
+    return many;
   }
 
   private toggleDropDown() {
