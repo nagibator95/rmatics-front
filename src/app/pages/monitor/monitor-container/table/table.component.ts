@@ -12,7 +12,8 @@ import {
 } from '@angular/core';
 
 import {IContestsState} from '../contest-select/contest-select.component';
-import {TableProblem, TableType, TableUser} from '../monitor.types';
+import {formatUsers} from '../monitor.service';
+import {MonitorApi, TableProblem, TableType, TableUser} from '../monitor.types';
 import { nameCompare, problemCompare, totalScoreCompare } from '../table-sort';
 import {TableSortService} from '../table-sort.service';
 
@@ -46,6 +47,7 @@ export class TableComponent implements OnInit, OnDestroy {
 
   @Input() problems: TableProblem[];
   @Input() users: TableUser[];
+  @Input() data: MonitorApi;
 
   @Input()
   set contestsState(state: IContestsState) {
@@ -214,23 +216,9 @@ export class TableComponent implements OnInit, OnDestroy {
 
   private recalculateContests(state: IContestsState) {
     const chosenContests = Object.keys(state).filter(id => !!state[id]).map(id => +id);
+    this.currentProblems = this.makeDeepCopyOf(this.problems.filter(problem => chosenContests.includes(problem.contestId)));
 
-    const indexes: number[] = [];
-
-    this.currentProblems = this.makeDeepCopyOf(this.problems.filter((problem, index) => {
-      const res = chosenContests.includes(problem.contestId);
-      if (res) {
-        indexes.push(index);
-      }
-
-      return res;
-    }));
-
-    this.currentUsers = this.makeDeepCopyOf(this.users);
-
-    this.users.forEach((user, index) => {
-      this.currentUsers[index].results = this.makeDeepCopyOf(user.results.filter((_, idx) => indexes.includes(idx)));
-    });
+    this.currentUsers = formatUsers(this.data, this.currentProblems);
     this.isUpdating = false;
     this.cd.markForCheck();
   }

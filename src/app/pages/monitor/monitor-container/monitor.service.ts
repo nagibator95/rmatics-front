@@ -26,6 +26,7 @@ interface MonitorState {
   error?: string;
   isFetching: boolean;
   monitor?: TableMonitor | null;
+  data?: MonitorApi | null;
 }
 
 interface BestResults {
@@ -72,7 +73,7 @@ const formatProblems = (contests: ContestApi[]): TableProblem[] =>
     return memo;
   }, []);
 
-const formatUsers = ({ users, results, type }: MonitorApi, problems: TableProblem[]): TableUser[] => {
+export const formatUsers = ({ users, results, type }: MonitorApi, problems: TableProblem[]): TableUser[] => {
   const getContestResults = memoContest();
 
   const bestResults: BestResults = problems.reduce((memo, problem) => {
@@ -162,6 +163,7 @@ const formatMonitor = (data: MonitorApi): TableMonitor => {
 export class MonitorService {
   private store = new Store<MonitorState>(initialState);
   monitor = this.store.state.pipe(map(state => state.monitor));
+  data = this.store.state.pipe(map(state => state.data));
   isFetching = this.store.state.pipe(map(state => state.isFetching));
 
   constructor(private http: HttpClient) {
@@ -179,6 +181,7 @@ export class MonitorService {
           statusCode: response.status_code,
           status: response.status,
           monitor: response.data ? formatMonitor(response.data) : null,
+          data: response.data || null,
         })),
         catchError((err) => {
           const {error = {}} = err;

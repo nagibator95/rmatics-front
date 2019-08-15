@@ -13,6 +13,7 @@ import {TableProblem} from './monitor.types';
 })
 export class MonitorContainerComponent implements OnInit {
   monitor = this.monitorService.monitor;
+  data = this.monitorService.data;
   initialProblems: TableProblem[] = [];
   contestsState: IContestsState;
   contestIndexes: number[];
