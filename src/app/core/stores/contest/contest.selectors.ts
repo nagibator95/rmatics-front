@@ -89,7 +89,10 @@ export function getProtocol() {
       const data = state.submissionState.protocol.data;
 
       if (data) {
-        data.compilerOutput = data.compilerOutput.trim();
+        if (data.compilerOutput) {
+          data.compilerOutput = data.compilerOutput.trim();
+        }
+
         return data;
       } else {
         return null;
