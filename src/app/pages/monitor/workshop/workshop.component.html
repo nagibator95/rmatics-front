@@ -3,7 +3,7 @@
     <div *ngFor="let contest of sortContests((workshop | async).contests)"
          class="flex-center paragraph"
          (click)="onContestClicked(contest)"
-    >{{contest.statement.name}}</div>
+    ><span class="text">{{contest.statement.name}}</span></div>
   </app-accordion>
 </div>
 <ng-template #loading>

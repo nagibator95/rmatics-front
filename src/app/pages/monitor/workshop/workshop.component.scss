@@ -21,3 +21,12 @@
   letter-spacing: normal;
   color: #2d3446;
 }
+
+.text {
+  font-size: 14px;
+  line-height: 1.29;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 32px);
+  color: var(--black);
+}
