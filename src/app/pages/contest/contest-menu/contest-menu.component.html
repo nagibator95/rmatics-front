@@ -7,9 +7,7 @@
     <span class="caption">Сборы</span>
     <button class="title workshop app-link" (click)="onWorkshopTitleClicked(Workshop.id)">{{Workshop.name}}</button>
 
-    <h3 class="title">
-      <a class="app-link">{{meetingText}}</a>
-    </h3>
+    <div class="title" [innerHtml]="safeHtml"></div>
 
     <span class="caption">Контест закончится через:</span>
 
