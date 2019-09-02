@@ -26,6 +26,7 @@
       [submissions]="submissions | async"
       [problem]="problem"
       [contestId]="courseId"
+      [languages]="(contestData | async).languages"
       (selectFile)="selectFile()"
       (getSubmissions)="getSubmissions($event)"
       (addSubmission)="addSubmission($event)"

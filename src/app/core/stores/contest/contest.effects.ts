@@ -41,6 +41,7 @@ export class ContestEffects {
             virtualDuration: response.data.contest.virtual_duration,
             isVirtual: response.data.contest.is_virtual,
             workshopId: response.data.contest.workshop_id,
+            languages: response.data.contest.languages,
           }),
           new ContestActions.SetStatusCode(response.status_code),
           new ContestActions.SetStatus(response.status),

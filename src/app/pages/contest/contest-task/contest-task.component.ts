@@ -11,7 +11,7 @@ import {
 import { ActivatedRoute} from '@angular/router';
 
 import { Problem, Submission} from '../../../core/stores/contest/types/contest.types';
-import { languages, Language } from '../../../shared/constants';
+import { Language } from '../../../shared/constants';
 import { UploadComponent } from '../../../ui/controls/upload/upload.component';
 import {formatBytes} from '../../../utils/formatBytes';
 
@@ -36,6 +36,7 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
   @Input() content = '';
   @Input() submissions: Submission[] = [];
   @Input() isSubmissionsFetching = false;
+  @Input() languages: Language[];
 
   @Output() selectFile = new EventEmitter();
   @Output() addSubmission = new EventEmitter();
@@ -44,9 +45,8 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
   @Output() pass = new EventEmitter();
 
   code = '';
-  languages = languages;
   showFileLoader = true;
-  selectedLanguage: Language = { ...languages[0] } as Language;
+  selectedLanguage: Language;
   selectedFile?: File;
   formatBytes = formatBytes;
   problemId: number;
@@ -56,6 +56,7 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.problemId = Number(this.route.snapshot.paramMap.get('problemId'));
     this.contestId = Number(this.route.snapshot.paramMap.get('contestId'));
+    this.selectedLanguage = { ...this.languages[0] } as Language;
 
     const obj = JSON.parse(localStorage.getItem('code'));
     if (obj !== null && obj[this.contestId] && obj[this.contestId][this.problemId]) {

@@ -7,6 +7,7 @@ export interface Language {
   id: number;
   title: string;
   mode: string | LanguageMode;
+  code?: number;
 }
 
 export const languages: Language[] = [
