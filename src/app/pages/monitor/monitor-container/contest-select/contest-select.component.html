@@ -2,11 +2,11 @@
   <div class="label-block">
     <div class="show-label">Показать:</div>
     <button
-      class="{{isDropDownShown ? 'app-link_icon-up' : 'app-link_icon-down'}}"
+      class="{{isDropDownShown ? 'app-link_icon-up' : 'app-link_icon-down'}} select-buttons"
       (click)="onDropDownButtonClicked()">{{isResetFilterNeeded ? contestCheckedNum() : 'Все контесты'}}
     </button>
     <button *ngIf="isResetFilterNeeded"
-      class="app-link reset-filter"
+      class="app-link reset-filter select-buttons"
       (click)="onResetButtonClicked()">Сбросить фильтр
     </button>
   </div>
