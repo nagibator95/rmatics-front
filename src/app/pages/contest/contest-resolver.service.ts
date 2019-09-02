@@ -6,6 +6,7 @@ import {filter, take, tap} from 'rxjs/operators';
 
 import {ContestActions, ContestSelectors} from '../../core/stores/contest';
 import {Contest, ContestProblem} from '../../core/stores/contest/types/contest.types';
+import {sortByRank} from '../../utils/sortByRank';
 
 import {MessageResolverService} from './message-resolver.service';
 
@@ -28,7 +29,8 @@ export class ContestResolverService implements Resolve<Contest> {
         tap(contest => {
           const problems = contest.problems;
           if (!this.message.isNavigated) {
-            this.router.navigate([problems.sort((problem1: ContestProblem, problem2: ContestProblem) => problem1.rank - problem2.rank)[0].href]).then(() => this.message.isNavigated = true);
+            const sortedProblems: ContestProblem[] = problems.sort(sortByRank);
+            this.router.navigate([sortedProblems[0].href]).then(() => this.message.isNavigated = true);
           }
         }),
       );
