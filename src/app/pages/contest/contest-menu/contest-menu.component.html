@@ -9,11 +9,13 @@
 
     <div class="title" [innerHtml]="safeHtml"></div>
 
-    <span class="caption">Контест закончится через:</span>
+    <ng-container *ngIf="timer !== contestFinished; else contestIsFinished">
+      <span class="caption">Контест закончится через:</span>
 
-    <span class="timer">{{timer}}</span>
+      <span class="timer">{{timer}}</span>
+    </ng-container>
 
-    <button class="title results app-link" (click)="onResultsClicked(Workshop.id)">Результаты</button>
+    <button class="title results app-link" (click)="onResultsClicked(Workshop.id)">Посмотреть результаты</button>
   </ng-container>
 </ng-container>
 
@@ -37,3 +39,7 @@
     </li>
   </ul>
 </div>
+
+<ng-template #contestIsFinished>
+  <span class="caption">{{timer}}</span>
+</ng-template>

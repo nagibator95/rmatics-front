@@ -13,6 +13,7 @@ import moment from 'moment';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
+import {CONTEST_TIME_FINISHED} from '../../core/constants/contestInfo';
 import {ContestActions, ContestSelectors} from '../../core/stores/contest';
 import {ContestData} from '../../core/stores/contest/models/models';
 import {
@@ -179,6 +180,6 @@ export class ContestComponent implements OnInit, OnDestroy {
 
   private finishTimer(interval: any) {
     clearTimeout(interval);
-    this.timer = 'Контест завершен';
+    this.timer = CONTEST_TIME_FINISHED;
   }
 }

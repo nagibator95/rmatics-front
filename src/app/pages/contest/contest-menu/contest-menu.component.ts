@@ -7,6 +7,7 @@ import {
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {Store} from '@ngrx/store';
 
+import {CONTEST_TIME_FINISHED} from '../../../core/constants/contestInfo';
 import {RouterActions} from '../../../core/stores/router';
 import {WorkshopService} from '../../monitor/workshop/workshop.service';
 
@@ -34,6 +35,7 @@ export class ContestMenuComponent implements OnInit {
   @Input() currentTaskId = 1;
   safeHtml: SafeHtml;
   workshop = this.workshopService.workshop;
+  contestFinished = CONTEST_TIME_FINISHED;
 
   constructor(private workshopService: WorkshopService, private store$: Store<any>, private sanitizer: DomSanitizer) {}
 
