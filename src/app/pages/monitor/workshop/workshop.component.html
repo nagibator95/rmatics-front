@@ -2,6 +2,7 @@
   <app-accordion [open]="true" titleMain="Общая информация">
     <div *ngFor="let contest of sortContests((workshop | async).contests)"
          class="flex-center paragraph"
+         [class.link]="hasContestStarted(contest.time_start)"
          (click)="onContestClicked(contest)"
     ><span class="text">{{contest.statement.name}}</span></div>
   </app-accordion>
