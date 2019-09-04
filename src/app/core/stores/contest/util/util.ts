@@ -51,7 +51,7 @@ export function formatLetter(index: number): string {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const lettersNum = letters.length;
 
-  return index < lettersNum ? letters[index] : letters[Math.trunc(index / lettersNum)] + letters[index % lettersNum];
+  return index < lettersNum ? letters[index] : letters[Math.trunc(index / lettersNum - 1)] + letters[index % lettersNum];
 }
 
 export const formatProblem = (problem: ProblemApi): Problem => ({
