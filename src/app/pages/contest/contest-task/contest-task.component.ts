@@ -37,16 +37,17 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
   @Input() submissions: Submission[] = [];
   @Input() isSubmissionsFetching = false;
   @Input() languages: Language[];
+  @Input() selectedLanguage: Language;
 
   @Output() selectFile = new EventEmitter();
   @Output() addSubmission = new EventEmitter();
   @Output() getSubmissions = new EventEmitter<number>();
   @Output() openSubmission = new EventEmitter();
   @Output() pass = new EventEmitter();
+  @Output() selectedLanguageChange = new EventEmitter<Language>();
 
   code = '';
   showFileLoader = true;
-  selectedLanguage: Language;
   selectedFile?: File;
   formatBytes = formatBytes;
   problemId: number;
@@ -56,7 +57,6 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.problemId = Number(this.route.snapshot.paramMap.get('problemId'));
     this.contestId = Number(this.route.snapshot.paramMap.get('contestId'));
-    this.selectedLanguage = { ...this.languages[0] } as Language;
 
     const obj = JSON.parse(localStorage.getItem('code'));
     if (obj !== null && obj[this.contestId] && obj[this.contestId][this.problemId]) {
@@ -89,6 +89,10 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
 
     this.code = '';
     this.assertCode();
+  }
+
+  onSelectedLanguageChanged(lang: Language) {
+    this.selectedLanguageChange.emit(lang);
   }
 
   private assertCode() {
