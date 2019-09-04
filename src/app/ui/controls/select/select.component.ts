@@ -21,11 +21,12 @@ import { map } from 'rxjs/operators';
 export class SelectComponent implements OnInit {
   @Input() items: any[] = [];
   @Input() value?: string | number = undefined;
-  @Output() valueChange = new EventEmitter<string | number>();
-  @Input() item?: any = undefined;
-  @Output() itemChange = new EventEmitter<any>();
   @Input() valueField = 'value';
   @Input() labelField = 'label';
+  @Input() item: any;
+
+  @Output() valueChange = new EventEmitter<string | number>();
+  @Output() itemChange = new EventEmitter<any>();
 
   selectedItem: any;
 
@@ -45,10 +46,10 @@ export class SelectComponent implements OnInit {
 
   ngOnInit() {
     if (this.items.length > 0) {
-      this.selectedItem = this.items[0];
+      this.selectedItem = this.item || this.items[0];
       this.value = this.selectedItem[this.valueField];
       this.valueChange.emit(this.value);
-      this.itemChange.emit(this.items[0]);
+      this.itemChange.emit(this.selectedItem);
     } else {
       this.selectedItem = {};
     }

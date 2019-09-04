@@ -36,7 +36,8 @@
   <h2 class="title-2">Решение</h2>
   <app-select
     class="select"
-    [(item)]="selectedLanguage"
+    [item]="selectedLanguage"
+    (itemChange)="onSelectedLanguageChanged($event)"
     labelField="title"
     valueField="id"
     [items]="languages">

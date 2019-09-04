@@ -23,6 +23,7 @@ import {
   Problem,
   Submission,
 } from '../../core/stores/contest/types/contest.types';
+import {Language} from '../../shared/constants';
 import {WorkshopService} from '../monitor/workshop/workshop.service';
 
 import { ContestTaskComponent } from './contest-task/contest-task.component';
@@ -53,6 +54,7 @@ export class ContestComponent implements OnInit, OnDestroy {
   timer = '';
   interval: any = null;
   currentTaskId = 0;
+  selectedLanguage: Language = null;
   private readonly destroy$ = new Subject();
 
   constructor(
@@ -121,6 +123,10 @@ export class ContestComponent implements OnInit, OnDestroy {
     localStorage.removeItem('code');
     this.finishTimer(this.interval);
     this.message.isNavigated = false;
+  }
+
+  onSelectedLanguageChanged(lang: Language) {
+    this.selectedLanguage = lang;
   }
 
   addSubmission(data: { file: File, languageId: number }) {

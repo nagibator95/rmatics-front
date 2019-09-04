@@ -27,11 +27,13 @@
       [problem]="problem"
       [contestId]="courseId"
       [languages]="(contestData | async).languages"
+      [isSubmissionsFetching]="isSubmissionsFetching"
+      [selectedLanguage]="selectedLanguage"
+      (selectedLanguageChange)="onSelectedLanguageChanged($event)"
       (selectFile)="selectFile()"
       (getSubmissions)="getSubmissions($event)"
       (addSubmission)="addSubmission($event)"
-      (openSubmission)="openSubmission($event)"
-      [isSubmissionsFetching]="isSubmissionsFetching">
+      (openSubmission)="openSubmission($event)">
     </app-contest-task>
 
     <app-contest-pagination
