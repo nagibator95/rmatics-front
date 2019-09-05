@@ -44,13 +44,14 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/vendor"
             ],
             "styles": [
               "src/styles/main.scss"
             ],
             "scripts": [
-              "src/app/shared/jsMath/easy/load.js"
+              "./node_modules/jsMath/easy/load.js"
             ],
             "es5BrowserSupport": true
           },

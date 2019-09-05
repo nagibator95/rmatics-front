@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "prepare": "cp -R ./node_modules/jsmath ./src/vendor",
+    "prestart": "npm run prepare",
     "start": "ng serve",
+    "prebuild": "npm run prepare",
     "build": "ng lint && ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -27,6 +30,7 @@
     "codemirror": "^5.44.0",
     "core-js": "^2.5.4",
     "dayjs": "^1.8.8",
+    "jsmath": "github:ivvan18/JSMath",
     "gulp": "^3.9.1",
     "gulp-svg-sprite": "^1.4.0",
     "gulp-svgmin": "^1.2.4",
