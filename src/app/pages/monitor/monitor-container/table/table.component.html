@@ -1,4 +1,4 @@
-<div class="scrollable" (scrollLeft)="onScroll($event)">
+<div *ngIf="!isUpdating; else loader" class="scrollable" (scrollLeft)="onScroll($event)">
   <table class="table">
 
     <thead class="thead">
@@ -21,7 +21,7 @@
         <th *ngIf="type === 'ACM'" class="col col_head col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
           <span class="cell cell_header">Штраф</span>
         </th>
-        <th *ngFor="let problem of problems" class="col col_head" #col>
+        <th *ngFor="let problem of currentProblems" class="col col_head" #col>
           <button
             class="cell cell_header cell_button"
             (mouseenter)="showTooltip($event, problem.detailed)"
@@ -36,7 +36,7 @@
     </thead>
   
     <tbody class="tbody">
-      <tr *ngFor="let user of users">
+      <tr *ngFor="let user of currentUsers">
         <td class="col col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
           <div class="cell">
             {{user.rating}}
@@ -46,7 +46,7 @@
           <div class="cell">
             <div class="participator">
               <span class="participator-name">{{user.lastname}} {{user.firstname}}</span>
-              <span class="secondary-text">{{user.school}}, {{user.city}}</span>
+              <span class="secondary-text">{{formatUserInfo(user)}}</span>
             </div>
           </div>
         </td>
@@ -99,5 +99,10 @@
     {{tooltipData.fullname}}
   </div>
   <p class="secondary-text secondary-text_default tooltip-block">{{tooltipData.summary}}</p>
-
 </div>
+
+<ng-template #loader>
+  <div class="loader">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

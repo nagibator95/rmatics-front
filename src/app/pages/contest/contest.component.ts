@@ -13,6 +13,7 @@ import moment from 'moment';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
+import {CONTEST_TIME_FINISHED} from '../../core/constants/contestInfo';
 import {ContestActions, ContestSelectors} from '../../core/stores/contest';
 import {ContestData} from '../../core/stores/contest/models/models';
 import {
@@ -22,8 +23,11 @@ import {
   Problem,
   Submission,
 } from '../../core/stores/contest/types/contest.types';
+import {Language} from '../../shared/constants';
+import {WorkshopService} from '../monitor/workshop/workshop.service';
 
 import { ContestTaskComponent } from './contest-task/contest-task.component';
+import {MessageResolverService} from './message-resolver.service';
 
 @Component({
   selector: 'app-contest',
@@ -45,16 +49,21 @@ export class ContestComponent implements OnInit, OnDestroy {
   routeChangeSubscription: Subscription;
   uploadRemoveSubscription: Subscription;
 
+  workshop = this.workshopService.workshop;
   isTimerInitiated = false;
   timer = '';
   interval: any = null;
   currentTaskId = 0;
+  selectedLanguage: Language = null;
   private readonly destroy$ = new Subject();
 
   constructor(
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private store$: Store<any>) {}
+    private store$: Store<any>,
+    private workshopService: WorkshopService,
+    private message: MessageResolverService,
+    ) {}
 
   private static prepareDuration(isVirtual: boolean, createdAt: string, virtualDurationSeconds: number, timestop: string) {
     if (isVirtual) {
@@ -73,7 +82,6 @@ export class ContestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    localStorage.setItem('code', JSON.stringify({}));
     this.problem = this.store$.pipe(select(ContestSelectors.getProblem()), takeUntil(this.destroy$));
     this.contest = this.store$.pipe(select(ContestSelectors.getContest()), takeUntil(this.destroy$));
     this.contestData = this.store$.pipe(select(ContestSelectors.getContestData()), takeUntil(this.destroy$));
@@ -100,6 +108,7 @@ export class ContestComponent implements OnInit, OnDestroy {
 
     this.contestData.subscribe(data => {
       if (data && !this.isTimerInitiated) {
+        this.workshopService.getWorkshop(data.workshopId);
         this.isTimerInitiated = true;
         this.interval = this.startTimer(ContestComponent.prepareDuration(data.isVirtual, data.createdAt, data.virtualDuration, data.timeStop));
       }
@@ -113,6 +122,11 @@ export class ContestComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new ContestActions.SetContest(null));
     localStorage.removeItem('code');
     this.finishTimer(this.interval);
+    this.message.isNavigated = false;
+  }
+
+  onSelectedLanguageChanged(lang: Language) {
+    this.selectedLanguage = lang;
   }
 
   addSubmission(data: { file: File, languageId: number }) {
@@ -137,6 +151,11 @@ export class ContestComponent implements OnInit, OnDestroy {
 
   private startTimer(duration: number) {
     let timer = duration;
+    if (timer <= 0) {
+      this.finishTimer(null);
+      return null;
+    }
+
     this.tick(timer--);
 
     const run = () => {
@@ -167,6 +186,6 @@ export class ContestComponent implements OnInit, OnDestroy {
 
   private finishTimer(interval: any) {
     clearTimeout(interval);
-    this.timer = '';
+    this.timer = CONTEST_TIME_FINISHED;
   }
 }

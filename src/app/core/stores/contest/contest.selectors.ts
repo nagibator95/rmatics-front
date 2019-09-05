@@ -85,7 +85,19 @@ export function getAreCommentsFetching() {
 export function getProtocol() {
   return createSelector(
     featureSelector,
-    state => state.submissionState.protocol.data || null,
+    state => {
+      const data = state.submissionState.protocol.data;
+
+      if (data) {
+        if (data.compilerOutput) {
+          data.compilerOutput = data.compilerOutput.trim();
+        }
+
+        return data;
+      } else {
+        return null;
+      }
+    },
   );
 }
 

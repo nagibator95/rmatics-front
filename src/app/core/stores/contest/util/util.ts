@@ -47,11 +47,11 @@ export const formatContest = (contest: StatementApi, courseId: number): Contest 
   })),
 });
 
-function formatLetter(index: number): string {
-  const letters = 'abcdefghijklmnopqrstuvwxyz';
+export function formatLetter(index: number): string {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const lettersNum = letters.length;
 
-  return index < lettersNum ? letters[index] : letters[Math.trunc(index / lettersNum)] + letters[index % lettersNum];
+  return index < lettersNum ? letters[index] : letters[Math.trunc(index / lettersNum - 1)] + letters[index % lettersNum];
 }
 
 export const formatProblem = (problem: ProblemApi): Problem => ({
@@ -74,7 +74,7 @@ export const formatProtocol = (protocol: RunProtocolApi): RunProtocol => ({
 
     return {
       id,
-      status: protocol.tests[id].string_status,
+      status: protocol.tests[id].status,
       time: protocol.tests[id].time,
       realTime: protocol.tests[id].real_time,
       memory: protocol.tests[id].max_memory_used,

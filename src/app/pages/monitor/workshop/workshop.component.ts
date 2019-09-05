@@ -33,8 +33,14 @@ export class WorkshopComponent implements OnInit, OnDestroy {
   }
 
   onContestClicked(contest: ContestApi) {
-    this.workshopService.setFetching(true);
-    this.router.navigate(['contest', contest.id]);
+    if (this.hasContestStarted(contest.time_start)) {
+      this.workshopService.setFetching(true);
+      this.router.navigate(['contest', contest.id]);
+    }
+  }
+
+  hasContestStarted(time: string) {
+    return new Date(time) < new Date();
   }
 
   sortContests(contests: ContestApi[]): ContestApi[] {

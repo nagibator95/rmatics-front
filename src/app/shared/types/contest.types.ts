@@ -1,3 +1,5 @@
+import {Language} from '../constants';
+
 export interface ContestApi {
   id: number;
   workshop_id: number;
@@ -6,6 +8,7 @@ export interface ContestApi {
   time_stop: string;
   is_virtual: boolean;
   virtual_duration: number;
+  languages: Language[];
   statement: StatementApi;
 }
 

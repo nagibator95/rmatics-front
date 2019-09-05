@@ -3,15 +3,20 @@
 </button>
 
 <ng-container *ngIf="!collapsed">
-  <span class="caption">Сборы</span>
+  <ng-container *ngIf="(workshop | async) as Workshop">
+    <span class="caption">Сборы</span>
+    <button class="title workshop app-link" (click)="onWorkshopTitleClicked(Workshop.id)">{{Workshop.name}}</button>
 
-  <h3 class="title">
-    <a class="app-link">{{meetingText}}</a>
-  </h3>
+    <div class="title" [innerHtml]="safeHtml"></div>
 
-  <span class="caption">Контест закончится через:</span>
+    <ng-container *ngIf="timer !== contestFinished; else contestIsFinished">
+      <span class="caption">Контест закончится через:</span>
 
-  <span class="timer">{{timer}}</span>
+      <span class="timer">{{timer}}</span>
+    </ng-container>
+
+    <button class="title results app-link" (click)="onResultsClicked(Workshop.id)">Посмотреть результаты</button>
+  </ng-container>
 </ng-container>
 
 <div class="tasks" [ngClass]="{'tasks_collapsed': collapsed}">
@@ -34,3 +39,7 @@
     </li>
   </ul>
 </div>
+
+<ng-template #contestIsFinished>
+  <span class="caption">{{timer}}</span>
+</ng-template>

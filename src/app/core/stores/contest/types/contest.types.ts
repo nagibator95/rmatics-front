@@ -12,7 +12,7 @@ export type PackageStatus =
   'DQ' |
   'PT' |
   'PD' |
-  'RT' |
+  'RE' |
   'TL' |
   'PE' |
   'WA' |
@@ -22,7 +22,7 @@ export type PackageStatus =
   'RU' |
   'CG' |
   'AW' |
-  'RE';
+  'RP';
 
 export enum PackageStatusEnum {
   'OK' = 0,
@@ -34,7 +34,7 @@ export enum PackageStatusEnum {
   'DQ' = 10,
   'PT' = 7,
   'PD' = 11,
-  'RT' = 2,
+  'RE' = 2,
   'TL' = 3,
   'PE' = 4,
   'WA' = 5,
@@ -44,7 +44,7 @@ export enum PackageStatusEnum {
   'RU' = 96,
   'CG' = 98,
   'AW' = 377,
-  'RE' = 502,
+  'RP' = 502,
 }
 
 export interface ContestConnectionApi {

@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiResponse } from 'src/app/core/stores/auth/models/apiResponse.model';
 import { ContestApi } from 'src/app/shared/types/contest.types';
 import { Store } from 'src/app/utils/Store';
 import { environment } from 'src/environments/environment';
+
+import {formatLetter} from '../../../core/stores/contest/util/util';
 
 import {
   MonitorApi,
@@ -25,6 +26,7 @@ interface MonitorState {
   error?: string;
   isFetching: boolean;
   monitor?: TableMonitor | null;
+  data?: MonitorApi | null;
 }
 
 interface BestResults {
@@ -55,23 +57,23 @@ const memoContest = () => {
 }
 
 const formatProblems = (contests: ContestApi[]): TableProblem[] =>
-  contests.reduce((memo: TableProblem[], contest) => {
+  contests.sort((contest1, contest2) => contest1.position - contest2.position).reduce((memo: TableProblem[], contest) => {
     contest.statement.problems.forEach((problem, index: number) => {
       memo.push({
         contestId: contest.id,
         id: problem.id,
-        name: `${contest.position}${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[index]}`,
+        name: `${contest.position + 1}${formatLetter(index)}`,
         detailed: {
           fullname: `Задача №${problem.id}. ${problem.name}`,
           contestName: contest.statement.name,
           summary: contest.statement.summary,
         },
-      })
+      });
     });
     return memo;
   }, []);
 
-const formatUsers = ({ users, results, type }: MonitorApi, problems: TableProblem[]): TableUser[] => {
+export const formatUsers = ({ users, results, type }: MonitorApi, problems: TableProblem[]): TableUser[] => {
   const getContestResults = memoContest();
 
   const bestResults: BestResults = problems.reduce((memo, problem) => {
@@ -161,6 +163,7 @@ const formatMonitor = (data: MonitorApi): TableMonitor => {
 export class MonitorService {
   private store = new Store<MonitorState>(initialState);
   monitor = this.store.state.pipe(map(state => state.monitor));
+  data = this.store.state.pipe(map(state => state.data));
   isFetching = this.store.state.pipe(map(state => state.isFetching));
 
   constructor(private http: HttpClient) {
@@ -178,6 +181,7 @@ export class MonitorService {
           statusCode: response.status_code,
           status: response.status,
           monitor: response.data ? formatMonitor(response.data) : null,
+          data: response.data || null,
         })),
         catchError((err) => {
           const {error = {}} = err;

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store} from '@ngrx/store';
 import { Subject} from 'rxjs';
@@ -22,7 +22,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   error = '';
   isFetching = false;
 
-  constructor(private fb: FormBuilder, private store$: Store<any>, private auth: NewAuthService) {}
+  constructor(private fb: FormBuilder, private store$: Store<any>, private auth: NewAuthService, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group(
@@ -66,17 +66,38 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
       this.auth.login({username: this.login.value, password: this.password.value})
         .pipe(
-          finalize(() => this.isFetching = false),
+          finalize(() => {
+            this.isFetching = false;
+            this.cd.markForCheck();
+          }),
           takeUntil(this.destroy$),
           catchError(response => this.error = response.error.error),
         )
         .subscribe(() => {
           if (this.auth.redirectUrl) {
+            let queryParams = {};
+            if (this.auth.redirectUrl.split('?').length > 1) {
+              queryParams = this.sortParams(this.auth.redirectUrl);
+            }
+
             this.store$.dispatch(new RouterActions.Go({
-              path: [this.auth.redirectUrl],
+              path: [this.auth.redirectUrl.split('?')[0]],
+              queryParams,
             }));
           }
         });
     }
+  }
+
+  private sortParams(link: string): any {
+    const queryParams = link.split('?')[1];
+    const params = queryParams.split('&');
+    let pair = null;
+    const data = {} as any;
+    params.forEach(d => {
+      pair = d.split('=');
+      data[`${pair[0]}`] = pair[1];
+    });
+    return data;
   }
 }

@@ -1,4 +1,5 @@
 import {RunComment, RunProtocol, RunSource} from '../../../../pages/contest/contest.types';
+import {Language} from '../../../../shared/constants';
 import {Contest, Problem, Submission} from '../types/contest.types';
 
 export interface ContestState {
@@ -21,6 +22,8 @@ export interface ContestData {
   timeStop: string;
   virtualDuration: number;
   isVirtual: boolean;
+  workshopId: number;
+  languages: Language[];
 }
 
 export interface SubmissionState {

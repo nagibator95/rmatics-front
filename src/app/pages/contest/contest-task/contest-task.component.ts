@@ -8,9 +8,10 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { ActivatedRoute} from '@angular/router';
 
 import { Problem, Submission} from '../../../core/stores/contest/types/contest.types';
-import { languages, Language } from '../../../shared/constants';
+import { Language } from '../../../shared/constants';
 import { UploadComponent } from '../../../ui/controls/upload/upload.component';
 import {formatBytes} from '../../../utils/formatBytes';
 
@@ -35,34 +36,36 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
   @Input() content = '';
   @Input() submissions: Submission[] = [];
   @Input() isSubmissionsFetching = false;
+  @Input() languages: Language[];
+  @Input() selectedLanguage: Language;
 
   @Output() selectFile = new EventEmitter();
   @Output() addSubmission = new EventEmitter();
   @Output() getSubmissions = new EventEmitter<number>();
   @Output() openSubmission = new EventEmitter();
   @Output() pass = new EventEmitter();
+  @Output() selectedLanguageChange = new EventEmitter<Language>();
 
   code = '';
-  languages = languages;
   showFileLoader = true;
-  selectedLanguage: Language = { ...languages[0] } as Language;
   selectedFile?: File;
   formatBytes = formatBytes;
+  problemId: number;
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.problemId = Number(this.route.snapshot.paramMap.get('problemId'));
+    this.contestId = Number(this.route.snapshot.paramMap.get('contestId'));
+
     const obj = JSON.parse(localStorage.getItem('code'));
-    if (obj !== null && obj[this.problem.id]) {
-      this.code = obj[this.problem.id];
+    if (obj !== null && obj[this.contestId] && obj[this.contestId][this.problemId]) {
+      this.code = obj[this.contestId][this.problemId];
     }
   }
 
   ngOnDestroy() {
-    const obj = JSON.parse(localStorage.getItem('code'));
-    obj[this.problem.id] = this.code;
-
-    localStorage.setItem('code', JSON.stringify(obj));
+    this.assertCode();
   }
 
   get minDataLines() {
@@ -81,9 +84,23 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
       file: this.showFileLoader
         ? this.selectedFile
         : new File([new Blob([this.code])], 'solution.code'),
-      languageId: this.selectedLanguage.id,
+      languageId: this.selectedLanguage.code,
     });
 
     this.code = '';
+    this.assertCode();
+  }
+
+  onSelectedLanguageChanged(lang: Language) {
+    this.selectedLanguageChange.emit(lang);
+  }
+
+  private assertCode() {
+    let obj = JSON.parse(localStorage.getItem('code'));
+    obj = obj || {};
+    obj[this.contestId] = obj[this.contestId] || {};
+    obj[this.contestId][this.problemId] = this.code;
+
+    localStorage.setItem('code', JSON.stringify(obj));
   }
 }
