@@ -1,6 +1,6 @@
 <h1 class="title-1">{{name}}</h1>
 
-<section class="section section_restrictions">
+<section *ngIf="!(timeLimit === 0 && memoryLimit === 0)" class="section section_restrictions">
   <h2 class="title-2">Ограничения</h2>
   
   <div class="restrictions">
