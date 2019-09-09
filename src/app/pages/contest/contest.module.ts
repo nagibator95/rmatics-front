@@ -3,6 +3,7 @@ import { NgModule} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes} from '@angular/router';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import {KatexModule} from 'ng-katex';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ControlsModule } from '../../ui/controls/controls.module';
@@ -75,6 +76,7 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
     UiModule,
+    KatexModule,
   ],
   exports: [
     ContestComponent,
