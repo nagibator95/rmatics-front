@@ -1,3 +1,6 @@
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import 'codemirror/mode/clike/clike';
 import 'codemirror/mode/haskell/haskell';
 import 'codemirror/mode/javascript/javascript';
@@ -7,10 +10,6 @@ import 'codemirror/mode/perl/perl';
 import 'codemirror/mode/php/php';
 import 'codemirror/mode/python/python';
 import 'codemirror/mode/ruby/ruby';
-
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { JwtInterceptor } from './api/jwt.interceptor';
 import { AppRoutingModule } from './app-routing.module';
