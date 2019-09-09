@@ -11,6 +11,7 @@ import {TableSortService} from './pages/monitor/monitor-container/table-sort.ser
 })
 export class AppComponent implements OnInit {
   isInitialLoading = true;
+  toShow = false;
 
   constructor(private router: Router, private auth: NewAuthService, private sortTable: TableSortService) {}
 
@@ -29,5 +30,9 @@ export class AppComponent implements OnInit {
           this.isInitialLoading = false;
         }
       });
+
+    setTimeout(() => {
+      this.toShow = true;
+    }, 2000);
   }
 }
