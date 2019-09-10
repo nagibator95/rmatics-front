@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  apiUrl: 'https://cors-anywhere.herokuapp.com/http://85.93.88.189:12343/api/v1',
+    production: false,
+    apiUrl: 'https://cors-anywhere.herokuapp.com/http://85.93.88.189:12343/api/v1',
 };
 
 /*

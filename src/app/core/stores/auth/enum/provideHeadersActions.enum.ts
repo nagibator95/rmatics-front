@@ -1,3 +1,5 @@
 export enum ProvideHeadersActions {
-  NoTokenRefresh, TokenRefresh, EmptyHeaders,
+    NoTokenRefresh,
+    TokenRefresh,
+    EmptyHeaders,
 }

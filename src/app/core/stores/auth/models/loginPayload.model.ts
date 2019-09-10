@@ -1,9 +1,9 @@
-export interface LoginPayload {
-  authData: LoginAuthData;
-  rememberMe?: boolean;
+export interface ILoginPayload {
+    authData: ILoginAuthData;
+    rememberMe?: boolean;
 }
 
-export interface LoginAuthData {
-  username: string;
-  password: string;
+export interface ILoginAuthData {
+    username: string;
+    password: string;
 }

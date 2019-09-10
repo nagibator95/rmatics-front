@@ -1,42 +1,42 @@
-import {RunComment, RunProtocol, RunSource} from '../../../../pages/contest/contest.types';
-import {Language} from '../../../../shared/constants';
-import {Contest, Problem, Submission} from '../types/contest.types';
+import {IRunComment, IRunProtocol, IRunSource} from '../types/contest.types';
+import {ILanguage} from '../../../../shared/constants';
+import {IContest, IProblem, ISubmission} from '../types/contest.types';
 
-export interface ContestState {
-  contest?: Contest;
-  problem?: Problem;
-  submissions: Submission[];
-  submissionPreview: Submission;
-  statusCode: number;
-  status: string;
-  fileError?: string;
-  error?: string;
-  isFetching: boolean;
-  isSubmissionsFetching: boolean;
-  contestData: ContestData;
-  submissionState: SubmissionState;
+export interface IContestState {
+    contest?: IContest;
+    problem?: IProblem;
+    submissions: ISubmission[];
+    submissionPreview: ISubmission;
+    statusCode: number;
+    status: string;
+    fileError?: string;
+    error?: string;
+    isFetching: boolean;
+    isSubmissionsFetching: boolean;
+    contestData: IContestData;
+    submissionState: ISubmissionState;
 }
 
-export interface ContestData {
-  createdAt: string;
-  timeStop: string;
-  virtualDuration: number;
-  isVirtual: boolean;
-  workshopId: number;
-  languages: Language[];
+export interface IContestData {
+    createdAt: string;
+    timeStop: string;
+    virtualDuration: number;
+    isVirtual: boolean;
+    workshopId: number;
+    languages: ILanguage[];
 }
 
-export interface SubmissionState {
-  protocol: SpecificSubmissionState<RunProtocol>;
-  source: SpecificSubmissionState<RunSource>;
-  comments: SpecificSubmissionState<RunComment[]>;
-  [key: string]: any;
+export interface ISubmissionState {
+    protocol: ISpecificSubmissionState<IRunProtocol>;
+    source: ISpecificSubmissionState<IRunSource>;
+    comments: ISpecificSubmissionState<IRunComment[]>;
+    [key: string]: any;
 }
 
-export interface SpecificSubmissionState<T> {
-  data?: T;
-  statusCode: number;
-  status: string;
-  error?: string;
-  isFetching: boolean;
+export interface ISpecificSubmissionState<T> {
+    data?: T;
+    statusCode: number;
+    status: string;
+    error?: string;
+    isFetching: boolean;
 }

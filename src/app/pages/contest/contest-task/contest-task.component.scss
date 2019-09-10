@@ -1,95 +1,95 @@
 :host {
-  display: block;
+    display: block;
 }
 
 .section {
-  margin-bottom: 48px;
+    margin-bottom: 48px;
 
-  &_restrictions {
-    margin-bottom: 28px;
-  }
+    &:last-child {
+        margin-bottom: 0;
+    }
 
-  &:last-child {
-    margin-bottom: 0;
-  }
+    &_restrictions {
+        margin-bottom: 28px;
+    }
 }
 
 .restrictions {
-  display: flex;
+    display: flex;
 }
 
 .restriction {
-  width: 33.3333%;
+    width: 33.3333%;
 }
 
 .title-1 {
-  margin-bottom: 20px;
-  font-size: 28px;
-  font-weight: 500;
-  line-height: 1.29;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.29;
 }
 
 .title-2 {
-  margin-bottom: 16px;
-  font-size: 22px;
-  font-weight: normal;
-  line-height: 1.27;
+    margin-bottom: 16px;
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 1.27;
 }
 
 .data-examples {
-  margin-left: -8px;
-  margin-right: -8px;
-  margin-bottom: -16px;
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    margin-left: -8px;
+    margin-right: -8px;
+    margin-bottom: -16px;
+    flex-wrap: wrap;
 }
 
 .data-example-code {
-  flex: 1 1 calc(50% - 16px);
-  margin-left: 8px;
-  margin-right: 8px;
-  margin-bottom: 16px;
+    flex: 1 1 calc(50% - 16px);
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 16px;
 }
 
 .radio-group {
-  margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 
 .upload {
-  margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 
 .select {
-  width: 360px;
-  margin-bottom: 16px;
+    width: 360px;
+    margin-bottom: 16px;
 }
 
 .code {
-  margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 
 .radio {
-  display: inline-flex;
-  height: 44px;
-  border-radius: 4px;
-  align-items: center;
-  width: 50%;
-  border: solid 1px var(--light-gray-1);
-  padding-left: 16px;
-  padding-right: 12px;
+    display: inline-flex;
+    height: 44px;
+    border-radius: 4px;
+    align-items: center;
+    width: 50%;
+    border: solid 1px var(--light-gray-1);
+    padding-left: 16px;
+    padding-right: 12px;
 
-  &:nth-child(odd) {
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-  }
+    &:nth-child(odd) {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+    }
 
-  &:nth-child(even) {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    border-left: none;
-  }
+    &:nth-child(even) {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        border-left: none;
+    }
 }
 
 .solution-button {
-  width: 140px;
+    width: 140px;
 }

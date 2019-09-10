@@ -1,28 +1,28 @@
 :host {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .icon-circle {
-  margin-right: 8px;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background-color: var(--light-gray-3);
+    display: flex;
+    margin-right: 8px;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--light-gray-3);
 }
 
 .caption {
-  font-size: 12px;
-  line-height: 1.33;
-  color: var(-gray);
+    font-size: 12px;
+    line-height: 1.33;
+    color: var(-gray);
 }
 
 .value {
-  margin-top: 2px;
-  display: block;
-  font-size: 18px;
-  line-height: 1.28;
+    display: block;
+    margin-top: 2px;
+    font-size: 18px;
+    line-height: 1.28;
 }

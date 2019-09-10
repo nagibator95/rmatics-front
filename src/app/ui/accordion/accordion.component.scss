@@ -1,43 +1,43 @@
 :host {
-  display: block;
+    display: block;
 
-  &._open {
-    box-shadow: inset 0 -1px 0 0 var(--light-gray-1);
-  }
+    &._open {
+        box-shadow: inset 0 -1px 0 0 var(--light-gray-1);
+    }
 }
 
 .button {
-  width: 100%;
-  padding: 13px 16px;
-  background-color: var(--light-gray-3);
-  border-radius: 2px;
+    width: 100%;
+    padding: 13px 16px;
+    background-color: var(--light-gray-3);
+    border-radius: 2px;
 }
 
 .title {
-  font-family: var(--roboto);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.29;
+    font-family: var(--roboto);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.29;
 
-  &_extra::before {
-    content: '';
-    margin: 0 8px;
-    display: block;
-    height: 1em;
-    width: 1px;
-    background-color: var(--light-gray-1);
-  }
+    &_extra:before {
+        content: '';
+        display: block;
+        margin: 0 8px;
+        height: 1em;
+        width: 1px;
+        background-color: var(--light-gray-1);
+    }
 }
 
 .icon {
-  transition: transform .2s ease-in-out;
+    transition: transform 0.2s ease-in-out;
 
-  &_rotated {
-    transform: rotate(180deg);
-  }
+    &_rotated {
+        transform: rotate(180deg);
+    }
 }
 
 .inner {
-  padding-left: 16px;
-  padding-right: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
 }

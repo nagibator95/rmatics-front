@@ -1,37 +1,40 @@
-import { Injectable, Type } from '@angular/core';
+import {Injectable, Type} from '@angular/core';
 
-import { ReplaySubject } from 'rxjs';
+import {ReplaySubject} from 'rxjs';
 
-import { ModalContent } from './modal-content';
+import {ModalContent} from './modal-content';
 
-interface ModalValue<T> {
-  component: Type<ModalContent<T>>;
-  data?: T;
+interface IModalValue<T> {
+    component: Type<ModalContent<T>>;
+    data?: T;
 }
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ModalService {
-  subject = new ReplaySubject<ModalValue<{}> | null>();
+    subject = new ReplaySubject<IModalValue<{}> | null>();
 
-  private htmlNode = document.querySelector('body');
+    private htmlNode = document.querySelector('body');
 
-  constructor() { }
+    constructor() {}
 
-  subscribe = (func: (value: ModalValue<{}> | null) => void) => this.subject.subscribe(func);
+    subscribe = (func: (value: IModalValue<{}> | null) => void) =>
+        this.subject.subscribe(func);
 
-  open = <I>(val: ModalValue<I>) => {
-    if (this.htmlNode) {
-      this.htmlNode.classList.add('app-no-scroll') ;
-    }
-    this.subject.next(val);
-  }
+    open = <I>(val: IModalValue<I>) => {
+        if (this.htmlNode) {
+            this.htmlNode.classList.add('app-no-scroll');
+        }
 
-  close = () => {
-    if (this.htmlNode) {
-      this.htmlNode.classList.remove('app-no-scroll');
-    }
-    this.subject.next(null);
-  }
+        this.subject.next(val);
+    };
+
+    close = () => {
+        if (this.htmlNode) {
+            this.htmlNode.classList.remove('app-no-scroll');
+        }
+
+        this.subject.next(null);
+    };
 }

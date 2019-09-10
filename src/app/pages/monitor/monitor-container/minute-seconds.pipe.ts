@@ -1,15 +1,19 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-  name: 'minuteSeconds',
+    name: 'minuteSeconds',
 })
 export class MinuteSecondsPipe implements PipeTransform {
+    transform(initialValue: number): string {
+        const negative = initialValue < 0;
+        const value = Math.abs(initialValue);
+        const minutes: number = Math.floor(value / 60);
 
-  transform(initialValue: number): string {
-    const negative = initialValue < 0;
-    const value = Math.abs(initialValue);
-    const minutes: number = Math.floor(value / 60);
-    return `${negative ? '-' : ''}${minutes.toString().padStart(2, '0')}:${(value - minutes * 60).toString().padStart(2, '0')}`;
-  }
-
+        return `${negative ? '-' : ''}${minutes.toString().padStart(2, '0')}:${(
+            value -
+            minutes * 60
+        )
+            .toString()
+            .padStart(2, '0')}`;
+    }
 }

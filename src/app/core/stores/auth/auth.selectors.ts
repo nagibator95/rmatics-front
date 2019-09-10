@@ -1,55 +1,55 @@
-import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {createFeatureSelector, createSelector, MemoizedSelector} from '@ngrx/store';
 
 import {AUTH_STORE} from './auth-store.module';
-import {AuthState} from './models/authState.model';
+import {IAuthState} from './models/authState.model';
 
-const featureSelector = createFeatureSelector<AuthState>(AUTH_STORE);
+const featureSelector = createFeatureSelector<IAuthState>(AUTH_STORE);
 
-export function getError() {
-  return createSelector(
-    featureSelector,
-    state => state.error || null,
-  );
+export function getError(): MemoizedSelector<IAuthState, string> {
+    return createSelector(
+        featureSelector,
+        state => state.error || null,
+    );
 }
 
-export function getFetching() {
-  return createSelector(
-    featureSelector,
-    state => state.isFetching || null,
-  );
+export function getFetching(): MemoizedSelector<IAuthState, boolean> {
+    return createSelector(
+        featureSelector,
+        state => state.isFetching || null,
+    );
 }
 
-export function getIsLoggedIn() {
-  return createSelector(
-    featureSelector,
-    state => state.isLoggedIn || null,
-  );
+export function getIsLoggedIn(): MemoizedSelector<IAuthState, boolean> {
+    return createSelector(
+        featureSelector,
+        state => state.isLoggedIn || null,
+    );
 }
 
-export function getEmail() {
-  return createSelector(
-    featureSelector,
-    state => state.state ? state.state.email : null,
-  );
+export function getEmail(): MemoizedSelector<IAuthState, string> {
+    return createSelector(
+        featureSelector,
+        state => (state.state ? state.state.email : null),
+    );
 }
 
-export function getIsPasswordRestoreFinished() {
-  return createSelector(
-    featureSelector,
-    state => state.isPasswordRestoreFinished || null,
-  );
+export function getIsPasswordRestoreFinished(): MemoizedSelector<IAuthState, boolean> {
+    return createSelector(
+        featureSelector,
+        state => state.isPasswordRestoreFinished || null,
+    );
 }
 
-export function getIsPasswordChangeFinished() {
-  return createSelector(
-    featureSelector,
-    state => state.isPasswordChangeFinished || null,
-  );
+export function getIsPasswordChangeFinished(): MemoizedSelector<IAuthState, boolean> {
+    return createSelector(
+        featureSelector,
+        state => state.isPasswordChangeFinished || null,
+    );
 }
 
-export function getRefreshToken() {
-  return createSelector(
-    featureSelector,
-    state => state.state ? state.state.refreshToken : null,
-  );
+export function getRefreshToken(): MemoizedSelector<IAuthState, string> {
+    return createSelector(
+        featureSelector,
+        state => (state.state ? state.state.refreshToken : null),
+    );
 }

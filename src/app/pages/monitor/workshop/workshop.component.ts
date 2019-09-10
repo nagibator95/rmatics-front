@@ -1,49 +1,43 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription} from 'rxjs';
-import { ContestApi } from 'src/app/shared/types/contest.types';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {IContestApi} from 'src/app/shared/types/contest.types';
 
-import { WorkshopService } from './workshop.service';
+import {WorkshopService} from './workshop.service';
 
 @Component({
-  selector: 'app-workshop',
-  templateUrl: './workshop.component.html',
-  styleUrls: ['./workshop.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-workshop',
+    templateUrl: './workshop.component.html',
+    styleUrls: ['./workshop.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkshopComponent implements OnInit, OnDestroy {
-  workshop = this.workshopService.workshop;
-  isFetching = this.workshopService.isFetching;
+export class WorkshopComponent implements OnInit {
+    workshop = this.workshopService.workshop;
+    isFetching = this.workshopService.isFetching;
 
-  workshopSubscription: Subscription;
+    constructor(private workshopService: WorkshopService, private router: Router) {}
 
-  constructor(
-    private workshopService: WorkshopService,
-    private router: Router,
-  ) {}
+    ngOnInit() {
+        const workshopId = Number(
+            this.router.routerState.snapshot.root.children[0].paramMap.get('workshopId'),
+        );
 
-  ngOnInit() {
-    const workshopId = Number(this.router.routerState.snapshot.root.children[0].paramMap.get('workshopId'));
-    this.workshopService.getWorkshop(workshopId);
-    this.workshopSubscription = this.workshop.subscribe(data => console.log(data));
-  }
-
-  ngOnDestroy() {
-    this.workshopSubscription.unsubscribe();
-  }
-
-  onContestClicked(contest: ContestApi) {
-    if (this.hasContestStarted(contest.time_start)) {
-      this.workshopService.setFetching(true);
-      this.router.navigate(['contest', contest.id]);
+        this.workshopService.getWorkshop(workshopId);
     }
-  }
 
-  hasContestStarted(time: string) {
-    return new Date(time) < new Date();
-  }
+    onContestClicked(contest: IContestApi) {
+        if (this.hasContestStarted(contest.time_start)) {
+            this.workshopService.setFetching(true);
+            this.router.navigate(['contest', contest.id]);
+        }
+    }
 
-  sortContests(contests: ContestApi[]): ContestApi[] {
-    return contests.sort((contest1, contest2) => contest1.position - contest2.position);
-  }
+    hasContestStarted(time: string): boolean {
+        return new Date(time) < new Date();
+    }
+
+    sortContests(contests: IContestApi[]): IContestApi[] {
+        return contests.sort(
+            (contest1, contest2) => contest1.position - contest2.position,
+        );
+    }
 }

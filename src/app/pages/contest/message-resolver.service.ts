@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class MessageResolverService {
-  public isNavigated: boolean;
+    public isNavigated: boolean;
 
-  constructor() { }
+    constructor() {}
 }

@@ -1,5 +1,5 @@
-import {ContestProblem} from '../core/stores/contest/types/contest.types';
+import {IContestProblem} from '../core/stores/contest/types/contest.types';
 
-export function sortByRank(problem1: ContestProblem, problem2: ContestProblem) {
-  return problem1.rank - problem2.rank;
+export function sortByRank(problem1: IContestProblem, problem2: IContestProblem): number {
+    return problem1.rank - problem2.rank;
 }

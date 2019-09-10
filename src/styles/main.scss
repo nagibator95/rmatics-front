@@ -1,141 +1,138 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
 @import url('https://fonts.googleapis.com/css?family=PT+Mono');
 
-@import "~codemirror/lib/codemirror.css";
+@import '~codemirror/lib/codemirror.css';
 @import '~katex/dist/katex.css';
-
 
 @import 'variables';
 @import 'buttons';
 @import 'table';
 
 *,
-*::after,
-*::before {
-  box-sizing: inherit;
+*:after,
+*:before {
+    box-sizing: inherit;
 }
 
 ::-moz-focus-inner {
-  border: 0;
+    border: 0;
 }
 
 html {
-  box-sizing: border-box;
-  height: 100%;
+    box-sizing: border-box;
+    height: 100%;
 }
 
 body {
-  overflow-x: hidden;
-  margin: 0;
-  width: 100vw;
-  min-width: 1200px;
-  height: 100%;
-  font-family: var(--roboto);
-  color: var(--black);
-  background-color: var(--light-gray-2);
-  -webkit-font-smoothing: antialiased;
-  font-size: 14px;
-  line-height: 1.29;
+    overflow-x: hidden;
+    margin: 0;
+    width: 100vw;
+    min-width: 1200px;
+    height: 100%;
+    font-family: var(--roboto);
+    color: var(--black);
+    background-color: var(--light-gray-2);
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    line-height: 1.29;
 }
 
 input {
-  color: inherit;
-  border: none;
-  font-size: inherit;
+    color: inherit;
+    border: none;
+    font-size: inherit;
 }
 
 input[type='number'] {
-  -moz-appearance:textfield;
+    -moz-appearance: textfield;
 }
 
 input:focus::placeholder {
-  opacity: 0;
+    opacity: 0;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
-input:-webkit-autofill:focus
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover
-textarea:-webkit-autofill:focus,
+input:-webkit-autofill:focus textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: 1px solid var(--light-gray-1);
-  -webkit-text-fill-color: var(--black);
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
-  transition: background-color 5000s ease-in-out 0s;
+    border: 1px solid var(--light-gray-1);
+    -webkit-text-fill-color: var(--black);
+    -webkit-box-shadow: 0 0 0 1000px #fff inset;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 button {
-  padding: 0;
-  border: none;
-  background: transparent;
+    padding: 0;
+    border: none;
+    background: transparent;
 }
 
 ul,
 ol {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 table {
-  border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 .app-no-scroll {
-  overflow-y: hidden;
+    overflow-y: hidden;
 }
 
 .codemirror {
-  position: relative;
-  z-index: 0;
-  display: block;
-  padding: 8px;
-  border-radius: 4px;
-  background: var(--light-gray-3);
-
-  .CodeMirror {
-    font-size: 15px;
-    font-family: var(--pt-mono);
+    position: relative;
+    z-index: 0;
+    display: block;
+    padding: 8px;
     border-radius: 4px;
     background: var(--light-gray-3);
-  }
 
-  .CodeMirror-code > div {
-    height: 1.8em;
-  }
+    .CodeMirror {
+        font-size: 15px;
+        font-family: var(--pt-mono);
+        border-radius: 4px;
+        background: var(--light-gray-3);
+    }
 
-  .CodeMirror-gutters {
-    background: transparent;
-    border: none;
-  }
+    .CodeMirror-code > div {
+        height: 1.8em;
+    }
+
+    .CodeMirror-gutters {
+        background: transparent;
+        border: none;
+    }
 }
 
 .app-container {
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-right: 88px;
-  padding-left: 88px;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 88px;
+    padding-left: 88px;
 }
 
 .flex-center {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .flex-space-between {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }

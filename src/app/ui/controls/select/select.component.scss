@@ -1,79 +1,79 @@
 :host {
-  height: 40px;
-  display: block;
-  position: relative;
+    position: relative;
+    display: block;
+    height: 40px;
 }
 
 .select {
-  padding-left: 16px;
-  padding-right: 12px;
-  display: flex;
-  align-items: center;
-  font: inherit;
-  letter-spacing: inherit;
-  border-radius: 4px;
-  border: solid 1px var(--light-gray-1);
-  background-color: #ffffff;
-  height: 44px;
-  width: 100%;
-  justify-content: space-between;
+    display: flex;
+    padding-left: 16px;
+    padding-right: 12px;
+    align-items: center;
+    font: inherit;
+    letter-spacing: inherit;
+    border-radius: 4px;
+    border: solid 1px var(--light-gray-1);
+    background-color: #fff;
+    height: 44px;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .icon {
-  margin-left: 8px;
-  width: 8px;
-  height: 5px;
-  transition: transform 0.1s linear;
+    margin-left: 8px;
+    width: 8px;
+    height: 5px;
+    transition: transform 0.1s linear;
 }
 
 .icon--reverse {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 .list {
-  max-height: 200px;
-  overflow: auto;
-  margin-top: 5px;
-  padding: 0;
-  width: 100%;
-  border: solid 1px var(--light-gray-1);
-  position: absolute;
-  z-index: 100;
-  opacity: 0;
-  background: white;
-  border-radius: 4px;
-  pointer-events: none;
-  transition: opacity 0.1s linear;
+    position: absolute;
+    z-index: 100;
+    max-height: 200px;
+    overflow: auto;
+    margin-top: 5px;
+    padding: 0;
+    width: 100%;
+    border: solid 1px var(--light-gray-1);
+    opacity: 0;
+    background: #fff;
+    border-radius: 4px;
+    pointer-events: none;
+    transition: opacity 0.1s linear;
 }
 
 .list--open {
-  opacity: 1;
-  pointer-events: initial;
+    opacity: 1;
+    pointer-events: initial;
 }
 
 .items {
-  margin: 0;
-  padding: 5px;
+    margin: 0;
+    padding: 5px;
 }
 
 .item {
-  display: block;
-  transition: background-color 0.1s linear;
-  user-select: none;
-  padding: 8px 10px;
-  cursor: pointer;
+    display: block;
+    transition: background-color 0.1s linear;
+    user-select: none;
+    padding: 8px 10px;
+    cursor: pointer;
 }
 
 .item:hover {
-  background-color: var(--outline-color-hover);
-  border-radius: 4px;
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.1s linear;
+    background-color: var(--outline-color-hover);
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.1s linear;
 }

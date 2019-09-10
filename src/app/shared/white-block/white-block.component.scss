@@ -1,10 +1,10 @@
 :host {
-  display: block;
-  border-radius: 4px;
-  background-color: #ffffff;
-  padding: 28px 24px;
+    display: block;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 28px 24px;
 
-  &._border {
-    border: 1px solid var(--light-gray-1);
-  }
+    &._border {
+        border: 1px solid var(--light-gray-1);
+    }
 }

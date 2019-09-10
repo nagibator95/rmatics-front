@@ -1,15 +1,15 @@
-import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import {Directive, EventEmitter, HostListener, Output} from '@angular/core';
 
 @Directive({
-  selector: '[scrollLeft]'
+    selector: '[scrollLeft]',
 })
 export class ScrollableDirective {
-  @Output() scrollLeft: EventEmitter<number> = new EventEmitter();
+    @Output() scrollLeft: EventEmitter<number> = new EventEmitter();
 
-  constructor() { }
+    constructor() {}
 
-  @HostListener('scroll', ['$event.target'])
-  onScroll(hostEl: any) {
-    this.scrollLeft.emit(hostEl.scrollLeft);
-  }
+    @HostListener('scroll', ['$event.target'])
+    onScroll(hostEl: any) {
+        this.scrollLeft.emit(hostEl.scrollLeft);
+    }
 }

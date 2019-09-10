@@ -1,35 +1,35 @@
 .paragraph {
-  padding-top: 10px;
-  padding-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .link {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .loading {
-  width: 500px;
-  height: 500px;
-  margin: auto auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    width: 500px;
+    height: 500px;
+    margin: auto auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .workshop-title {
-  padding-bottom: 24px;
-  font-size: 28px;
-  font-weight: 500;
-  line-height: 1.29;
-  letter-spacing: normal;
-  color: #2d3446;
+    padding-bottom: 24px;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.29;
+    letter-spacing: normal;
+    color: #2d3446;
 }
 
 .text {
-  font-size: 14px;
-  line-height: 1.29;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: calc(100% - 32px);
-  color: var(--black);
+    font-size: 14px;
+    line-height: 1.29;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 32px);
+    color: var(--black);
 }

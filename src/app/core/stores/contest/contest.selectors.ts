@@ -1,123 +1,131 @@
-import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {createFeatureSelector, createSelector, MemoizedSelector} from '@ngrx/store';
 
 import {CONTEST_STORE} from './contest-store.module';
-import {ContestState} from './models/models';
+import {IContestData, IContestState} from './models/models';
+import {
+    IContest,
+    IProblem,
+    IRunComment,
+    IRunProtocol,
+    IRunSource,
+    ISubmission,
+} from './types/contest.types';
 
-export const featureSelector = createFeatureSelector<ContestState>(CONTEST_STORE);
+export const featureSelector = createFeatureSelector<IContestState>(CONTEST_STORE);
 
-export function getIsFetching() {
-  return createSelector(
-    featureSelector,
-    state => state.isFetching || null,
-  );
+export function getIsFetching(): MemoizedSelector<IContestState, boolean> {
+    return createSelector(
+        featureSelector,
+        state => state.isFetching || null,
+    );
 }
 
-export function getError() {
-  return createSelector(
-    featureSelector,
-    state => state.error || null,
-  );
+export function getError(): MemoizedSelector<IContestState, string> {
+    return createSelector(
+        featureSelector,
+        state => state.error || null,
+    );
 }
 
-export function getContest() {
-  return createSelector(
-    featureSelector,
-    state => state.contest || null,
-  );
+export function getContest(): MemoizedSelector<IContestState, IContest> {
+    return createSelector(
+        featureSelector,
+        state => state.contest || null,
+    );
 }
 
-export function getSubmissions() {
-  return createSelector(
-    featureSelector,
-    state => state.submissions || null,
-  );
+export function getSubmissions(): MemoizedSelector<IContestState, ISubmission[]> {
+    return createSelector(
+        featureSelector,
+        state => state.submissions || null,
+    );
 }
 
-export function getContestData() {
-  return createSelector(
-    featureSelector,
-    state => state.contestData || null,
-  );
+export function getContestData(): MemoizedSelector<IContestState, IContestData> {
+    return createSelector(
+        featureSelector,
+        state => state.contestData || null,
+    );
 }
 
-export function getProblem() {
-  return createSelector(
-    featureSelector,
-    state => state.problem || null,
-  );
+export function getProblem(): MemoizedSelector<IContestState, IProblem> {
+    return createSelector(
+        featureSelector,
+        state => state.problem || null,
+    );
 }
 
-export function getIsSubmissionFetching() {
-  return createSelector(
-    featureSelector,
-    state => state.isSubmissionsFetching || null,
-  );
+export function getIsSubmissionFetching(): MemoizedSelector<IContestState, boolean> {
+    return createSelector(
+        featureSelector,
+        state => state.isSubmissionsFetching || null,
+    );
 }
 
-export function getFileError() {
-  return createSelector(
-    featureSelector,
-    state => state.fileError || null,
-  );
+export function getFileError(): MemoizedSelector<IContestState, string> {
+    return createSelector(
+        featureSelector,
+        state => state.fileError || null,
+    );
 }
 
-export function getIsProtocolFetching() {
-  return createSelector(
-    featureSelector,
-    state => state.submissionState.protocol.isFetching || null,
-  );
+export function getIsProtocolFetching(): MemoizedSelector<IContestState, boolean> {
+    return createSelector(
+        featureSelector,
+        state => state.submissionState.protocol.isFetching || null,
+    );
 }
 
-export function getIsSourceFetching() {
-  return createSelector(
-    featureSelector,
-    state => state.submissionState.source.isFetching || null,
-  );
+export function getIsSourceFetching(): MemoizedSelector<IContestState, boolean> {
+    return createSelector(
+        featureSelector,
+        state => state.submissionState.source.isFetching || null,
+    );
 }
 
-export function getAreCommentsFetching() {
-  return createSelector(
-    featureSelector,
-    state => state.submissionState.comments.isFetching || null,
-  );
+export function getAreCommentsFetching(): MemoizedSelector<IContestState, boolean> {
+    return createSelector(
+        featureSelector,
+        state => state.submissionState.comments.isFetching || null,
+    );
 }
 
-export function getProtocol() {
-  return createSelector(
-    featureSelector,
-    state => {
-      const data = state.submissionState.protocol.data;
+export function getProtocol(): MemoizedSelector<IContestState, IRunProtocol> {
+    return createSelector(
+        featureSelector,
+        state => {
+            const data = state.submissionState.protocol.data;
 
-      if (data) {
-        if (data.compilerOutput) {
-          data.compilerOutput = data.compilerOutput.trim();
-        }
+            if (data) {
+                if (data.compilerOutput) {
+                    data.compilerOutput = data.compilerOutput.trim();
+                }
 
-        return data;
-      } else {
-        return null;
-      }
-    },
-  );
+                return data;
+            } else {
+                return null;
+            }
+        },
+    );
 }
 
-export function getSource() {
-  return createSelector(
-    featureSelector,
-    state => state.submissionState.source.data || null,
-  );
+export function getSource(): MemoizedSelector<IContestState, IRunSource> {
+    return createSelector(
+        featureSelector,
+        state => state.submissionState.source.data || null,
+    );
 }
 
-export function getComments() {
-  return createSelector(
-    featureSelector,
-    state => state.submissionState.comments.data || null,
-  );
+export function getComments(): MemoizedSelector<IContestState, IRunComment[]> {
+    return createSelector(
+        featureSelector,
+        state => state.submissionState.comments.data || null,
+    );
 }
 
-export function getSubmissionPreview() {
-  return createSelector(
-    featureSelector,
-    state => state.submissionPreview || null,
-  );
+export function getSubmissionPreview(): MemoizedSelector<IContestState, ISubmission> {
+    return createSelector(
+        featureSelector,
+        state => state.submissionPreview || null,
+    );
 }

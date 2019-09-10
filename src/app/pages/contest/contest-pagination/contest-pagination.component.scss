@@ -1,48 +1,48 @@
 :host {
-  display: flex;
+    display: flex;
 }
 
 .link {
-  display: flex;
-  max-width: 328px;
+    display: flex;
+    max-width: 328px;
 
-  &_prev {
-    margin-right: auto;
-  }
+    &_prev {
+        margin-right: auto;
+    }
 
-  &_next {
-    margin-left: auto;
-    text-align: right;
-  }
+    &_next {
+        margin-left: auto;
+        text-align: right;
+    }
 }
 
 .icon-round {
-  width: 48px;
-  height: 48px;
-  background-color: var(--light-gray-2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+    display: flex;
+    width: 48px;
+    height: 48px;
+    background-color: var(--light-gray-2);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 .text {
-  padding-left: 20px;
-  padding-right: 20px;
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    padding-left: 20px;
+    padding-right: 20px;
+    flex-direction: column;
 }
 
 .caption {
-  margin-bottom: 4px;
-  font-size: 14px;
-  line-height: 1.29;
-  color: var(--dark-gray);
+    margin-bottom: 4px;
+    font-size: 14px;
+    line-height: 1.29;
+    color: var(--dark-gray);
 }
 
 .name {
-  font-size: 16px;
-  line-height: 1.38;
-  color: var(--primary-color);
+    font-size: 16px;
+    line-height: 1.38;
+    color: var(--primary-color);
 }

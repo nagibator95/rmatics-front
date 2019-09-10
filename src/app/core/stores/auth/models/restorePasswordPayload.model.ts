@@ -1,4 +1,4 @@
-export interface RestorePasswordPayload {
-  email?: string;
-  username?: string;
+export interface IRestorePasswordPayload {
+    email?: string;
+    username?: string;
 }

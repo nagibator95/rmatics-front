@@ -1,23 +1,22 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
-  selector: 'app-tabs-demo',
-  templateUrl: './tabs-demo.component.html',
-  styleUrls: ['./tabs-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-tabs-demo',
+    templateUrl: './tabs-demo.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsDemoComponent {
-  tabs = [
-    {
-      id: 'tab1',
-      text: 'Tab 1',
-    },
-    {
-      id: 'tab2',
-      text: 'Tab 2',
-      current: true,
-    },
-  ];
+    tabs = [
+        {
+            id: 'tab1',
+            text: 'ITab 1',
+        },
+        {
+            id: 'tab2',
+            text: 'ITab 2',
+            current: true,
+        },
+    ];
 
-  log = (data: string) => console.log(data);
+    log = () => {};
 }
