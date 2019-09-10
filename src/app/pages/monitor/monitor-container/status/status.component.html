@@ -7,5 +7,5 @@
     </div>
   </ng-template>
   
-  <span *ngIf="!onTesting" class="time">{{time | minuteSeconds}}</span>
+  <span *ngIf="!onTesting && tableType !== 'IOI'" class="time">{{time | minuteSeconds}}</span>
 </div>
