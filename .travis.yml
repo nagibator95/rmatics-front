@@ -5,7 +5,10 @@ dist: trusty
 sudo: required
 before_script:
     - npm install -g @angular/cli
+install:
+  – npm
 script:
     - npm run lint
     - npm run test
     - npm run build
+cache: npm
