@@ -3,6 +3,8 @@ node_js:
     - '10'
 dist: trusty
 sudo: required
+before_script:
+    - npm install -g @angular/cli
 script:
     - npm run lint
     - npm run test
