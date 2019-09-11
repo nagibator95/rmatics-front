@@ -4,6 +4,7 @@ node_js:
 dist: trusty
 sudo: required
 before_script:
+    - sudo chown -R $(whoami) ~/.npm
     - npm install @angular/cli
 script:
     - npm run lint
