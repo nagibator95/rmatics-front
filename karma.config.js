@@ -25,10 +25,10 @@ module.exports = function(config) {
         },
         reporters: ['progress', 'kjhtml'],
         customLaunchers: {
-          ChromeHeadlessNoSandbox: {
-            base: 'ChromeHeadless',
-            flags: ['--no-sandbox']
-          }
+            ChromeHeadlessNoSandbox: {
+                base: 'ChromeHeadless',
+                flags: ['--no-sandbox'],
+            },
         },
         port: 9876,
         colors: true,
