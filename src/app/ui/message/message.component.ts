@@ -1,4 +1,6 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Input} from '@angular/core';
+
+type MessageStatus = 'success' | 'warning' | 'error' | 'info';
 
 @Component({
     selector: 'app-message',
@@ -7,6 +9,8 @@ import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageComponent implements OnInit {
+    @Input() status: MessageStatus;
+
     constructor() {}
 
     ngOnInit() {}
