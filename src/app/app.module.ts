@@ -18,6 +18,7 @@ import {CoreModule} from './core/core.module';
 import {HeaderComponent} from './header/header.component';
 import {ModalModule} from './modal/modal.module';
 import {UiModule} from './ui/ui.module';
+import {MessageComponent} from './ui/message/message.component';
 
 @NgModule({
     declarations: [AppComponent, HeaderComponent],
@@ -37,5 +38,6 @@ import {UiModule} from './ui/ui.module';
         },
     ],
     bootstrap: [AppComponent],
+    entryComponents: [MessageComponent],
 })
 export class AppModule {}

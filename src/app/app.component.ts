@@ -4,9 +4,12 @@ import {filter} from 'rxjs/operators';
 
 import {NewAuthService} from './core/stores/auth/services/new-auth.service';
 import {TableSortService} from './pages/monitor/monitor-container/table-sort.service';
+import {AlertService} from './shared/services/alert.service';
+import {MessageComponent} from './ui/message/message.component';
 
 @Component({
     selector: 'app-root',
+    styleUrls: ['./app.component.scss'],
     templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
@@ -16,6 +19,7 @@ export class AppComponent implements OnInit {
         private router: Router,
         private auth: NewAuthService,
         private sortTable: TableSortService,
+        private alertService: AlertService,
     ) {}
 
     ngOnInit() {
@@ -39,5 +43,14 @@ export class AppComponent implements OnInit {
                     this.isInitialLoading = false;
                 }
             });
+
+        setTimeout(() => {
+            this.alertService.destroy();
+            let inputs = {
+                status: 'success',
+            };
+
+            this.alertService.init(MessageComponent, inputs, {});
+        }, 1000);
     }
 }

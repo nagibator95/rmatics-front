@@ -1,13 +1,9 @@
 .message-container {
-    position: fixed;
-    top: 48px;
-    right: 48px;
     display: flex;
     width: 460px;
     min-height: 42px;
     border-radius: 4px;
     justify-content: space-between;
-    box-shadow: 0 8px 16px rgba(51, 51, 51, 0.2);
 
     &_success {
         background-color: #e8f5e9;

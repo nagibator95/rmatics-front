@@ -1,14 +1,11 @@
-<div
-    class="message-container"
-    [ngClass]="['message-container', 'message-container_' + status]"
->
+<div [ngClass]="['message-container', 'message-container_' + status]">
     <div class="icon-container">
         <app-icon icon="{{ 'message-' + status }}"></app-icon>
     </div>
     <div class="text-container">
         Информационное сообщение
     </div>
-    <div class="close-container">
+    <div class="close-container" (click)="onCloseClicked()">
         <svg
             width="16"
             height="16"

@@ -1,4 +1,5 @@
 import {Component, OnInit, ChangeDetectionStrategy, Input} from '@angular/core';
+import {AlertService} from '../../shared/services/alert.service';
 
 type MessageStatus = 'success' | 'warning' | 'error' | 'info';
 
@@ -11,7 +12,11 @@ type MessageStatus = 'success' | 'warning' | 'error' | 'info';
 export class MessageComponent implements OnInit {
     @Input() status: MessageStatus;
 
-    constructor() {}
+    constructor(private alertService: AlertService) {}
 
     ngOnInit() {}
+
+    onCloseClicked() {
+        this.alertService.destroy();
+    }
 }
