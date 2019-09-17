@@ -11,6 +11,7 @@ type MessageStatus = 'success' | 'warning' | 'error' | 'info';
 })
 export class MessageComponent implements OnInit {
     @Input() status: MessageStatus;
+    @Input() text: string;
 
     constructor(private alertService: AlertService) {}
 

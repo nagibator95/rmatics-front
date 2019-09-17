@@ -9,7 +9,25 @@ export class AlertService {
 
     private modalElementId = 'message-box';
 
-    init(component: any, inputs?: {[key: string]: any}, outputs?: {[key: string]: any}) {
+    showNotification(
+        component: any,
+        inputs?: {[key: string]: any},
+        outputs?: {[key: string]: any},
+    ) {
+        this.destroy();
+        this.init(component, inputs, outputs);
+    }
+
+    destroy() {
+        this.domService.removeComponent();
+        document.getElementById(this.modalElementId).className = 'hidden';
+    }
+
+    private init(
+        component: any,
+        inputs?: {[key: string]: any} = {},
+        outputs?: {[key: string]: any} = {},
+    ) {
         const componentConfig: IChildConfig = {
             inputs: inputs,
             outputs: outputs,
@@ -21,10 +39,5 @@ export class AlertService {
             componentConfig,
         );
         document.getElementById(this.modalElementId).className = 'show';
-    }
-
-    destroy() {
-        this.domService.removeComponent();
-        document.getElementById(this.modalElementId).className = 'hidden';
     }
 }

@@ -45,12 +45,12 @@ export class AppComponent implements OnInit {
             });
 
         setTimeout(() => {
-            this.alertService.destroy();
             let inputs = {
                 status: 'success',
+                text: 'Информационное сообщение',
             };
 
-            this.alertService.init(MessageComponent, inputs, {});
+            this.alertService.showNotification(MessageComponent, inputs);
         }, 1000);
     }
 }
