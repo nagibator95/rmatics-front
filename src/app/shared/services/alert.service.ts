@@ -25,8 +25,8 @@ export class AlertService {
 
     private init(
         component: any,
-        inputs?: {[key: string]: any} = {},
-        outputs?: {[key: string]: any} = {},
+        inputs: {[key: string]: any} = {},
+        outputs: {[key: string]: any} = {},
     ) {
         const componentConfig: IChildConfig = {
             inputs: inputs,

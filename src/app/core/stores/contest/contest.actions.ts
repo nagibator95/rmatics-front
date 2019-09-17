@@ -101,7 +101,7 @@ export class CatchContestError implements Action {
 
     constructor(
         public payload: {error: string; status: string; status_code: number},
-        public toShow?: boolean = false,
+        public toShow: boolean = false,
     ) {}
 }
 
