@@ -23,6 +23,8 @@ import {
     formatSource,
     formatSubmission,
 } from './util/util';
+import {AlertService} from '../../../shared/services/alert.service';
+import {MessageComponent} from '../../../ui/message/message.component';
 
 @Injectable()
 export class ContestEffects {
@@ -74,6 +76,11 @@ export class ContestEffects {
             new ContestActions.SetStatusCode(action.payload.status_code),
             new ContestActions.SetStatus(action.payload.status),
             new ContestActions.SetError(action.payload.error),
+            new ContestActions.ShowNotification(
+                action.toShow,
+                'error',
+                action.payload.error,
+            ),
         ]),
     );
 
@@ -100,7 +107,7 @@ export class ContestEffects {
                     ),
                 ]),
                 catchError(response =>
-                    of(new ContestActions.CatchContestError(response.error)),
+                    of(new ContestActions.CatchContestError(response.error, true)),
                 ),
             ),
         ),
@@ -136,7 +143,7 @@ export class ContestEffects {
                         ),
                     ]),
                     catchError(response =>
-                        of(new ContestActions.CatchContestError(response.error)),
+                        of(new ContestActions.CatchContestError(response.error, true)),
                     ),
                 ),
         ),
@@ -193,6 +200,7 @@ export class ContestEffects {
             new ContestActions.SetStatusCode(action.payload.status_code),
             new ContestActions.SetStatus(action.payload.status),
             new ContestActions.SetFileError(action.payload.error),
+            new ContestActions.ShowNotification(true, 'error', action.payload.error),
         ]),
     );
 
@@ -325,9 +333,23 @@ export class ContestEffects {
         tap(() => this.submissionService.showSubmission()),
     );
 
+    @Effect({dispatch: false})
+    showNotification$ = this.actions$.pipe(
+        ofType(ContestActions.Types.ShowNotification),
+        tap((action: ContestActions.ShowNotification) => {
+            if (action.toShow) {
+                this.alertService.showNotification(MessageComponent, {
+                    status: action.status,
+                    text: action.text,
+                });
+            }
+        }),
+    );
+
     constructor(
         private actions$: Actions,
         private contestService: ContestService,
         private submissionService: SubmissionService,
+        private alertService: AlertService,
     ) {}
 }

@@ -4,8 +4,6 @@ import {filter} from 'rxjs/operators';
 
 import {NewAuthService} from './core/stores/auth/services/new-auth.service';
 import {TableSortService} from './pages/monitor/monitor-container/table-sort.service';
-import {AlertService} from './shared/services/alert.service';
-import {MessageComponent} from './ui/message/message.component';
 
 @Component({
     selector: 'app-root',
@@ -19,7 +17,6 @@ export class AppComponent implements OnInit {
         private router: Router,
         private auth: NewAuthService,
         private sortTable: TableSortService,
-        private alertService: AlertService,
     ) {}
 
     ngOnInit() {
@@ -43,14 +40,5 @@ export class AppComponent implements OnInit {
                     this.isInitialLoading = false;
                 }
             });
-
-        setTimeout(() => {
-            let inputs = {
-                status: 'success',
-                text: 'Информационное сообщение',
-            };
-
-            this.alertService.showNotification(MessageComponent, inputs);
-        }, 1000);
     }
 }
