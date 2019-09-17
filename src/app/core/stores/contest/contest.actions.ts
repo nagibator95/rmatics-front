@@ -45,6 +45,7 @@ export enum Types {
     SetSubmissionPreview = '[Contest] SetSubmissionPreview',
     ClearFileError = '[Contest] ClearFileError',
     ShowNotification = '[Contest] ShowNotification',
+    CatchSourceError = '[Contest] CatchSourceError',
 }
 
 export class SetFetching implements Action {
@@ -265,6 +266,12 @@ export class ShowNotification implements Action {
     constructor(public toShow: boolean, public status: string, public text: string) {}
 }
 
+export class CatchSourceError implements Action {
+    readonly type = Types.CatchSourceError;
+
+    constructor(public response: any) {}
+}
+
 export type All =
     | SetFetching
     | GetContest
@@ -298,4 +305,5 @@ export type All =
     | ShowModal
     | SetSubmissionPreview
     | ClearFileError
-    | ShowNotification;
+    | ShowNotification
+    | CatchSourceError;

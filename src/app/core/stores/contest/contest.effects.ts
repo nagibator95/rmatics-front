@@ -264,16 +264,7 @@ export class ContestEffects {
                             data: formatSource(response.data as IRunSourceApi),
                         }),
                 ),
-                catchError(response =>
-                    of(
-                        new ContestActions.SetSpecificSubmissionPart('source', {
-                            isFetching: false,
-                            statusCode: response.error.status_code,
-                            status: response.error.status,
-                            error: response.error.error,
-                        }),
-                    ),
-                ),
+                catchError(response => of(new ContestActions.CatchSourceError(response))),
             ),
         ),
     );
@@ -313,6 +304,24 @@ export class ContestEffects {
                 ),
             ),
         ),
+    );
+
+    @Effect()
+    catchSourceError$ = this.actions$.pipe(
+        ofType(ContestActions.Types.CatchSourceError),
+        flatMap((action: ContestActions.CatchSourceError) => [
+            new ContestActions.SetSpecificSubmissionPart('source', {
+                isFetching: false,
+                statusCode: action.response.error.status_code,
+                status: action.response.error.status,
+                error: action.response.error.error,
+            }),
+            new ContestActions.ShowNotification(
+                true,
+                'error',
+                action.response.error.error,
+            ),
+        ]),
     );
 
     @Effect()
