@@ -10,9 +10,15 @@ import {AccordionComponent} from './accordion/accordion.component';
 import {ControlsModule} from './controls/controls.module';
 import {RadioGroupComponent} from './radio-group/radio-group.component';
 import {TabsComponent} from './tabs/tabs.component';
+import {MessageComponent} from './message/message.component';
 
 @NgModule({
-    declarations: [TabsComponent, RadioGroupComponent, AccordionComponent],
+    declarations: [
+        TabsComponent,
+        RadioGroupComponent,
+        AccordionComponent,
+        MessageComponent,
+    ],
     imports: [
         CommonModule,
         SharedModule,
@@ -21,6 +27,6 @@ import {TabsComponent} from './tabs/tabs.component';
         ControlsModule,
         CodemirrorModule,
     ],
-    exports: [TabsComponent, RadioGroupComponent, AccordionComponent],
+    exports: [TabsComponent, RadioGroupComponent, AccordionComponent, MessageComponent],
 })
 export class UiModule {}

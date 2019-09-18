@@ -1,0 +1,45 @@
+.message-container {
+    display: flex;
+    width: 460px;
+    min-height: 42px;
+    border-radius: 4px;
+    justify-content: space-between;
+
+    &_success {
+        background-color: #e8f5e9;
+        border-left: 4px solid #43a047;
+    }
+
+    &_warning {
+        background-color: #fff3e0;
+        border-left: 4px solid #fb8c00;
+    }
+
+    &_error {
+        background-color: #fce4ec;
+        border-left: 4px solid #e01f19;
+    }
+
+    &_info {
+        background-color: #e9f5fd;
+        border-left: 4px solid #407eff;
+    }
+}
+
+.close-container {
+    margin: 12px 8px 0 0;
+    height: 16px;
+    cursor: pointer;
+}
+
+.icon-container {
+    width: 16px;
+    height: 16px;
+    margin: 13px 0 0 12px;
+}
+
+.text-container {
+    width: 100%;
+    height: inherit;
+    margin: 12px;
+}

@@ -7,6 +7,7 @@ import {TableSortService} from './pages/monitor/monitor-container/table-sort.ser
 
 @Component({
     selector: 'app-root',
+    styleUrls: ['./app.component.scss'],
     templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {

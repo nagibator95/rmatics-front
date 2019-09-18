@@ -14,6 +14,8 @@ import {IProblem, ISubmission} from '../../../core/stores/contest/types/contest.
 import {ILanguage} from '../../../shared/constants';
 import {UploadComponent} from '../../../ui/controls/upload/upload.component';
 import {formatBytes} from '../../../utils/formatBytes';
+import {AlertService} from '../../../shared/services/alert.service';
+import {MessageComponent} from '../../../ui/message/message.component';
 
 @Component({
     selector: 'app-contest-task',
@@ -51,7 +53,7 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
     formatBytes = formatBytes;
     problemId: number;
 
-    constructor(private route: ActivatedRoute) {}
+    constructor(private route: ActivatedRoute, private alertService: AlertService) {}
 
     ngOnInit() {
         this.problemId = Number(this.route.snapshot.paramMap.get('problemId'));
@@ -81,6 +83,15 @@ export class ContestTaskComponent implements OnInit, OnDestroy {
     }
 
     passSolution() {
+        if (this.showFileLoader && !this.selectedFile) {
+            this.alertService.showNotification(MessageComponent, {
+                status: 'error',
+                text: "Submission shouldn't be empty",
+            });
+
+            return;
+        }
+
         this.addSubmission.emit({
             file: this.showFileLoader
                 ? this.selectedFile

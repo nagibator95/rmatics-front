@@ -44,6 +44,8 @@ export enum Types {
     ShowModal = '[Contest] ShowModal',
     SetSubmissionPreview = '[Contest] SetSubmissionPreview',
     ClearFileError = '[Contest] ClearFileError',
+    ShowNotification = '[Contest] ShowNotification',
+    CatchSourceError = '[Contest] CatchSourceError',
 }
 
 export class SetFetching implements Action {
@@ -97,7 +99,10 @@ export class SetContest implements Action {
 export class CatchContestError implements Action {
     readonly type = Types.CatchContestError;
 
-    constructor(public payload: {error: string; status: string; status_code: number}) {}
+    constructor(
+        public payload: {error: string; status: string; status_code: number},
+        public toShow: boolean = false,
+    ) {}
 }
 
 export class GetProblem implements Action {
@@ -255,6 +260,18 @@ export class ClearFileError implements Action {
     readonly type = Types.ClearFileError;
 }
 
+export class ShowNotification implements Action {
+    readonly type = Types.ShowNotification;
+
+    constructor(public toShow: boolean, public status: string, public text: string) {}
+}
+
+export class CatchSourceError implements Action {
+    readonly type = Types.CatchSourceError;
+
+    constructor(public response: any) {}
+}
+
 export type All =
     | SetFetching
     | GetContest
@@ -287,4 +304,6 @@ export type All =
     | ShowSubmission
     | ShowModal
     | SetSubmissionPreview
-    | ClearFileError;
+    | ClearFileError
+    | ShowNotification
+    | CatchSourceError;
