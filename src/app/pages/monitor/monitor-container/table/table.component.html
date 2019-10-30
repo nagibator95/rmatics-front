@@ -45,7 +45,9 @@
         <td class="col col_sticky" [ngClass]="{'col_scrolled': isScrolled}" #col>
           <div class="cell">
             <div class="participator">
-              <span class="participator-name">{{user.lastname}} {{user.firstname}}</span>
+              <a target="_blank" href="https://informatics.msk.ru/submits/view.php?user_id={{user.id}}">
+              	<span class="participator-name">{{user.lastname}} {{user.firstname}}</span>
+              </a>
               <span class="secondary-text">{{formatUserInfo(user)}}</span>
             </div>
           </div>

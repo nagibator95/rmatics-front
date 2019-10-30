@@ -202,21 +202,25 @@
 .participator {
     display: flex;
     flex-direction: column;
-}
 
-.participator-name {
-    margin-bottom: 4px;
-}
+	& > a {
+		color: var(--primary-color);		
+		
+		& > .participator-name {
+	    	margin-bottom: 4px;		
+		}
+	}
+	
+	& > .secondary-text {
+	    font-size: 12px;
+	    line-height: 1.33;
+	    color: var(--gray);
 
-.secondary-text {
-    font-size: 12px;
-    line-height: 1.33;
-    color: var(--gray);
-
-    &_default {
-        font-size: inherit;
-        line-height: inherit;
-    }
+	    &_default {
+	        font-size: inherit;
+	        line-height: inherit;
+	    }
+	}
 }
 
 .tooltip {
