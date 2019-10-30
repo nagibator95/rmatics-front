@@ -1,5 +1,5 @@
-interface AuthHeaders {
-  'Access-Token': string;
+interface IAuthHeaders {
+    'Access-Token': string;
 
-  [key: string]: string;
+    [key: string]: string;
 }

@@ -5,63 +5,78 @@ import {of, Observable} from 'rxjs';
 
 import {environment} from '../../../../../environments/environment';
 import {ProvideHeadersActions} from '../enum/provideHeadersActions.enum';
-import {ApiAuth} from '../models/apiAuth.model';
-import {ApiResponse} from '../models/apiResponse.model';
-import {LoginAuthData} from '../models/loginPayload.model';
-import {RestorePasswordPayload} from '../models/restorePasswordPayload.model';
-import {constructHeaders, cookieNames, getCookie, getDateNowInSeconds} from '../util/util';
+import {IApiAuth} from '../models/apiAuth.model';
+import {IApiResponse} from '../models/apiResponse.model';
+import {ILoginAuthData} from '../models/loginPayload.model';
+import {IRestorePasswordPayload} from '../models/restorePasswordPayload.model';
+import {
+    constructHeaders,
+    cookieNames,
+    getCookie,
+    getDateNowInSeconds,
+} from '../util/util';
 
 @Injectable()
 export class AuthService {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  login(authData: LoginAuthData): Observable<ApiResponse<ApiAuth>> {
-    return this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/signin/', authData);
-  }
-
-  provideHeaders(): Observable<{ headers: AuthHeaders | {}; action: ProvideHeadersActions }> {
-    const dateNowInSeconds = getDateNowInSeconds();
-    const accessTokenExpTime = +(getCookie(cookieNames.accessTokenExpTime) || 0);
-    const refreshTokenExpTime = +(getCookie(cookieNames.refreshTokenExpTime) || 0);
-
-    if (accessTokenExpTime > dateNowInSeconds) {
-      return of({
-        headers: <AuthHeaders>constructHeaders({
-          accessToken: getCookie(cookieNames.accessToken),
-        }),
-        action: ProvideHeadersActions.NoTokenRefresh,
-      });
-    } else if (refreshTokenExpTime > dateNowInSeconds) {
-      return of({
-        headers: <AuthHeaders>constructHeaders({
-          accessToken: getCookie(cookieNames.accessToken),
-        }),
-        action: ProvideHeadersActions.TokenRefresh,
-      });
-    } else {
-      return of({
-        headers: {},
-        action: ProvideHeadersActions.EmptyHeaders,
-      });
+    login(authData: ILoginAuthData): Observable<IApiResponse<IApiAuth>> {
+        return this.http.post<IApiResponse<IApiAuth>>(
+            environment.apiUrl + '/auth/signin/',
+            authData,
+        );
     }
-  }
 
-  refreshToken(): Observable<ApiResponse<ApiAuth>> {
-    return this.http.post<ApiResponse<ApiAuth>>(environment.apiUrl + '/auth/refresh/',
-      { refresh_token: getCookie(cookieNames.refreshToken) });
-  }
+    provideHeaders(): Observable<{
+        headers: IAuthHeaders | {};
+        action: ProvideHeadersActions;
+    }> {
+        const dateNowInSeconds = getDateNowInSeconds();
+        const accessTokenExpTime = +(getCookie(cookieNames.accessTokenExpTime) || 0);
+        const refreshTokenExpTime = +(getCookie(cookieNames.refreshTokenExpTime) || 0);
 
-  restorePassword(data: RestorePasswordPayload): Observable<any> {
-    return this.http.post(environment.apiUrl + '/auth/reset/', data);
-  }
+        if (accessTokenExpTime > dateNowInSeconds) {
+            return of({
+                headers: <IAuthHeaders>constructHeaders({
+                    accessToken: getCookie(cookieNames.accessToken),
+                }),
+                action: ProvideHeadersActions.NoTokenRefresh,
+            });
+        } else if (refreshTokenExpTime > dateNowInSeconds) {
+            return of({
+                headers: <IAuthHeaders>constructHeaders({
+                    accessToken: getCookie(cookieNames.accessToken),
+                }),
+                action: ProvideHeadersActions.TokenRefresh,
+            });
+        } else {
+            return of({
+                headers: {},
+                action: ProvideHeadersActions.EmptyHeaders,
+            });
+        }
+    }
 
-  changePassword(data: {password: string}, params: Params): Observable<any> {
-    return this.http.post(environment.apiUrl + '/auth/change-password', data, {
-      params: params,
-    });
-  }
+    refreshToken(): Observable<IApiResponse<IApiAuth>> {
+        return this.http.post<IApiResponse<IApiAuth>>(
+            environment.apiUrl + '/auth/refresh/',
+            {refresh_token: getCookie(cookieNames.refreshToken)},
+        );
+    }
 
-  logout(): Observable<any> {
-    return this.http.post(environment.apiUrl + '/auth/signout/', { refresh_token: getCookie(cookieNames.refreshToken) });
-  }
+    restorePassword(data: IRestorePasswordPayload): Observable<any> {
+        return this.http.post(environment.apiUrl + '/auth/reset/', data);
+    }
+
+    changePassword(data: {password: string}, params: Params): Observable<any> {
+        return this.http.post(environment.apiUrl + '/auth/change-password', data, {
+            params: params,
+        });
+    }
+
+    logout(): Observable<any> {
+        return this.http.post(environment.apiUrl + '/auth/signout/', {
+            refresh_token: getCookie(cookieNames.refreshToken),
+        });
+    }
 }

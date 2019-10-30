@@ -1,8 +1,8 @@
-import {AuthData} from './authData.model';
+import {IAuthData} from './authData.model';
 
-export interface FormattedApiResponse {
-  state: AuthData | undefined;
-  statusCode: number;
-  status: string;
-  error: string | undefined;
+export interface IFormattedApiResponse {
+    state: IAuthData | undefined;
+    statusCode: number;
+    status: string;
+    error: string | undefined;
 }

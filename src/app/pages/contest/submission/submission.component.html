@@ -1,81 +1,87 @@
-<ng-container *ngIf="!(isSubmissionsFetching | async) && (submissionPreview | async) as submissionPreview; else loader">
-  <h2 class="title">
-    Посылка №{{submissionPreview.index}}
-  </h2>
+<ng-container
+    *ngIf="
+        !(isSubmissionsFetching | async) &&
+            (submissionPreview | async) as submissionPreview;
+        else loader
+    "
+>
+    <h2 class="title">Посылка №{{ submissionPreview.index }}</h2>
 
-  <div class="status-box">
-    <span>{{submissionPreview.id}}</span>
+    <div class="status-box">
+        <span>{{ submissionPreview.id }}</span>
 
-    <app-package-status class="status" [status]="submissionPreview.status"></app-package-status>
-  </div>
-
-  <ng-container *ngIf="!(areCommentsFetching | async); else loader">
-    <div *ngFor="let comment of (comments| async)">
-      <b class="name">{{comment.author.firstname}}</b>
-
-      <span class="date">{{getDate(comment.date, true)}}</span>
-
-      <p class="description">{{comment.comment}}</p>
+        <app-package-status
+            class="status"
+            [status]="submissionPreview.status"
+        ></app-package-status>
     </div>
-  </ng-container>
-  <app-tabs class="tabs" [tabs]="tabs" (tabClick)="onTabClick($event)">
-    <button class="app-link download">
-      <app-icon class="download-icon" icon="archive"></app-icon>
-      Скачать посылку
-    </button>
-  </app-tabs>
 
-  <app-no-encapsulation *ngIf="activeTab === 'submission_code'">
+    <ng-container *ngIf="!(areCommentsFetching | async); else loader">
+        <div *ngFor="let comment of comments | async">
+            <b class="name">{{ comment.author.firstname }}</b>
 
-    <ng-container *ngIf="!(isSourceFetching | async) && (source | async) as source; else loader">
-      <ngx-codemirror
-        class="codemirror"
-        [ngModel]="source.code"
-        [disabled]="true"
-        [options]="{
-          lineNumbers: true,
-          mode: submissionPreview.lang.mode
-        }"
-      ></ngx-codemirror>
-    </ng-container>
-    
-  </app-no-encapsulation>
+            <span class="date">{{ getDate(comment.date, true) }}</span>
 
-  <ng-container *ngIf="activeTab === 'protocol'">
-    <ng-container *ngIf="!(isProtocolFetching | async) && (protocol | async) as protocol; else loader">
-
-      <ng-container *ngIf="!protocol.compilerOutput; else noTests">
-        <h3 class="title-small">Статистика</h3>
-        <app-statistics
-          class="statistics"
-          [tests]="protocol.tests"
-          [timeLimit]="(problem | async).timeLimit"
-          [memoryLimit]="(problem | async).memoryLimit"
-        ></app-statistics>
-  
-        <h3 class="title-small">Результаты тестирования</h3>
-        <app-tests [tests]="protocol.tests"></app-tests>
-      </ng-container>
-  
-      <ng-template #noTests>
-        <div class="error-no-tests">
-          <app-icon class="error-icon" icon="error"></app-icon>
-          0 пройденных тестов
+            <p class="description">{{ comment.comment }}</p>
         </div>
-  
-        <span class="compiler-title">Сообщение компилятора</span>
-  
-        <div class="compiler-message">
-          {{protocol.compilerOutput}}
-        </div>
-      </ng-template>
-
     </ng-container>
-  </ng-container>
+    <app-tabs class="tabs" [tabs]="tabs" (tabClick)="onTabClick($event)">
+        <button class="app-link download">
+            <app-icon class="download-icon" icon="archive"></app-icon>
+            Скачать посылку
+        </button>
+    </app-tabs>
 
-    
+    <app-no-encapsulation *ngIf="activeTab === 'submission_code'">
+        <ng-container *ngIf="!(isSourceFetching | async); else loader">
+            <ngx-codemirror
+                *ngIf="source | async as source"
+                class="codemirror"
+                [ngModel]="source.code"
+                [disabled]="true"
+                [options]="{
+                    lineNumbers: true,
+                    mode: submissionPreview.lang.mode
+                }"
+            ></ngx-codemirror>
+        </ng-container>
+    </app-no-encapsulation>
+
+    <ng-container *ngIf="activeTab === 'protocol'">
+        <ng-container *ngIf="!(isProtocolFetching | async); else loader">
+            <ng-container *ngIf="protocol | async as protocol">
+                <ng-container *ngIf="!protocol.compilerOutput; else noTests">
+                    <h3 class="title-small">Статистика</h3>
+                    <app-statistics
+                        *ngIf="protocol.tests.length !== 0"
+                        class="statistics"
+                        [tests]="protocol.tests"
+                        [timeLimit]="(problem | async).timeLimit"
+                        [memoryLimit]="(problem | async).memoryLimit"
+                        [content]="(problem | async).content"
+                    ></app-statistics>
+
+                    <h3 class="title-small">Результаты тестирования</h3>
+                    <app-tests [tests]="protocol.tests"></app-tests>
+                </ng-container>
+
+                <ng-template #noTests>
+                    <div class="error-no-tests">
+                        <app-icon class="error-icon" icon="error"></app-icon>
+                        0 пройденных тестов
+                    </div>
+
+                    <span class="compiler-title">Сообщение компилятора</span>
+
+                    <div class="compiler-message">
+                        {{ protocol.compilerOutput }}
+                    </div>
+                </ng-template>
+            </ng-container>
+        </ng-container>
+    </ng-container>
 </ng-container>
 
 <ng-template #loader>
-  <app-loader class="loader"></app-loader>
+    <app-loader class="loader"></app-loader>
 </ng-template>

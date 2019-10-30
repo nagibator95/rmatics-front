@@ -1,0 +1,11 @@
+<div class="box" [ngClass]="'box_status_' + status">
+  <span *ngIf="!isIgnored; else ignored" class="score">{{mainText}}</span>
+
+  <ng-template #ignored>
+    <div class="ignored-icon">
+      <app-icon icon="close" width="10px" height="10px"></app-icon>
+    </div>
+  </ng-template>
+  
+  <span *ngIf="!onTesting && tableType !== 'IOI'" class="time">{{time | minuteSeconds}}</span>
+</div>

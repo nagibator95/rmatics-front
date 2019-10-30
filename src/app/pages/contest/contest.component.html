@@ -1,44 +1,54 @@
 <div class="app-container wrapper">
-  <app-contest-menu
-    *ngIf="(contest | async) as contest"
-    class="task-menu"
-    [meetingText]="contest.summary"
-    meetingLink=""
-    [timer]="timer"
-    [contest]="contest.name"
-    [tasks]="contest.problems"
-    [currentTaskId]="currentTaskId"
-  ></app-contest-menu>
+    <ng-container *ngIf="workshop | async">
+        <app-contest-menu
+            *ngIf="contest | async as contest"
+            class="task-menu"
+            [meetingText]="contest.summary"
+            meetingLink=""
+            [timer]="timer"
+            [contest]="contest.name"
+            [tasks]="contest.problems.sort(this.compare)"
+            [currentTaskId]="currentTaskId"
+        ></app-contest-menu>
+    </ng-container>
 
-  <app-white-block [border]="true" class="task" *ngIf="!(isFetching | async); else loading">
-    <app-contest-task
-      #task
-      *ngIf="(problem | async) as problem"
-      [fileError]="fileError | async"
-      [memoryLimit]="problem.memoryLimit"
-      [timeLimit]="problem.timeLimit"
-      [content]="problem.content"
-      [correct]="problem.correct"
-      [input]="problem.input"
-      [name]="problem.name"
-      [submissions]="submissions | async"
-      [problem]="problem"
-      (selectFile)="selectFile()"
-      (getSubmissions)="getSubmissions($event)"
-      (addSubmission)="addSubmission($event)"
-      (openSubmission)="openSubmission($event)"
-      [isSubmissionsFetching]="isSubmissionsFetching">
-    </app-contest-task>
+    <app-white-block
+        [border]="true"
+        class="task"
+        *ngIf="!(isFetching | async); else loading"
+    >
+        <app-contest-task
+            #task
+            *ngIf="problem | async as problem"
+            [fileError]="fileError | async"
+            [memoryLimit]="problem.memoryLimit"
+            [timeLimit]="problem.timeLimit"
+            [content]="problem.content"
+            [correct]="problem.correct"
+            [input]="problem.input"
+            [name]="problem.name"
+            [submissions]="submissions | async"
+            [problem]="problem"
+            [contestId]="courseId"
+            [languages]="(contestData | async).languages"
+            [isSubmissionsFetching]="isSubmissionsFetching"
+            [selectedLanguage]="selectedLanguage"
+            (selectedLanguageChange)="onSelectedLanguageChanged($event)"
+            (selectFile)="selectFile()"
+            (getSubmissions)="getSubmissions($event)"
+            (addSubmission)="addSubmission($event)"
+            (openSubmission)="openSubmission($event)"
+        >
+        </app-contest-task>
 
-    <app-contest-pagination
-      *ngIf="(paginationItems | async) as paginationItems"
-      class="pagination"
-      [previous]="paginationItems[0]"
-      [next]="paginationItems[1]"
-    ></app-contest-pagination>
-  </app-white-block>
-
-  <ng-template #loading>
-    <app-loader class="loader"></app-loader>
-  </ng-template>
+        <app-contest-pagination
+            *ngIf="paginationItems | async as paginationItems"
+            class="pagination"
+            [previous]="paginationItems[0]"
+            [next]="paginationItems[1]"
+        ></app-contest-pagination>
+    </app-white-block>
+    <ng-template #loading>
+        <app-loader class="loader"></app-loader>
+    </ng-template>
 </div>

@@ -1,9 +1,17 @@
 .app-table {
   width: 100%;
 
-  th {
-    font-weight: normal;
+  &__col {
+    padding-right: 12px;
+
+    &:first-child {
+      padding-left: 12px;
+    }
   }
+
+  &__head-text {
+     opacity: .9;
+   }
 
   &__head-row {
     height: 40px;
@@ -14,24 +22,16 @@
     background-color: var(--light-gray-2);
     border-radius: 4px;
   }
-  
+
   &__body-row {
     height: 48px;
     font-size: 14px;
     line-height: 1.29;
     box-shadow: 0 1px 0 0 var(--light-gray-1);
   }
-  
-  &__col {
-    padding-right: 12px;
-  
-    &:first-child {
-      padding-left: 12px;
-    }
-  }
 
-  &__head-text {
-    opacity: .9;
+  th {
+    font-weight: normal;
   }
 }
 

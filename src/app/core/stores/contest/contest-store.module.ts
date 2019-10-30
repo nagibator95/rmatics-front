@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 
@@ -10,14 +10,11 @@ import {SubmissionService} from './services/submission.service';
 export const CONTEST_STORE = 'CONTEST_STORE';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    EffectsModule.forFeature([ContestEffects]),
-    StoreModule.forFeature(CONTEST_STORE, contestReducer),
-  ],
-  providers: [
-    ContestService,
-    SubmissionService,
-  ],
+    declarations: [],
+    imports: [
+        EffectsModule.forFeature([ContestEffects]),
+        StoreModule.forFeature(CONTEST_STORE, contestReducer),
+    ],
+    providers: [ContestService, SubmissionService],
 })
-export class ContestStoreModule { }
+export class ContestStoreModule {}

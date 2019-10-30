@@ -1,11 +1,11 @@
 <h1 class="title-1">{{name}}</h1>
 
-<section class="section section_restrictions">
+<section *ngIf="!(timeLimit === 0 && memoryLimit === 0)" class="section section_restrictions">
   <h2 class="title-2">Ограничения</h2>
   
   <div class="restrictions">
     <app-icon-label class="restriction" icon="clock" caption="Время">{{timeLimit}} сек</app-icon-label>
-    <app-icon-label class="restriction" icon="memory" caption="Память">{{formatBytes()}}</app-icon-label>
+    <app-icon-label class="restriction" icon="memory" caption="Память">{{formatBytes(memoryLimit)}}</app-icon-label>
   </div>
 </section>
 
@@ -36,7 +36,8 @@
   <h2 class="title-2">Решение</h2>
   <app-select
     class="select"
-    [(item)]="selectedLanguage"
+    [item]="selectedLanguage"
+    (itemChange)="onSelectedLanguageChanged($event)"
     labelField="title"
     valueField="id"
     [items]="languages">
@@ -89,6 +90,8 @@
   <h2 class="title-2">Отправленные посылки</h2>
   <app-sent-packages
     [submissions]="submissions"
+    [contestId]="contestId"
+    [problemId]="problem.id"
     (updateSubmissions)="getSubmissions.emit($event)"
     (openSubmission)="openSubmission.emit($event)"
     [isFetching]="isSubmissionsFetching"

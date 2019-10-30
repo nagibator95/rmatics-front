@@ -1,46 +1,60 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 
-import { environment } from '../../../../../environments/environment';
-import { ApiResponse } from '../../../../utils/types';
+import {environment} from '../../../../../environments/environment';
+import {IApiResponse} from '../../../../utils/types';
 
-import {
-  ContestConnectionApi,
-  ProblemApi,
-  SubmissionApi,
-} from '../types/contest.types';
+import {IContestConnectionApi, IProblemApi, ISubmissionApi} from '../types/contest.types';
 
 const defaultPageSize = 5;
 
 @Injectable()
 export class ContestService {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  addSubmission(problemId: number, file: File, languageId: number, contestId: number): Observable<ApiResponse<SubmissionApi[]>> {
-    const formData = new FormData();
-    formData.append('lang_id', languageId.toString());
-    formData.append('statement_id', contestId.toString());
-    formData.append('file', file, file.name);
+    addSubmission(
+        problemId: number,
+        file: File,
+        languageId: number,
+        contestId: number,
+    ): Observable<IApiResponse<ISubmissionApi[]>> {
+        const formData = new FormData();
 
-    return this.http.post<ApiResponse<SubmissionApi[]>>(
-      environment.apiUrl + `/contest/${contestId}/problem/${problemId}/submission`,
-      formData,
-    );
-  }
+        formData.append('lang_id', languageId.toString());
+        formData.append('statement_id', contestId.toString());
+        formData.append('file', file, file.name);
 
-  getSubmissions(problemId: number, page: number, contestId: number): Observable<ApiResponse<SubmissionApi[]>> {
-    return this.http.get<ApiResponse<SubmissionApi[]>>(environment.apiUrl
-      + `/contest/${contestId}/problem/${problemId}/submission?count=${defaultPageSize}&page=${page}`,
-    );
-  }
+        return this.http.post<IApiResponse<ISubmissionApi[]>>(
+            environment.apiUrl + `/contest/${contestId}/problem/${problemId}/submission`,
+            formData,
+        );
+    }
 
-  getContest(courseId: number): Observable<ApiResponse<ContestConnectionApi>> {
-    return this.http.get<ApiResponse<ContestConnectionApi>>(environment.apiUrl + `/contest/${courseId}`);
-  }
+    getSubmissions(
+        problemId: number,
+        page: number,
+        contestId: number,
+    ): Observable<IApiResponse<ISubmissionApi[]>> {
+        return this.http.get<IApiResponse<ISubmissionApi[]>>(
+            environment.apiUrl +
+                `/contest/${contestId}/problem/${problemId}/submission?count=${defaultPageSize}&page=${page}`,
+        );
+    }
 
-  getProblem(problemId: number, contestId: number): Observable<ApiResponse<ProblemApi>> {
-    return this.http.get<ApiResponse<ProblemApi>>(environment.apiUrl + `/contest/${contestId}/problem/${problemId}`);
-  }
+    getContest(courseId: number): Observable<IApiResponse<IContestConnectionApi>> {
+        return this.http.get<IApiResponse<IContestConnectionApi>>(
+            environment.apiUrl + `/contest/${courseId}`,
+        );
+    }
+
+    getProblem(
+        problemId: number,
+        contestId: number,
+    ): Observable<IApiResponse<IProblemApi>> {
+        return this.http.get<IApiResponse<IProblemApi>>(
+            environment.apiUrl + `/contest/${contestId}/problem/${problemId}`,
+        );
+    }
 }

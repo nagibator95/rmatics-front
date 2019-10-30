@@ -1,54 +1,56 @@
-<form
-  (ngSubmit)="onSubmit()"
-  [formGroup]="loginForm"
-  class="form"
->
-  <span class="form__title">Вход</span>
+<form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="form">
+    <span class="form__title">Вход</span>
 
-  <div class="form__fields">
-    <label class="form__field">Логин
-      <app-input
-        autocomplete="username"
-        (valueChange)="handleInputChange()"
-        [hasError]="!!(error$ | async)"
-        [formControl]="login">
-      </app-input>
-    </label>
+    <div class="form__fields">
+        <label class="form__field"
+            >Логин
+            <app-input
+                autocomplete="username"
+                (valueChange)="handleInputChange()"
+                [hasError]="!!error"
+                [formControl]="login"
+            >
+            </app-input>
+        </label>
 
-    <label class="form__field">Пароль
-      <app-input
-        autocomplete="current-password"
-        (valueChange)="handleInputChange()"
-        [hasError]="!!(error$ | async)"
-        [formControl]="password"
-        type="password">
-      </app-input>
-    </label>
+        <label class="form__field"
+            >Пароль
+            <app-input
+                autocomplete="current-password"
+                (valueChange)="handleInputChange()"
+                [hasError]="!!error"
+                [formControl]="password"
+                type="password"
+            >
+            </app-input>
+        </label>
 
-    <span class="form__error">{{error$ | async}}</span>
-  </div>
+        <span class="form__error">{{ error }}</span>
+    </div>
 
-  <div class="form__controls">
-    <button
-      type="submit"
-      class="app-button_primary"
-      [disabled]="!loginForm.valid"
-      [class.app-button--loading]="isFetching$ | async"
+    <div class="form__controls">
+        <button
+            type="submit"
+            class="app-button_primary"
+            [disabled]="!loginForm.valid"
+            [class.app-button--loading]="isFetching"
+        >
+            Войти
+        </button>
+        <app-checkbox
+            class="form__controls_checkbox"
+            [checked]="rememberMe"
+            (change)="rememberMe = $event"
+        >
+            Запомнить меня
+        </app-checkbox>
+    </div>
+
+    <span class="form__change-password" (click)="onChangePasswordClick()"
+        >Не помню пароль</span
     >
-      Войти
-    </button>
-    <app-checkbox
-      [checked]="rememberMe"
-      (change)="rememberMe = $event"
-    >
-      Запомнить меня
-    </app-checkbox>
-  </div>
 
-  <span class="form__change-password"
-        (click)="onChangePasswordClick()">Не помню пароль</span>
-
-  <div [style.margin-top]="'48px'">
-    <app-auth-footer></app-auth-footer>
-  </div>
+    <div [style.margin-top]="'48px'">
+        <app-auth-footer></app-auth-footer>
+    </div>
 </form>

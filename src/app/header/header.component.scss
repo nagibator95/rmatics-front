@@ -1,43 +1,43 @@
-:host{
-  display: block;
-  width: 100%;
-  background-color: var(--black-3);
+:host {
+    display: block;
+    width: 100%;
+    background-color: var(--black-3);
 }
 
 .nav-section {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  top: 0;
-  height: 59px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 59px;
 
-  .title {
-    margin-right: 15px;
-    font-size: 18px;
-    color: #ffffff;
-  }
+    .title {
+        margin-right: 15px;
+        font-size: 18px;
+        color: #fff;
+    }
 
-  .nav-item {
-    cursor: pointer;
-    margin-left: 15px;
-    margin-right: 15px;
-    font-size: 15px;
-    color: #ffffff;
-  }
+    .nav-item {
+        cursor: pointer;
+        margin-left: 15px;
+        margin-right: 15px;
+        font-size: 15px;
+        color: #fff;
+    }
 
-  .app-link {
-    color: #ffffff;
-  }
+    .app-link {
+        color: #fff;
+    }
 }
 
 .auth-section {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }

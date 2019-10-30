@@ -1,16 +1,16 @@
 .form__description {
-  bottom: 24px;
-  width: 360px;
+    bottom: 24px;
+    width: 360px;
 
-  a {
-    text-decoration: none;
-    cursor: pointer;
-    color: var(--primary-color)
-  }
+    a {
+        text-decoration: none;
+        cursor: pointer;
+        color: var(--primary-color);
+    }
+}
 
-  app-icon {
+.icon {
     display: inline-block;
     width: 13px;
     height: 11px;
-  }
 }

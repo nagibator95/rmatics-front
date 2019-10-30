@@ -1,0 +1,14 @@
+<div *ngIf="!(isFetching | async); else loading">
+  <app-accordion [open]="true" titleMain="Общая информация">
+    <div *ngFor="let contest of sortContests((workshop | async).contests)"
+         class="flex-center paragraph"
+         [class.link]="hasContestStarted(contest.time_start)"
+         (click)="onContestClicked(contest)"
+    ><span class="text">{{contest.statement.name}}</span></div>
+  </app-accordion>
+</div>
+<ng-template #loading>
+  <div class="loading">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

@@ -1,0 +1,21 @@
+<ng-container *ngIf="(monitor | async) as monitor; else loader">
+  <app-contest-select
+    *ngIf="contestIndexes.length"
+    [contestIndexes]="contestIndexes"
+    [problems]="monitor.problems"
+    (change)="onContestStateChanged($event)">
+  </app-contest-select>
+  <app-table
+    [ngClass]="'_type_' + monitor.type"
+    [problems]="monitor.problems"
+    [users]="monitor.users"
+    [type]="monitor.type"
+    [data]="data | async"
+    [contestsState]="contestsState"
+  ></app-table>
+</ng-container>
+<ng-template #loader>
+  <div class="loader">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

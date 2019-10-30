@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+    - '10'
+cache:
+    directories:
+        - ./node_modules
+
+addons:
+    apt:
+        sources:
+            - google-chrome
+        packages:
+            - google-chrome-stable
+
+install:
+    - npm install
+
+script:
+    - npm run lint
+    - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+    - npm run build

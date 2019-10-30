@@ -1,5 +1,5 @@
 export enum Routes {
-  DefaultRoute = '/demo',
-  AuthRoute = '/auth/login',
-  RestorePasswordRoute = '/auth/restore-password',
+    DefaultRoute = '/workshop/1',
+    AuthRoute = '/auth/login',
+    RestorePasswordRoute = '/auth/restore-password',
 }
