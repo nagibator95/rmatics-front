@@ -40,7 +40,7 @@ const initialState: IMonitorState = {
     isFetching: false,
 };
 
-const PENALTY_TIME = 1200000;
+const PENALTY_TIME_SECONDS = 20 * 60; // 20 minutes in seconds
 
 const memoContest = () => {
     const contests: {[id: number]: IMonitorResultsApi} = {};
@@ -153,7 +153,8 @@ export const formatUsers = (
                 totalTries = totalTries + result.wrong_tries;
 
                 if (type === TableType.ACM && result.success) {
-                    penalty = penalty + result.time + result.wrong_tries * PENALTY_TIME;
+                    // result.time is presented in seconds
+                    penalty = penalty + result.time + result.wrong_tries * PENALTY_TIME_SECONDS;
                 }
 
                 return {
