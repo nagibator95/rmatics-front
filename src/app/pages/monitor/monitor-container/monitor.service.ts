@@ -152,7 +152,7 @@ export const formatUsers = (
                 totalTime = totalTime + result.time;
                 totalTries = totalTries + result.wrong_tries;
 
-				if (type === TableType.ACM && result.success) {
+                if (type === TableType.ACM && result.success) {
                     // result.time is presented in seconds
                     penalty = penalty + result.time + result.wrong_tries * PENALTY_TIME_SECONDS;
                 }
