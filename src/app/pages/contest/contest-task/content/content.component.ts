@@ -14,4 +14,12 @@ import {
 })
 export class ContentComponent {
     @Input() content = '';
+    
+    ngAfterContentChecked() { 
+        // When task has no content, replace empty string
+        // with minimal valid HTML as ng-katex expects valid HTML
+        if (this.content === '') {
+            this.content = '<div class="problem-statement"></div>';
+        }
+    }
 }
