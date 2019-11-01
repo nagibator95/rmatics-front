@@ -57,6 +57,7 @@ const memoContest = () => {
         }
 
         contests[id] = currentContest;
+
         return currentContest.results;
     };
 };
