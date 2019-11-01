@@ -41,8 +41,10 @@ export interface IMonitorApi {
 
 export interface ITableProblem {
     contestId: number;
+    contestPosition: number;
     id: number;
     name: string;
+    rank: number;
     detailed: {
         fullname: string;
         contestName: string;

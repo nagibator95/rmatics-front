@@ -57,7 +57,6 @@ const memoContest = () => {
         }
 
         contests[id] = currentContest;
-
         return currentContest.results;
     };
 };
@@ -66,10 +65,15 @@ const formatProblems = (contests: IContestApi[]): ITableProblem[] =>
     contests
         .sort((contest1, contest2) => contest1.position - contest2.position)
         .reduce((memo: ITableProblem[], contest) => {
+            contest.statement.problems.sort ((a, b)=>{
+                return a.rank - b.rank;
+            })
             contest.statement.problems.forEach((problem, index: number) => {
                 memo.push({
-                    contestId: contest.id,
                     id: problem.id,
+                    rank: problem.rank,
+                    contestId: contest.id,
+                    contestPosition: contest.position,
                     name: `${contest.position + 1}${formatLetter(index)}`,
                     detailed: {
                         fullname: `Задача №${problem.id}. ${problem.name}`,
