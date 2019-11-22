@@ -110,7 +110,8 @@ export const formatUsers = (
 
                 const previousUser = memo[problem.id];
                 const previousUserResult = previousUser
-                    ? contestResults[previousUser][problem.id]
+                    ? contestResults[previousUser]
+                      ? contestResults[previousUser][problem.id] : null
                     : null;
                 const isComplete =
                     type === TableType.IOI
